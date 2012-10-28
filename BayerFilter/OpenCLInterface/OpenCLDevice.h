@@ -4,6 +4,13 @@
 
 #include <opencl.h>
 
+struct CLDeviceException
+{
+  CLDeviceException(std::string m) : message(m) {}
+  std::string message;
+};
+
+
 class OpenCLDevice
 {
 public:

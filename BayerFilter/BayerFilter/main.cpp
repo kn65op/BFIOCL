@@ -1,7 +1,7 @@
-#include "OpenCLAlgorithm.h"
+#include <OpenCLDevice.h>
 
 int main(int argv, char * argc[])
 {
-  OpenCLAlgorithm alog;
+  OpenCLDevice::getDevices();
 	return 0;
 }

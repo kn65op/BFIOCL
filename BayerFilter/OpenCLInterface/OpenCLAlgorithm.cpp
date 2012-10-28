@@ -4,7 +4,7 @@
 
 OpenCLAlgorithm::OpenCLAlgorithm(void)
 {
-  std::cout << "JEAH2\n";
+  
 }
 
 
