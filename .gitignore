@@ -193,3 +193,9 @@ pip-log.txt
 *.exe
 *.out
 *.app
+
+## Custom
+FakeMakefile.mk
+OpenCL*.props
+OpenCV*.props
+nbproject
