@@ -71,6 +71,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="OpenCLAlgorithm.cpp" />
+    <ClCompile Include="OpenCLDevice.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="OpenCLAlgorithm.h" />
+    <ClInclude Include="OpenCLDevice.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
