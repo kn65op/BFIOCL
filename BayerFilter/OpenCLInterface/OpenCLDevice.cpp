@@ -67,7 +67,7 @@ cl_context OpenCLDevice::getContext()
     prop[1] = (cl_context_properties) this->platform_id;
     prop[3] = 0;
     cl_int err;
-    this->context = clCreateContext(prop, 1, &(this->device_id), NULL, NULL, &err);
+    this->context = clCreateContext(prop, 1, &device_id, NULL, NULL, &err);
     if (err != CL_SUCCESS) {
       throw OpenCLDeviceException("Can't create context for this device", err);
     }
@@ -85,12 +85,34 @@ cl_program OpenCLDevice::createAndBuildProgramFromFile(std::string filename)
 
 cl_program OpenCLDevice::createAndBuildProgramFromSource(std::string source)
 {
-  return NULL;
+  cl_program program = NULL;
+  cl_int err;
+  const char * source_str = source.c_str();
+  const char ** buffer = &source_str;
+  program = clCreateProgramWithSource(getContext(), 1, buffer, NULL, &err);
+  if (err != CL_SUCCESS) {
+    throw OpenCLDeviceException("Cant create program", err);
+  }
+  if ( (err = clBuildProgram(program, 1, &device_id, NULL, NULL,NULL)) != CL_SUCCESS) {
+    //char buffer[4096];
+    //size_t length;
+    //clGetProgramBuildInfo(program,device_id,CL_PROGRAM_BUILD_LOG,sizeof(buffer),buffer,&length);
+    throw OpenCLDeviceException("Cant build program", err);    
+  }
+  return program;
 }
 
 cl_command_queue OpenCLDevice::getCommandQueue()
 {
-  return NULL;
+  if (command_queue == NULL) {
+    cl_int err;
+    cl_command_queue_properties prop = 0;
+    command_queue = clCreateCommandQueue(this->getContext(), device_id, prop, &err);
+    if (err != CL_SUCCESS) {
+      throw OpenCLDeviceException("Cant create command queue", err);
+    }
+  }
+  return command_queue;
 }
 
 std::list<OpenCLDevice> OpenCLDevice::getDevices()

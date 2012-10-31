@@ -7,11 +7,13 @@ find_package(OpenCL 1.1 REQUIRED)
 
 set(opencl-interface-srcs
   OpenCLAlgorithm.cpp
-  OpenCLDevice.cpp)
+  OpenCLDevice.cpp
+  OpenCLException.cpp)
   
 set(opencl-interface-headers
   OpenCLAlgorithm.h
-  OpenCLDevice.h)
+  OpenCLDevice.h
+  OpenCLException.h)
 
 message(${OPENCL_INCLUDE_DIR})
 include_directories(${OPENCL_INCLUDE_DIR})

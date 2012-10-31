@@ -11,7 +11,7 @@ int main(int argv, char * argc[])
     {
       std::cout << "Platform: " << devs.front().getPlatformName()<< "\n";
       std::cout << "Device: " << devs.front().getName() << "\n";
-      devs.front().getContext();
+      devs.front().getCommandQueue();
     }
   }
   catch (OpenCLDeviceException e)

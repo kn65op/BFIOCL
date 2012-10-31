@@ -1,7 +1,6 @@
 #include "OpenCLException.h"
 
-#include <opencl.h>
-
+#include <CL/opencl.h>
 
 OpenCLException::OpenCLException(void)
 {

@@ -37,6 +37,7 @@ private:
   std::string platform_name;
   std::string device_name;
   cl_context context;
+  cl_command_queue command_queue;
   
 };
 
