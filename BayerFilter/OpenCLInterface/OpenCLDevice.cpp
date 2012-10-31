@@ -65,7 +65,7 @@ cl_context OpenCLDevice::getContext()
     cl_context_properties prop[3];
     prop[0] = CL_CONTEXT_PLATFORM;
     prop[1] = (cl_context_properties) this->platform_id;
-    prop[3] = 0;
+    prop[2] = 0;
     cl_int err;
     this->context = clCreateContext(prop, 1, &device_id, NULL, NULL, &err);
     if (err != CL_SUCCESS) {
