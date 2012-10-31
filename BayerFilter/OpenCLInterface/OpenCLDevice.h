@@ -4,10 +4,11 @@
 #include <string>
 #include <CL/opencl.h>
 
-struct CLDeviceException
+#include "OpenCLException.h"
+
+struct OpenCLDeviceException : public OpenCLException
 {
-  CLDeviceException(std::string m) : message(m) {}
-  std::string message;
+  OpenCLDeviceException(std::string m, int err) : OpenCLException(m, err) {}
 };
 
 

@@ -68,10 +68,12 @@
   <ItemGroup>
     <ClInclude Include="OpenCLAlgorithm.h" />
     <ClInclude Include="OpenCLDevice.h" />
+    <ClInclude Include="OpenCLException.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenCLAlgorithm.cpp" />
     <ClCompile Include="OpenCLDevice.cpp" />
+    <ClCompile Include="OpenCLException.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

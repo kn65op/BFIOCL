@@ -14,9 +14,9 @@ int main(int argv, char * argc[])
       devs.front().getContext();
     }
   }
-  catch (CLDeviceException e)
+  catch (OpenCLDeviceException e)
   {
-    std::cout << e.message << "\n";
+    std::cout << e.getFullMessage() << "\n";
   }
   
   return 0;
