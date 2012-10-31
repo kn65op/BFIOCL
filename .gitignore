@@ -1,3 +1,7 @@
+#Kdevelope
+
+*.kdev4
+
 #################
 ## Eclipse
 #################
@@ -193,6 +197,12 @@ pip-log.txt
 *.exe
 *.out
 *.app
+
+#temp
+
+*~
+*.bak
+*.swp
 
 ## Custom
 FakeMakefile.mk
