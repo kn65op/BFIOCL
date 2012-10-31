@@ -18,9 +18,9 @@ public:
   ~OpenCLAlgorithm(void);
 
   void setDevice(OpenCLDevice dev);
-  void setParams(const OpenCLAlgorithmParams & params) = 0;
-  void prepare() = 0;
-  void run(const uchar * data_input, size_t di_size, uchar * data_output, size_t do_size) = 0;
+  virtual void setParams(const OpenCLAlgorithmParams & params) = 0;
+  virtual void prepare() = 0;
+  virtual void run(const char * data_input, size_t di_size, char * data_output, size_t do_size) = 0;
   
 private:
   OpenCLDevice device;
