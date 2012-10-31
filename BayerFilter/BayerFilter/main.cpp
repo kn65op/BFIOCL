@@ -4,12 +4,19 @@
 
 int main(int argv, char * argc[])
 {
-  std::list<OpenCLDevice> devs = OpenCLDevice::getDevices();
-  if (! devs.empty() )
+  try
   {
-    std::cout << "Platform: " << devs.front().getPlatformName()<< "\n";
-    std::cout << "Device: " << devs.front().getName() << "\n";
-    devs.front().getContext();
+    std::list<OpenCLDevice> devs = OpenCLDevice::getDevices();
+    if (! devs.empty() )
+    {
+      std::cout << "Platform: " << devs.front().getPlatformName()<< "\n";
+      std::cout << "Device: " << devs.front().getName() << "\n";
+      devs.front().getContext();
+    }
+  }
+  catch (CLDeviceException e)
+  {
+    std::cout << e.message << "\n";
   }
   
   return 0;
