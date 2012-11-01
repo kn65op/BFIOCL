@@ -14,7 +14,7 @@ class OpenCLAlgorithm
 {
 public:
   OpenCLAlgorithm(void);
-  OpenCLAlgorithm(OpenCLDevice dev);
+  OpenCLAlgorithm(const OpenCLDevice & dev);
   ~OpenCLAlgorithm(void);
 
   virtual void setDevice(const OpenCLDevice & dev);
