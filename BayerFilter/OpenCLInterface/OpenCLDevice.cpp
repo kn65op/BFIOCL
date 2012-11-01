@@ -11,6 +11,7 @@ OpenCLDevice::OpenCLDevice()
   this->platform_id = NULL;
   this->device_id = NULL;
   this->context = NULL;
+  command_queue = NULL;
 }
 
 OpenCLDevice::OpenCLDevice(cl_platform_id pid, cl_device_id did)
@@ -18,6 +19,7 @@ OpenCLDevice::OpenCLDevice(cl_platform_id pid, cl_device_id did)
   this->platform_id = pid;
   this->device_id = did;
   this->context = NULL;
+  command_queue = NULL;
 }
 
 
