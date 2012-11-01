@@ -5,6 +5,7 @@
   <PropertyGroup>
     <IncludePath>$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\Tomko\Documents\GitHub\BFIOCL\BayerFilter\Debug;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)$(Configuration)\Tests\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
