@@ -14,6 +14,8 @@ protected:
     getDevs();
   }
   std::list<OpenCLDevice> devs;
+
+  OpenCLDevice empty_device;
 };
 
 class DeviceContext : public DeviceParameters
@@ -58,10 +60,20 @@ TEST_F(DeviceParameters, QueryNameNoThrow)
   EXPECT_NO_THROW(devs.front().getName());
 }
 
+TEST_F(DeviceParameters, QueryNameThrow)
+{
+ EXPECT_THROW(empty_device.getName(), OpenCLDeviceException);
+}
+
 TEST_F(DeviceParameters, QueryPlatformNameNoThrow)
 {
   ASSERT_GT(devs.size(), (unsigned int)0);
   EXPECT_NO_THROW(devs.front().getName());
+}
+
+TEST_F(DeviceParameters, QueryPlatformNameThrow)
+{
+  EXPECT_THROW(empty_device.getPlatformName(), OpenCLDeviceException);
 }
 
 TEST_F(DeviceContext, GetContextNoThrow)
@@ -76,16 +88,31 @@ TEST_F(CommandQueue, GetCommandQueueNoThrow)
   EXPECT_NO_THROW(devs.front().getCommandQueue());
 }
 
+TEST_F(CommandQueue, GetCommandQueueThrow)
+{
+  EXPECT_THROW(empty_device.getCommandQueue(), OpenCLDeviceException);
+}
+
 TEST_F(BuildProgram, BuildFromSourceNoThrow)
 {
   ASSERT_GT(devs.size(), (unsigned int)0);
   EXPECT_NO_THROW(devs.front().createAndBuildProgramFromFile(filename));
 }
 
+TEST_F(BuildProgram, BuildFromSourceThrow)
+{
+  EXPECT_THROW(empty_device.createAndBuildProgramFromFile(filename), OpenCLDeviceException);
+}
+
 TEST_F(BuildProgram, BuildFromFileNoThrow)
 {
   ASSERT_GT(devs.size(), (unsigned int)0);
   EXPECT_NO_THROW(devs.front().createAndBuildProgramFromSource(source));
+}
+
+TEST_F(BuildProgram, BuildFromFileThrow)
+{
+  EXPECT_THROW(empty_device.createAndBuildProgramFromSource(source), OpenCLDeviceException);
 }
 
 int main(int argc, char** argv) 
