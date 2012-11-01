@@ -16,7 +16,7 @@ OpenCLAlgorithm::~OpenCLAlgorithm(void)
 {
 }
 
-void OpenCLAlgorithm::setDevice(OpenCLDevice dev)
+void OpenCLAlgorithm::setDevice(const OpenCLDevice & dev)
 {
   device = dev;
 }
