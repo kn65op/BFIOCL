@@ -7,11 +7,13 @@ find_package(OpenCL 1.1 REQUIRED)
 
 set(opencl-interface-srcs
   OpenCLAlgorithm.cpp
+  OpenCLInvertImage.cpp
   OpenCLDevice.cpp
   OpenCLException.cpp)
   
 set(opencl-interface-headers
   OpenCLAlgorithm.h
+  OpenCLInvertImage.h
   OpenCLDevice.h
   OpenCLException.h)
 
