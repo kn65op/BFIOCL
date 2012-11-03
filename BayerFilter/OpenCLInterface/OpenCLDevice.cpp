@@ -11,6 +11,7 @@ OpenCLDevice::OpenCLDevice()
   platform_id = NULL;
   device_id = NULL;
   context = NULL;
+  command_queue = NULL;
 }
 
 OpenCLDevice::OpenCLDevice(cl_platform_id pid, cl_device_id did)
@@ -18,7 +19,7 @@ OpenCLDevice::OpenCLDevice(cl_platform_id pid, cl_device_id did)
   platform_id = pid;
   device_id = did;
   context = NULL;
-  std::cout << getName() << "\n";
+  command_queue = NULL;
 }
 
 
@@ -74,7 +75,6 @@ cl_context OpenCLDevice::getContext()
     if (err != CL_SUCCESS) {
       throw OpenCLDeviceException("Can't create context for this device", err);
     }
-    std::cout << "*** device context created\n";
   }  
   return this->context;
 }
@@ -115,7 +115,6 @@ cl_command_queue OpenCLDevice::getCommandQueue()
     if (err != CL_SUCCESS) {
       throw OpenCLDeviceException("Cant create command queue", err);
     }
-    std::cout << "*** command_queue created\n";
   }
   return command_queue;
 }

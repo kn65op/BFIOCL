@@ -17,6 +17,8 @@ OpenCLAlgorithm::OpenCLAlgorithm(OpenCLDevice dev)
 
 OpenCLAlgorithm::~OpenCLAlgorithm(void)
 {
+  if (program)  clReleaseProgram(program); 
+  if (kernel) clReleaseKernel(kernel); 
 }
 
 void OpenCLAlgorithm::setDevice(OpenCLDevice dev)

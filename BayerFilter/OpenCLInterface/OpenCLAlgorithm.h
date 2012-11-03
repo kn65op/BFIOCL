@@ -8,7 +8,10 @@ struct OpenCLAlgorithmException : public OpenCLException
   OpenCLAlgorithmException(std::string m, int e) : OpenCLException(m,e) {}
 };
 
-struct OpenCLAlgorithmParams {};
+class OpenCLAlgorithmParams {
+public:
+  virtual ~OpenCLAlgorithmParams() {};
+};
 
 class OpenCLAlgorithm
 {
@@ -18,7 +21,7 @@ public:
   ~OpenCLAlgorithm(void);
 
   void setDevice(OpenCLDevice dev);
-  virtual void setParams(const OpenCLAlgorithmParams & params) = 0;
+  virtual void setParams(const OpenCLAlgorithmParams& params) = 0;
   virtual void prepare() = 0;
   virtual void run(const unsigned char * data_input, size_t di_size, unsigned char * data_output, size_t do_size) = 0;
   

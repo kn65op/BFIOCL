@@ -1,6 +1,7 @@
 #include "OpenCLException.h"
 
 #include <CL/opencl.h>
+#include <sstream>
 
 OpenCLException::OpenCLException(void)
 {
@@ -78,11 +79,22 @@ std::string OpenCLException::getInfoFromErrorCode()
     return "CL_INVALID_MIP_LEVEL";
   case CL_INVALID_GLOBAL_WORK_SIZE:
     return "CL_INVALID_GLOBAL_WORK_SIZE";
+  case CL_DEVICE_NOT_FOUND: //-1
+    return "CL_DEVICE_NOT_FOUND";
+  case CL_DEVICE_NOT_AVAILABLE: //-2
+    return "CL_DEVICE_NOT_AVAILABLE";
+  case CL_COMPILER_NOT_AVAILABLE: //-3
+    return "CL_COMPILER_NOT_AVAILABLE";
+  case -1001:
+    return "NO_VENDOR_LIBS";
   }
   return "No such error code.";
 }
 
 std::string OpenCLException::getFullMessage()
 {
-  return message + ": " + getInfoFromErrorCode();
+  std::stringstream ss;
+  ss << message;
+  if (error_no != 0) ss << ": (" << error_no << ") " << getInfoFromErrorCode();
+  return ss.str();
 }

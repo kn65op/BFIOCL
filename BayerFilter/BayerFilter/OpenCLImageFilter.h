@@ -3,7 +3,7 @@
 
 #include <OpenCLAlgorithm.h>
 #include <OpenCLInvertImage.h>
-#include <opencv/cv.h>
+#include <opencv2/core/core.hpp>
 
 class OpenCLImageFilter
 {
