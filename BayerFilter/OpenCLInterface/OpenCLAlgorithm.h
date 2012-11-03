@@ -17,11 +17,11 @@ class OpenCLAlgorithm
 {
 public:
   OpenCLAlgorithm(void);
-  OpenCLAlgorithm(OpenCLDevice dev);
+  OpenCLAlgorithm(const OpenCLDevice & dev);
   ~OpenCLAlgorithm(void);
 
-  void setDevice(OpenCLDevice dev);
-  virtual void setParams(const OpenCLAlgorithmParams& params) = 0;
+  virtual void setDevice(const OpenCLDevice & dev);
+  virtual void setParams(const OpenCLAlgorithmParams & params) = 0;
   virtual void prepare() = 0;
   virtual void run(const unsigned char * data_input, size_t di_size, unsigned char * data_output, size_t do_size) = 0;
   

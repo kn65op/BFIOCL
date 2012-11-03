@@ -10,9 +10,12 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{78D0A77D-1AA3-42E3-B59D-28ACE2042A29}</ProjectGuid>
-    <RootNamespace>BayerFilter</RootNamespace>
+    <ProjectGuid>{626BE3A3-67B7-43CA-8447-3904C5B84FFE}</ProjectGuid>
+    <RootNamespace>OpenCLAlgorithmTest</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -33,23 +36,20 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\OpenCL.props" />
+    <Import Project="..\gtestD.props" />
+    <Import Project="..\BayerFilterTests.props" />
     <Import Project="..\OpenCLD.props" />
-    <Import Project="..\OpenCV.props" />
-    <Import Project="..\OpenCVD.props" />
+    <Import Project="..\OpenCL.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\OpenCL.props" />
+    <Import Project="..\gtestR.props" />
+    <Import Project="..\BayerFilterTests.props" />
     <Import Project="..\OpenCLR.props" />
-    <Import Project="..\OpenCV.props" />
-    <Import Project="..\OpenCVR.props" />
+    <Import Project="..\OpenCL.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\Tomko\Documents\GitHub\BFIOCL\BayerFilter\OpenCLInterface;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Tomko\Documents\GitHub\BFIOCL\BayerFilter\Debug;C:\Programy\opencv\build\x86\vc10\staticlib;$(LibraryPath)</LibraryPath>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -57,7 +57,6 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenCLInterface.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_core242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_imgproc242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_highgui242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_ml242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_video242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_features2d242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_calib3d242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_objdetect242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_contrib242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_legacy242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_flann242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\zlibd.lib;C:\Programy\opencv\build\x86\vc10\staticlib\libtiffd.lib;C:\Programy\opencv\build\x86\vc10\staticlib\libpngd.lib;C:\Programy\opencv\build\x86\vc10\staticlib\libjpegd.lib;C:\Programy\opencv\build\x86\vc10\staticlib\libjasperd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -71,12 +70,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>C:\Users\Tomko\Documents\GitHub\BFIOCL\BayerFilter\Release\OpenCLInterface.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

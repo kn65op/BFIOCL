@@ -8,7 +8,7 @@ OpenCLAlgorithm::OpenCLAlgorithm(void)
   program = NULL;
 }
 
-OpenCLAlgorithm::OpenCLAlgorithm(OpenCLDevice dev)
+OpenCLAlgorithm::OpenCLAlgorithm(const OpenCLDevice & dev)
 {
   kernel = NULL;
   program = NULL;
@@ -21,7 +21,7 @@ OpenCLAlgorithm::~OpenCLAlgorithm(void)
   if (kernel) clReleaseKernel(kernel); 
 }
 
-void OpenCLAlgorithm::setDevice(OpenCLDevice dev)
+void OpenCLAlgorithm::setDevice(const OpenCLDevice & dev)
 {
   device = dev;
 }
