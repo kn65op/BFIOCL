@@ -1,4 +1,5 @@
 #include "OpenCLImageFilter.h"
+#include <OpenCLBayerFilter.h>
 
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
@@ -6,7 +7,7 @@
 OpenCLImageFilter::OpenCLImageFilter(std::string filename)
 {
     cv::imread(filename, -1).convertTo(input_image, CV_32F, 1.0/255.0f);
-    algorithm = OpenCLInvertImage();
+    algorithm = OpenCLBayerFilter();
     algorithm.setDevice(OpenCLDevice::getDevices().front());
 }
 
@@ -31,8 +32,8 @@ void OpenCLImageFilter::run()
 {
   try
   {
-    output_image.create(input_image.rows, input_image.cols, CV_32F);
-    algorithm.setParams(OpenCLInvertImageParams(output_image.cols, output_image.rows));
+    output_image.create(input_image.rows, input_image.cols, CV_32FC3);
+    algorithm.setParams(OpenCLBayerFilterParams(output_image.cols, output_image.rows, BFIOCL_PAT_RGR, BFIOCL_MODE_RGB));
     algorithm.prepare();
     algorithm.run(input_image.data, 
 		  input_image.total()*input_image.elemSize(),

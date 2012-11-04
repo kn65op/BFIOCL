@@ -82,13 +82,16 @@ cl_context OpenCLDevice::getContext()
 cl_program OpenCLDevice::createAndBuildProgramFromFile(std::string filename)
 {
   std::ifstream file(filename.c_str());
+  if ( !file.is_open() ) throw OpenCLDeviceException("Cant open file with source");
   std::stringstream content_stream;
   content_stream << file.rdbuf();
+  
   return this->createAndBuildProgramFromSource(content_stream.str());
 }
 
 cl_program OpenCLDevice::createAndBuildProgramFromSource(std::string source)
 {
+  std::cout << "FILE SOURCE:\n" << source << "\n //END OF SOURCE\n";
   cl_program program = NULL;
   cl_int err;
   const char * source_str = source.c_str();

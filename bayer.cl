@@ -1,0 +1,1 @@
+BayerFilter/OpenCLInterface/bayer.cl

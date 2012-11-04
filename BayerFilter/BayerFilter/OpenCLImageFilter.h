@@ -2,7 +2,7 @@
 #define OPENCLIMAGEFILTER_H
 
 #include <OpenCLAlgorithm.h>
-#include <OpenCLInvertImage.h>
+#include <OpenCLBayerFilter.h>
 #include <opencv2/core/core.hpp>
 
 class OpenCLImageFilter
@@ -19,7 +19,7 @@ private:
   
   cv::Mat input_image;
   cv::Mat output_image;
-  OpenCLInvertImage algorithm;
+  OpenCLBayerFilter algorithm;
   
   
 };

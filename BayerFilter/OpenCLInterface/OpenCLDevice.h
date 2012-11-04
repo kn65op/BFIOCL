@@ -8,7 +8,7 @@
 
 struct OpenCLDeviceException : public OpenCLException
 {
-  OpenCLDeviceException(std::string m, int err) : OpenCLException(m, err) {}
+  OpenCLDeviceException(std::string m, int err = 0) : OpenCLException(m, err) {}
 };
 
 
