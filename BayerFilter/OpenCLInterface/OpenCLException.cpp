@@ -87,6 +87,12 @@ std::string OpenCLException::getInfoFromErrorCode()
     return "CL_COMPILER_NOT_AVAILABLE";
   case -1001:
     return "NO_VENDOR_LIBS";
+  case CL_OUT_OF_RESOURCES:
+    return "CL_OUT_OF_RESOURCES";
+  case CL_OUT_OF_HOST_MEMORY:
+    return "CL_OUT_OF_HOST_MEMORY";
+  case CL_BUILD_PROGRAM_FAILURE:
+    return "CL_BUILD_PROGRAM_FAILURE";
   }
   return "No such error code.";
 }
