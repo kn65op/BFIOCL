@@ -1,7 +1,7 @@
 __kernel void  bayer( __global uchar * params, __global float* input, __global float* output) 
 {
   int width = get_global_size(0); 
-  int height = get_global_size(1); 
+  //int height = get_global_size(1); 
   int i = get_global_id(0); 
   int j = get_global_id(1); 
   int ptr = i * width + j; 
