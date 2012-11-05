@@ -24,6 +24,12 @@
     <ClInclude Include="OpenCLException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OpenCLBayerFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenCLInvertImage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenCLAlgorithm.cpp">
@@ -33,6 +39,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OpenCLException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenCLBayerFilter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenCLInvertImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

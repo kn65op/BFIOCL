@@ -93,24 +93,24 @@ TEST_F(CommandQueue, GetCommandQueueThrow)
   EXPECT_THROW(empty_device.getCommandQueue(), OpenCLDeviceException);
 }
 
-TEST_F(BuildProgram, BuildFromSourceNoThrow)
+TEST_F(BuildProgram, BuildFromFileNoThrow)
 {
   ASSERT_GT(devs.size(), (unsigned int)0);
   EXPECT_NO_THROW(devs.front().createAndBuildProgramFromFile(filename));
 }
 
-TEST_F(BuildProgram, BuildFromSourceThrow)
+TEST_F(BuildProgram, BuildFromFileThrow)
 {
   EXPECT_THROW(empty_device.createAndBuildProgramFromFile(filename), OpenCLDeviceException);
 }
 
-TEST_F(BuildProgram, BuildFromFileNoThrow)
+TEST_F(BuildProgram, BuildFromSourceNoThrow)
 {
   ASSERT_GT(devs.size(), (unsigned int)0);
   EXPECT_NO_THROW(devs.front().createAndBuildProgramFromSource(source));
 }
 
-TEST_F(BuildProgram, BuildFromFileThrow)
+TEST_F(BuildProgram, BuildFromSourceThrow)
 {
   EXPECT_THROW(empty_device.createAndBuildProgramFromSource(source), OpenCLDeviceException);
 }

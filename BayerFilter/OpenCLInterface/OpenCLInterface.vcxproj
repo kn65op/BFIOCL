@@ -68,13 +68,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="OpenCLAlgorithm.h" />
+    <ClInclude Include="OpenCLBayerFilter.h" />
     <ClInclude Include="OpenCLDevice.h" />
     <ClInclude Include="OpenCLException.h" />
+    <ClInclude Include="OpenCLInvertImage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenCLAlgorithm.cpp" />
+    <ClCompile Include="OpenCLBayerFilter.cpp" />
     <ClCompile Include="OpenCLDevice.cpp" />
     <ClCompile Include="OpenCLException.cpp" />
+    <ClCompile Include="OpenCLInvertImage.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -34,7 +34,7 @@ protected:
     {
       throw OpenCLAlgorithmException("Not implemented", 0);
     }
-    void run(const char * data_input, size_t di_size, char * data_output, size_t do_size)
+    void run(const unsigned char * data_input, size_t di_size, unsigned char * data_output, size_t do_size)
     {
       throw OpenCLAlgorithmException("Not implemented", 0);
     }
