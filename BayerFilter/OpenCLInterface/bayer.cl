@@ -34,7 +34,7 @@ __kernel void  bayer( __constant uchar * params, __constant uchar * LUT, __globa
   else P[6] = 0;
   
   if (i+1 < height && j+1 < width) P[7] = input[(i+1)*width + j+1];
-  else P[7] = 0;  
+  else P[7] = 0;
   
   //Tu obliczenie współczynników P 
   MEANS[0] = input[ptr];

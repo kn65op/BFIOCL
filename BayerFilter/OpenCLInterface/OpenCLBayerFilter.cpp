@@ -78,7 +78,11 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
   size_t global_work_size[2];
   global_work_size[0] = params.width;
   global_work_size[1] = params.height;
-  err = clEnqueueNDRangeKernel(command_queue, kernel, 2, NULL, global_work_size, NULL,0, NULL, NULL);
+  
+  size_t local_work_size[2];
+  local_work_size[0] = 1;
+  local_work_size[1] = 1;
+  err = clEnqueueNDRangeKernel(command_queue, kernel, 2, NULL, global_work_size, local_work_size,0, NULL, NULL);
   ASSERT_OPENCL_ERR(err, "Cant enqueue nd range kernel")
 
   //Odczytaj dane
