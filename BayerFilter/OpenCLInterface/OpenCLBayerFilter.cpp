@@ -68,6 +68,10 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
   
   err = clSetKernelArg(kernel, 3, sizeof(cl_mem), (void*) &output);
   ASSERT_OPENCL_ERR(err,"Cant set kernel arg 2")
+  
+  
+  err = clSetKernelArg(kernel, 4, 8*sizeof(cl_float), NULL);
+  err = clSetKernelArg(kernel, 5, 5*sizeof(cl_float), NULL);
 
   
   //Wykonaj operacje

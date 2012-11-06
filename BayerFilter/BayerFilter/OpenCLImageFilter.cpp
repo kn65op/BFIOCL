@@ -22,7 +22,7 @@ bool OpenCLImageFilter::saveOutputImage(std::string filename)
 {
   cv::Mat tmp;
   getOutputImage().convertTo(tmp, CV_8U, 255);
-  cv::imwrite(filename, tmp);
+  return cv::imwrite(filename, tmp);
 }
 
 
