@@ -8,11 +8,12 @@
 class OpenCLImageFilter
 {
 public:
-  OpenCLImageFilter(std::string filename);
+  OpenCLImageFilter(std::string filename, int mode = BFIOCL_PAT_RGR);
   ~OpenCLImageFilter();
   
   cv::Mat getInputImage() const;
   cv::Mat getOutputImage();
+  bool saveOutputImage(std::string filename);
   
 private:
   void run();
@@ -20,6 +21,7 @@ private:
   cv::Mat input_image;
   cv::Mat output_image;
   OpenCLBayerFilter algorithm;
+  int mode;
   
   
 };

@@ -1,4 +1,5 @@
 #include "OpenCLBayerFilter.h"
+#include <iostream>
 
 #define ASSERT_OPENCL_ERR(ERR,MSG) if(ERR != CL_SUCCESS) \
 { \
@@ -20,22 +21,39 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
 {
   if (params.width == 0 || params.height == 0) throw OpenCLAlgorithmException("Must set image width and height", 0);
   
-  cl_mem kparams, input, output;
+  cl_mem kparams, lut_mem, input, output;
   cl_int err;
   cl_event event;
   
+  cl_uchar LUT[12] = { 1, 2, 0,
+                       4, 0, 3,
+                       3, 0, 4,
+                       0, 2, 1 };
   
-  unsigned char kernel_params[4];
+  
+  cl_uchar kernel_params[4];
   kernel_params[0] = params.pattern;
   kernel_params[1] = (params.mode >> 4) & 0x03;
   kernel_params[2] = (params.mode >> 2) & 0x03;
   kernel_params[3] = params.mode & 0x03;
   
-  kparams = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY, 4,NULL,NULL);
+//   std::cout << "Pattern : " << (int) kernel_params[0] 
+//     << " R_offset: " << (int) kernel_params[1] 
+//     << " G_offset: " << (int) kernel_params[2] 
+//     << " B_offset: " << (int) kernel_params[3] << "\n";
+  
+  kparams = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY, sizeof(cl_uchar) * 4,NULL,NULL);
+  lut_mem = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY, sizeof(cl_uchar) * 12,NULL,NULL);
   input = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY,di_size,NULL,NULL);
   output = clCreateBuffer(device.getContext(),CL_MEM_WRITE_ONLY,do_size,NULL,NULL);
   
   //Wgraj dane
+  err = clEnqueueWriteBuffer(command_queue, lut_mem,CL_TRUE,0, sizeof(cl_uchar)*12, LUT, 0, NULL, NULL);
+  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer")
+  
+  err = clEnqueueWriteBuffer(command_queue, kparams,CL_TRUE,0, sizeof(cl_uchar)*4, kernel_params, 0, NULL, NULL);
+  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer")
+  
   err = clEnqueueWriteBuffer(command_queue, input,CL_TRUE,0, di_size, data_input, 0, NULL, NULL);
   ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer");
 
@@ -45,10 +63,13 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
   err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*) &kparams);
   ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0")
   
-  err = clSetKernelArg(kernel, 1, sizeof(cl_mem), (void*) &input);
+  err = clSetKernelArg(kernel, 1, sizeof(cl_mem), (void*) &lut_mem);
+  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0")
+  
+  err = clSetKernelArg(kernel, 2, sizeof(cl_mem), (void*) &input);
   ASSERT_OPENCL_ERR(err, "Cant set kernel arg 1")
   
-  err = clSetKernelArg(kernel, 2, sizeof(cl_mem), (void*) &output);
+  err = clSetKernelArg(kernel, 3, sizeof(cl_mem), (void*) &output);
   ASSERT_OPENCL_ERR(err,"Cant set kernel arg 2")
 
   
