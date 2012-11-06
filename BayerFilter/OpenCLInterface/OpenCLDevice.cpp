@@ -91,7 +91,7 @@ cl_program OpenCLDevice::createAndBuildProgramFromFile(std::string filename)
 
 cl_program OpenCLDevice::createAndBuildProgramFromSource(std::string source)
 {
-  std::cout << "FILE SOURCE:\n" << source << "\n //END OF SOURCE\n";
+  //std::cout << "FILE SOURCE:\n" << source << "\n //END OF SOURCE\n";
   cl_program program = NULL;
   cl_int err;
   const char * source_str = source.c_str();

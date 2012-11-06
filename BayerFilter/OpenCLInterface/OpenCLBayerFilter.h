@@ -12,8 +12,8 @@
 #define BFIOCL_MODE_RGB 0x06
 #define BFIOCL_MODE_RBG 0x09
 #define BFIOCL_MODE_BRG 0x12
-#define BFIOCL_MODE_BGR 0x21
-#define BFIOCL_MODE_GBR 0x24
+#define BFIOCL_MODE_BGR 0x24
+#define BFIOCL_MODE_GBR 0x21
 #define BFIOCL_MODE_GRB 0x18
 
 #include "OpenCLAlgorithm.h"

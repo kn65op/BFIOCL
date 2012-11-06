@@ -27,22 +27,32 @@ void list_devices()
 int main(int argv, char * argc[])
 {
   
-  if (argv < 2) {
-    std::cout << "Usage: " << argc[0] << " filename.bmp\n";
+  if (argv < 3) {
+    std::cout << "Usage: " << argc[0] << " 0-3 filename.bmp [output_filename.bmp]\n";
+    std::cout << "\n\t0-3 - bayer matix start mode\n";
+    std::cout << "\twith specified output file dont show images, only save new file\n";
     return 1;
   }
   
-  std::cout << "Devices list:\n";
-  list_devices();
+  //std::cout << "Devices list:\n";
+  //list_devices();
   
   try
   {
-    OpenCLImageFilter filter(argc[1]);
-    cv::imshow("Input Image", filter.getInputImage());
-    cv::imshow("Output Image", filter.getOutputImage());
+    int mode = atoi(argc[1]);
+    OpenCLImageFilter filter(argc[2], mode);
+    if (argv > 3) {
+      filter.saveOutputImage(argc[3]);
+      std::cout << "Image '" << argc[3] << "' saved!\n";
+    }
+    else
+    {
+      cv::imshow("Input Image", filter.getInputImage());
+      cv::imshow("Output Image", filter.getOutputImage());
+      
+      while( cv::waitKey(10) < 0 ) {;}
+    }
 
-    
-    while( cv::waitKey(10) < 0 ) {;}
   }
   catch (OpenCLDeviceException e)
   {
