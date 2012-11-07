@@ -93,6 +93,8 @@ std::string OpenCLException::getInfoFromErrorCode()
     return "CL_OUT_OF_HOST_MEMORY";
   case CL_BUILD_PROGRAM_FAILURE:
     return "CL_BUILD_PROGRAM_FAILURE";
+  case 0:
+    return "No OpenCLError";
   }
   return "No such error code.";
 }
