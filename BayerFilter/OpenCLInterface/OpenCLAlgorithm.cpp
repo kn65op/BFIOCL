@@ -37,6 +37,7 @@ void OpenCLAlgorithm::setDevice(const OpenCLDevice & dev)
 
 void OpenCLAlgorithm::enqueueNDRangeKernelWithTimeMeasurment(cl_uint work_dim, size_t * global_work_offset, const size_t *global_work_size, const size_t *local_work_size, cl_uint num_events_in_wait_list)
 {
+  cl_event event;
   //start kernel
   clFinish(command_queue);
   int err = clEnqueueNDRangeKernel(command_queue, kernel, work_dim, global_work_offset, global_work_size, local_work_size, num_events_in_wait_list, NULL, &event);
@@ -51,6 +52,7 @@ void OpenCLAlgorithm::enqueueNDRangeKernelWithTimeMeasurment(cl_uint work_dim, s
   clGetEventProfilingInfo(event, CL_PROFILING_COMMAND_START, sizeof(start), &start, NULL);
   clGetEventProfilingInfo(event, CL_PROFILING_COMMAND_END, sizeof(end), &end, NULL);
   total_time = (end - start) / 1000000.0;
+  clReleaseEvent(event);
 }
 
 double OpenCLAlgorithm::getTimeConsumed() const

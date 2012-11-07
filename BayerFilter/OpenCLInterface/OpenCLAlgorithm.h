@@ -35,7 +35,6 @@ protected:
   cl_kernel kernel;
   cl_program program;  
   cl_command_queue command_queue;
-  cl_event event;
 
   //time consumed by kernel in ms
   double total_time;
