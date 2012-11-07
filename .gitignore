@@ -209,3 +209,4 @@ FakeMakefile.mk
 OpenCL*.props
 OpenCV*.props
 nbproject
+data/tmp*
