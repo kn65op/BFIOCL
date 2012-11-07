@@ -25,39 +25,30 @@ __kernel void  bayer( __constant uchar * params, __global float* input, __global
   P.s5 = input[(i+1)*width + j-1];
   P.s6 = input[(i+1)*width + j];
   P.s7 = input[(i+1)*width + j+1];
-  
-  float8 MEANS;
 
-  //Tu obliczenie współczynników P 
-  MEANS.s0 = input[ptr];
-  MEANS.s1 = (P.s0 + P.s2 + P.s5 + P.s7) / 4.0; 
-  MEANS.s2 = (P.s1 + P.s3 + P.s4 + P.s6) / 4.0; 
-  MEANS.s3 = (P.s3 + P.s4) / 2.0; 
-  MEANS.s4 = (P.s1 + P.s6) / 2.0; 
-  
   if (pixel_offset_type == 0)
   {
-	  output[3*ptro + r_pos] = MEANS.s1;
-	  output[3*ptro + g_pos] = MEANS.s2;
-	  output[3*ptro + b_pos] = MEANS.s0;
+	  output[3*ptro + r_pos] = (P.s0 + P.s2 + P.s5 + P.s7) / 4.0;
+	  output[3*ptro + g_pos] = (P.s1 + P.s3 + P.s4 + P.s6) / 4.0;
+	  output[3*ptro + b_pos] = input[ptr];
   }
   else if (pixel_offset_type == 1)
   {
-	  output[3*ptro + r_pos] = MEANS.s4;
-	  output[3*ptro + g_pos] = MEANS.s0;
-	  output[3*ptro + b_pos] = MEANS.s3;
+	  output[3*ptro + r_pos] = (P.s1 + P.s6) / 2.0;
+	  output[3*ptro + g_pos] = input[ptr];
+	  output[3*ptro + b_pos] = (P.s3 + P.s4) / 2.0;
   }
   else if (pixel_offset_type == 2)
   {
-	  output[3*ptro + r_pos] = MEANS.s3;
-	  output[3*ptro + g_pos] = MEANS.s0;
-	  output[3*ptro + b_pos] = MEANS.s4;
+	  output[3*ptro + r_pos] = (P.s3 + P.s4) / 2.0;
+	  output[3*ptro + g_pos] = input[ptr];
+	  output[3*ptro + b_pos] = (P.s1 + P.s6) / 2.0;
   }
   else
   {
-	  output[3*ptro + r_pos] = MEANS.s0;
-	  output[3*ptro + g_pos] = MEANS.s2;
-	  output[3*ptro + b_pos] = MEANS.s1;
+	  output[3*ptro + r_pos] = input[ptr];
+	  output[3*ptro + g_pos] = (P.s1 + P.s3 + P.s4 + P.s6) / 4.0;
+	  output[3*ptro + b_pos] = (P.s0 + P.s2 + P.s5 + P.s7) / 4.0;
   }
   
 }
