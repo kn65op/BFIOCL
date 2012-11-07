@@ -56,9 +56,6 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
   
   err = clEnqueueWriteBuffer(command_queue, input,CL_TRUE,0, di_size, data_input, 0, NULL, NULL);
   ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer");
-
-  /*err = clEnqueueWriteBuffer(command_queue, kparams,CL_TRUE,0, sizeof(kernel_params), kernel_params, 0, NULL, NULL);
-  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer")*/
     
   err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*) &kparams);
   ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0")

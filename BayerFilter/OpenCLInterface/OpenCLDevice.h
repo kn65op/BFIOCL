@@ -17,6 +17,7 @@ class OpenCLDevice
 public:
   OpenCLDevice();
   OpenCLDevice(cl_platform_id pid, cl_device_id did);
+  OpenCLDevice(const OpenCLDevice & orig);
   ~OpenCLDevice(void);
 
   static std::list<OpenCLDevice> getDevices();
@@ -27,6 +28,8 @@ public:
   cl_command_queue getCommandQueue();
   cl_program createAndBuildProgramFromSource(std::string source);
   cl_program createAndBuildProgramFromFile(std::string filename);
+  bool isValid() const;
+  const OpenCLDevice & operator=(const OpenCLDevice &);
   
   
 protected:  
@@ -38,5 +41,8 @@ private:
   std::string device_name;
   cl_context context;
   cl_command_queue command_queue;  
+
+  void copyFrom(const OpenCLDevice & orig);
+  void clean();
 };
 

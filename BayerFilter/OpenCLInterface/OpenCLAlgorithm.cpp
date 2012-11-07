@@ -10,6 +10,10 @@ OpenCLAlgorithm::OpenCLAlgorithm(void)
 
 OpenCLAlgorithm::OpenCLAlgorithm(const OpenCLDevice & dev)
 {
+  if (!(dev.isValid()))
+  {
+    throw OpenCLAlgorithmException("Invalid Deice");
+  }
   kernel = NULL;
   program = NULL;
   device = dev;
@@ -23,5 +27,10 @@ OpenCLAlgorithm::~OpenCLAlgorithm(void)
 
 void OpenCLAlgorithm::setDevice(const OpenCLDevice & dev)
 {
-  device = dev;
+  if (dev.isValid())
+  {
+    device = dev;
+    return;
+  }
+  throw OpenCLAlgorithmException("Invalid Device");
 }

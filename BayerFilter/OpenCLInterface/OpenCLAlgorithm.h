@@ -5,7 +5,7 @@
 
 struct OpenCLAlgorithmException : public OpenCLException
 {
-  OpenCLAlgorithmException(std::string m, int e) : OpenCLException(m,e) {}
+  OpenCLAlgorithmException(std::string m, int e = 0) : OpenCLException(m,e) {}
 };
 
 class OpenCLAlgorithmParams {

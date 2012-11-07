@@ -50,6 +50,7 @@ protected:
   void SetUp()
   {
     al_ptr = NULL;
+    getDevice();
   }
 
   void TearDown()
@@ -76,6 +77,7 @@ TEST_F(ConstructorTest, NoParams)
 
 TEST_F(ConstructorTest, ProperDevice)
 {
+  ASSERT_TRUE(device.isValid());
   ASSERT_NO_THROW(al_ptr = new OpenCLAlgorithmTest(device));
 }
 

@@ -74,9 +74,12 @@ cv::Mat OpenCLImageFilter::getOutputImageOpenCV()
 
 void OpenCLImageFilter::run()
 {
+  if (!input_image.isContinuous())
+  {
+    throw OpenCLAlgorithmException("Data is not contunuous");
+  }
   try
   {
-    bool ok = input_image.isContinuous();
     uchar * input_data = input_image.data;
     output_image.create(input_image.rows - 2, input_image.cols - 2, CV_32FC3);
     algorithm.setParams(OpenCLBayerFilterParams(output_image.cols, output_image.rows, mode, BFIOCL_MODE_BGR));

@@ -26,6 +26,10 @@ class CommandQueue : public DeviceParameters
 {
 };
 
+class IsValidTest: public DeviceParameters
+{
+};
+
 class BuildProgram : public DeviceParameters
 {
 protected:
@@ -113,6 +117,16 @@ TEST_F(BuildProgram, BuildFromSourceNoThrow)
 TEST_F(BuildProgram, BuildFromSourceThrow)
 {
   EXPECT_THROW(empty_device.createAndBuildProgramFromSource(source), OpenCLDeviceException);
+}
+
+TEST_F(IsValidTest, ValidDevice)
+{
+  EXPECT_TRUE(devs.front().isValid());
+}
+
+TEST_F(IsValidTest, InvalidDevice)
+{
+  EXPECT_FALSE(empty_device.isValid());
 }
 
 int main(int argc, char** argv) 

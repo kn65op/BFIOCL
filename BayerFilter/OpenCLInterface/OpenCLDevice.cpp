@@ -22,11 +22,17 @@ OpenCLDevice::OpenCLDevice(cl_platform_id pid, cl_device_id did)
   command_queue = NULL;
 }
 
+OpenCLDevice::OpenCLDevice(const OpenCLDevice & orig)
+{
+  context = NULL;
+  command_queue = NULL;
+  copyFrom(orig);
+}
+
 
 OpenCLDevice::~OpenCLDevice(void)
 {
-  if (command_queue) clReleaseCommandQueue(command_queue);
-  if (context) clReleaseContext(context);
+  clean();
 }
 
 std::string OpenCLDevice::getName()
@@ -168,4 +174,35 @@ std::list<OpenCLDevice> OpenCLDevice::getDevices()
   
   delete[] platform_id;
   return devices_list;
+}
+
+bool OpenCLDevice::isValid() const
+{
+  return platform_id != NULL;
+}
+
+const OpenCLDevice & OpenCLDevice::operator=(const OpenCLDevice & source)
+{
+  if (this != &source)
+  {
+    copyFrom(source);
+  }
+  return *this;
+}
+
+void OpenCLDevice::copyFrom(const OpenCLDevice & orig)
+{
+  platform_id = orig.platform_id;
+  device_id = orig.device_id;
+  platform_name = orig.platform_name;
+  device_name = orig.device_name;
+  clean();
+}
+
+void OpenCLDevice::clean()
+{
+  if (command_queue) clReleaseCommandQueue(command_queue);
+  if (context) clReleaseContext(context);
+  command_queue = NULL;
+  context = NULL;
 }
