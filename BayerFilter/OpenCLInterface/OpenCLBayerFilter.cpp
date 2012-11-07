@@ -35,12 +35,7 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
   kernel_params[1] = (params.mode >> 4) & 0x03;
   kernel_params[2] = (params.mode >> 2) & 0x03;
   kernel_params[3] = params.mode & 0x03;
-  
-//   std::cout << "Pattern : " << (int) kernel_params[0] 
-//     << " R_offset: " << (int) kernel_params[1] 
-//     << " G_offset: " << (int) kernel_params[2] 
-//     << " B_offset: " << (int) kernel_params[3] << "\n";
-  
+    
   kparams = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY, sizeof(cl_uchar) * 4,NULL,NULL);
   lut_mem = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY, sizeof(cl_uchar) * 12,NULL,NULL);
   input = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY,di_size,NULL,NULL);
@@ -58,34 +53,20 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
     
   err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*) &kparams);
   ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0")
-  
-  err = clSetKernelArg(kernel, 1, sizeof(cl_mem), (void*) &lut_mem);
-  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0")
-  
-  err = clSetKernelArg(kernel, 2, sizeof(cl_mem), (void*) &input);
+    
+  err = clSetKernelArg(kernel, 1, sizeof(cl_mem), (void*) &input);
   ASSERT_OPENCL_ERR(err, "Cant set kernel arg 1")
   
-  err = clSetKernelArg(kernel, 3, sizeof(cl_mem), (void*) &output);
+  err = clSetKernelArg(kernel, 2, sizeof(cl_mem), (void*) &output);
   ASSERT_OPENCL_ERR(err,"Cant set kernel arg 2")
-  
-  
-  //err = clSetKernelArg(kernel, 4, 8*sizeof(cl_float), NULL);
-  //err = clSetKernelArg(kernel, 4, 5*sizeof(cl_float), NULL);
 
-  
   //Wykonaj operacje
   size_t global_work_size[2];
   global_work_size[0] = params.width;
   global_work_size[1] = params.height;
   
-  /*size_t local_work_size[2];
-  local_work_size[0] = 1;
-  local_work_size[1] = 1;*/
-
-  enqueueNDRangeKernelWithTimeMeasurment(2, NULL, global_work_size, /*local_work_size*/ NULL, 0);
-  //err = clEnqueueNDRangeKernel(command_queue, kernel, 2, NULL, global_work_size, local_work_size,0, NULL, NULL);
-  //ASSERT_OPENCL_ERR(err, "Cant enqueue nd range kernel")
-
+  enqueueNDRangeKernelWithTimeMeasurment(2, NULL, global_work_size, NULL, 0);
+  
   //Odczytaj dane
   err = clEnqueueReadBuffer(command_queue, output, CL_TRUE, 0, do_size, data_output, 0, NULL, NULL);
   ASSERT_OPENCL_ERR(err, "Cant enqueue read buffer")

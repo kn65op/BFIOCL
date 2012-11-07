@@ -1,4 +1,4 @@
-__kernel void  bayer( __constant uchar * params, __constant uchar * LUT, __global float* input, __global float* output) 
+__kernel void  bayer( __constant uchar * params, __global float* input, __global float* output) 
 {
   int width_output = get_global_size(0); 
   int width = get_global_size(0) + 2; 
