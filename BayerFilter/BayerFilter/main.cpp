@@ -49,6 +49,8 @@ int main(int argv, char * argc[])
     {
       cv::imshow("Input Image", filter.getInputImage());
       cv::imshow("Output Image", filter.getOutputImage());
+      cv::imshow("Output Image original", filter.getOutputImageOpenCV());
+      cv::imwrite("OpenCV.bmp", filter.getOutputImageOpenCV());
       
       while( cv::waitKey(10) < 0 ) {;}
     }

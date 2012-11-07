@@ -13,14 +13,19 @@ public:
   
   cv::Mat getInputImage() const;
   cv::Mat getOutputImage();
+  cv::Mat getOutputImageOpenCV();
+
+  
   bool saveOutputImage(std::string filename);
   
 private:
   void run();
   void setInputImage(const cv::Mat & source);
   
+  cv::Mat input_image_raw;
   cv::Mat input_image;
   cv::Mat output_image;
+  cv::Mat output_image_open_cv;
   OpenCLBayerFilter algorithm;
   int mode;
   
@@ -28,3 +33,4 @@ private:
 };
 
 #endif // OPENCLIMAGEFILTER_H
+

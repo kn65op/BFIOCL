@@ -2,13 +2,15 @@
 #include <OpenCLBayerFilter.h>
 
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
 
 OpenCLImageFilter::OpenCLImageFilter(std::string filename, int mode)
 {
-  cv::Mat tmp;
   //convert image
-  cv::imread(filename, -1).convertTo(tmp, CV_32F, 1.0/255.0f);
+  cv::Mat tmp;
+  input_image_raw = cv::imread(filename, -1);
+  input_image_raw.convertTo(tmp, CV_32F, 1.0/255.0f);
 
   //set input image
   setInputImage(tmp);
@@ -61,16 +63,25 @@ cv::Mat OpenCLImageFilter::getOutputImage()
   return output_image;  
 }
 
+cv::Mat OpenCLImageFilter::getOutputImageOpenCV()
+{
+  if (output_image_open_cv.empty())
+  {
+    cv::cvtColor(input_image_raw, output_image_open_cv, CV_BayerRG2BGR);
+  }
+  return output_image_open_cv;  
+}
+
 void OpenCLImageFilter::run()
 {
   try
   {
     bool ok = input_image.isContinuous();
-    uchar * input_data = input_image.data + (input_image.cols + 1) * sizeof(float);
+    uchar * input_data = input_image.data;
     output_image.create(input_image.rows - 2, input_image.cols - 2, CV_32FC3);
     algorithm.setParams(OpenCLBayerFilterParams(output_image.cols, output_image.rows, mode, BFIOCL_MODE_BGR));
     algorithm.run(input_data, 
-		  input_image.total()*input_image.elemSize() - (input_image.cols + 1) * sizeof(float),
+		  input_image.total()*input_image.elemSize(),
 		  output_image.data,
 		  output_image.total()*output_image.elemSize()
 		);
