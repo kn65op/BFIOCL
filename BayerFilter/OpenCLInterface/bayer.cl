@@ -34,8 +34,8 @@ __kernel void  bayer( __constant uchar * params, __constant uchar * LUT, __globa
   
   //Tu obliczenie współczynników P 
   MEANS[0] = input[ptr];
-  MEANS[1] = (P[0] + P[2] + P[4] + P[6]) / 4.0; 
-  MEANS[2] = (P[1] + P[3] + P[5] + P[7]) / 4.0; 
+  MEANS[1] = (P[0] + P[2] + P[5] + P[7]) / 4.0; 
+  MEANS[2] = (P[1] + P[3] + P[4] + P[6]) / 4.0; 
   MEANS[3] = (P[3] + P[4]) / 2.0; 
   MEANS[4] = (P[1] + P[6]) / 2.0; 
   
