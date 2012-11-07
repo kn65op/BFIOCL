@@ -17,6 +17,7 @@ public:
   
 private:
   void run();
+  void setInputImage(const cv::Mat & source);
   
   cv::Mat input_image;
   cv::Mat output_image;
