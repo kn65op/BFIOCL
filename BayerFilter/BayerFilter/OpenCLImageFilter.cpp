@@ -5,7 +5,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
 
-OpenCLImageFilter::OpenCLImageFilter(std::string filename, int mode)
+OpenCLImageFilter::OpenCLImageFilter(std::string filename, cl_uchar mode)
 {
   //convert image
   cv::Mat tmp;

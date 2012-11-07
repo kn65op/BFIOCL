@@ -138,28 +138,28 @@ std::list<OpenCLDevice> OpenCLDevice::getDevices()
   std::list<OpenCLDevice> devices_list;
 
   //seaching of platforms available
-  if (err = clGetPlatformIDs(0, NULL, &platform_number))
+  if ((err = clGetPlatformIDs(0, NULL, &platform_number)) != 0)
   {
     throw OpenCLDeviceException("Can't get number of OpenCL platforms", err);
   }
   
   platform_id = new cl_platform_id[platform_number];
 
-  if (err = clGetPlatformIDs(platform_number,  platform_id, NULL) )
+  if ((err = clGetPlatformIDs(platform_number,  platform_id, NULL)) != 0)
   {
     throw OpenCLDeviceException("Can't get OpenCL platforms ids", err);
   }
   //std::cout << "Platforms: " << platform_number << "\n";
   for(i=0;i<platform_number;++i) 
   {
-    if( err = clGetDeviceIDs(platform_id[i],CL_DEVICE_TYPE_ALL, 0, NULL, &device_number) )
+    if((err = clGetDeviceIDs(platform_id[i],CL_DEVICE_TYPE_ALL, 0, NULL, &device_number)) != 0)
     {
       throw OpenCLDeviceException("Can't get number of devices on platform", err);
     }
     
     device_id = new cl_device_id[device_number];
     
-    if( err = clGetDeviceIDs(platform_id[i],CL_DEVICE_TYPE_ALL, device_number, device_id, NULL) )
+    if((err = clGetDeviceIDs(platform_id[i],CL_DEVICE_TYPE_ALL, device_number, device_id, NULL)) != 0)
     {
       throw OpenCLDeviceException("Can't get ids of devices on platform", err);
     }

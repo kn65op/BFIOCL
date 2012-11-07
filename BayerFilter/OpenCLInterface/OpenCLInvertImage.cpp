@@ -33,7 +33,6 @@ void OpenCLInvertImage::run(const unsigned char* data_input, size_t di_size, uns
   
   cl_mem input, output;
   cl_int err;
-  cl_event event;
   
   input = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY,di_size,NULL,NULL);
   output = clCreateBuffer(device.getContext(),CL_MEM_WRITE_ONLY,do_size,NULL,NULL);

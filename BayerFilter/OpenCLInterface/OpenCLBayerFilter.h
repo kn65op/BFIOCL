@@ -21,10 +21,11 @@
 class OpenCLBayerFilterParams : public OpenCLAlgorithmParams
 {
 public:
-  OpenCLBayerFilterParams(unsigned int width = 0, unsigned int height = 0, int pattern = BFIOCL_PAT_RGR, int mode = BFIOCL_MODE_BGR)
+  OpenCLBayerFilterParams(unsigned int width = 0, unsigned int height = 0, cl_uchar pattern = BFIOCL_PAT_RGR, int mode = BFIOCL_MODE_BGR)
     : width(width), height(height), pattern(pattern), mode(mode) {}
   unsigned int width, height;
-  int pattern, mode;
+  int mode;
+  cl_uchar pattern;
 };
 
 class OpenCLBayerFilter : public OpenCLAlgorithm

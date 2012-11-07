@@ -39,7 +39,7 @@ int main(int argv, char * argc[])
   
   try
   {
-    int mode = atoi(argc[1]);
+    uchar mode = (uchar)atoi(argc[1]);
     OpenCLImageFilter filter(argc[2], mode);
     if (argv > 3) {
       filter.saveOutputImage(argc[3]);
