@@ -119,7 +119,7 @@ cl_command_queue OpenCLDevice::getCommandQueue()
 {
   if (command_queue == NULL) {
     cl_int err;
-    cl_command_queue_properties prop = 0;
+    cl_command_queue_properties prop = CL_QUEUE_PROFILING_ENABLE;
     command_queue = clCreateCommandQueue(this->getContext(), device_id, prop, &err);
     if (err != CL_SUCCESS) {
       throw OpenCLDeviceException("Cant create command queue", err);

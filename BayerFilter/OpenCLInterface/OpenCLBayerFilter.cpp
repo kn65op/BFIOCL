@@ -23,7 +23,6 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
   
   cl_mem kparams, lut_mem, input, output;
   cl_int err;
-  cl_event event;
   
   cl_uchar LUT[12] = { 1, 2, 0,
                        4, 0, 3,
@@ -82,8 +81,10 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
   size_t local_work_size[2];
   local_work_size[0] = 1;
   local_work_size[1] = 1;
-  err = clEnqueueNDRangeKernel(command_queue, kernel, 2, NULL, global_work_size, local_work_size,0, NULL, NULL);
-  ASSERT_OPENCL_ERR(err, "Cant enqueue nd range kernel")
+
+  enqueueNDRangeKernelWithTimeMeasurment(2, NULL, global_work_size, local_work_size, 0);
+  //err = clEnqueueNDRangeKernel(command_queue, kernel, 2, NULL, global_work_size, local_work_size,0, NULL, NULL);
+  //ASSERT_OPENCL_ERR(err, "Cant enqueue nd range kernel")
 
   //Odczytaj dane
   err = clEnqueueReadBuffer(command_queue, output, CL_TRUE, 0, do_size, data_output, 0, NULL, NULL);

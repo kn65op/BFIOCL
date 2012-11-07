@@ -60,6 +60,7 @@ cv::Mat OpenCLImageFilter::getOutputImage()
   if (output_image.empty()) run();
   //cv::Vec3f t = output_image.at<cv::Vec3f>(100, 30);
   //std::cout << "Pixel(100,30): " << (float) t[0] << ", " << (float) t[1] << ", " << (float) t[2] << "\n";
+  std::cout << algorithm.getTimeConsumed() << "\n";
   return output_image;  
 }
 
