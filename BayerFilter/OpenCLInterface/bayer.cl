@@ -1,5 +1,4 @@
-__kernel void  bayer( __constant uchar * params, __constant uchar * LUT, __global float* input, __global float* output,
-  __local float * P, __local float * MEANS) 
+__kernel void  bayer( __constant uchar * params, __constant uchar * LUT, __global float* input, __global float* output) 
 {
   int width_output = get_global_size(0); 
   int width = get_global_size(0) + 2; 
@@ -15,32 +14,50 @@ __kernel void  bayer( __constant uchar * params, __constant uchar * LUT, __globa
   uchar r_pos = params[1]; 
   uchar g_pos = params[2]; 
   uchar b_pos = params[3]; 
+
+  float8 P;
   
-  P[0] = input[(i-1)*width + j -1];
+  P.s0 = input[(i-1)*width + j -1];
+  P.s1 = input[(i-1)*width + j];
+  P.s2 = input[(i-1)*width + j+1];
+  P.s3 = input[(i)*width + j-1];
+  P.s4 = input[(i)*width + j+1];
+  P.s5 = input[(i+1)*width + j-1];
+  P.s6 = input[(i+1)*width + j];
+  P.s7 = input[(i+1)*width + j+1];
   
-  P[1] = input[(i-1)*width + j];
-  
-  P[2] = input[(i-1)*width + j+1];
-  
-  P[3] = input[(i)*width + j-1];
-  
-  P[4] = input[(i)*width + j+1];
-  
-  P[5] = input[(i+1)*width + j-1];
-  
-  P[6] = input[(i+1)*width + j];
-  
-  P[7] = input[(i+1)*width + j+1];
-  
+  float8 MEANS;
+
   //Tu obliczenie współczynników P 
-  MEANS[0] = input[ptr];
-  MEANS[1] = (P[0] + P[2] + P[5] + P[7]) / 4.0; 
-  MEANS[2] = (P[1] + P[3] + P[4] + P[6]) / 4.0; 
-  MEANS[3] = (P[3] + P[4]) / 2.0; 
-  MEANS[4] = (P[1] + P[6]) / 2.0; 
+  MEANS.s0 = input[ptr];
+  MEANS.s1 = (P.s0 + P.s2 + P.s5 + P.s7) / 4.0; 
+  MEANS.s2 = (P.s1 + P.s3 + P.s4 + P.s6) / 4.0; 
+  MEANS.s3 = (P.s3 + P.s4) / 2.0; 
+  MEANS.s4 = (P.s1 + P.s6) / 2.0; 
   
-  output[3*ptro + r_pos] = MEANS[LUT[3*pixel_offset_type]]; 
-  output[3*ptro + g_pos] = MEANS[LUT[3*pixel_offset_type+1]]; 
-  output[3*ptro + b_pos] = MEANS[LUT[3*pixel_offset_type+2]]; 
+  if (pixel_offset_type == 0)
+  {
+	  output[3*ptro + r_pos] = MEANS.s1;
+	  output[3*ptro + g_pos] = MEANS.s2;
+	  output[3*ptro + b_pos] = MEANS.s0;
+  }
+  else if (pixel_offset_type == 1)
+  {
+	  output[3*ptro + r_pos] = MEANS.s4;
+	  output[3*ptro + g_pos] = MEANS.s0;
+	  output[3*ptro + b_pos] = MEANS.s3;
+  }
+  else if (pixel_offset_type == 2)
+  {
+	  output[3*ptro + r_pos] = MEANS.s3;
+	  output[3*ptro + g_pos] = MEANS.s0;
+	  output[3*ptro + b_pos] = MEANS.s4;
+  }
+  else
+  {
+	  output[3*ptro + r_pos] = MEANS.s0;
+	  output[3*ptro + g_pos] = MEANS.s2;
+	  output[3*ptro + b_pos] = MEANS.s1;
+  }
   
 }

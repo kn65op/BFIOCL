@@ -69,8 +69,8 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
   ASSERT_OPENCL_ERR(err,"Cant set kernel arg 2")
   
   
-  err = clSetKernelArg(kernel, 4, 8*sizeof(cl_float), NULL);
-  err = clSetKernelArg(kernel, 5, 5*sizeof(cl_float), NULL);
+  //err = clSetKernelArg(kernel, 4, 8*sizeof(cl_float), NULL);
+  //err = clSetKernelArg(kernel, 4, 5*sizeof(cl_float), NULL);
 
   
   //Wykonaj operacje
@@ -78,11 +78,11 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
   global_work_size[0] = params.width;
   global_work_size[1] = params.height;
   
-  size_t local_work_size[2];
+  /*size_t local_work_size[2];
   local_work_size[0] = 1;
-  local_work_size[1] = 1;
+  local_work_size[1] = 1;*/
 
-  enqueueNDRangeKernelWithTimeMeasurment(2, NULL, global_work_size, local_work_size, 0);
+  enqueueNDRangeKernelWithTimeMeasurment(2, NULL, global_work_size, /*local_work_size*/ NULL, 0);
   //err = clEnqueueNDRangeKernel(command_queue, kernel, 2, NULL, global_work_size, local_work_size,0, NULL, NULL);
   //ASSERT_OPENCL_ERR(err, "Cant enqueue nd range kernel")
 
