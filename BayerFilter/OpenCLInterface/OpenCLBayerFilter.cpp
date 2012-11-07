@@ -6,7 +6,7 @@
   throw OpenCLAlgorithmException(MSG, ERR); \
 }
 
-const std::string OpenCLBayerFilter::SOURCEFILE = "bayer2.cl";
+const std::string OpenCLBayerFilter::SOURCEFILE = "bayer.cl";
 
 void OpenCLBayerFilter::setParams(const OpenCLAlgorithmParams& params)
 {
@@ -49,9 +49,9 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
   
   //Wgraj dane
   err = clEnqueueWriteBuffer(command_queue, lut_mem,CL_TRUE,0, sizeof(cl_uchar)*12, LUT, 0, NULL, NULL);
-  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer")
-  
-  err = clEnqueueWriteBuffer(command_queue, kparams,CL_TRUE,0, sizeof(cl_uchar)*4, kernel_params, 0, NULL, NULL);
+  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer");
+
+  err = clEnqueueWriteBuffer(command_queue, kparams,CL_TRUE,0, sizeof(kernel_params), kernel_params, 0, NULL, NULL);
   ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer")
   
   err = clEnqueueWriteBuffer(command_queue, input,CL_TRUE,0, di_size, data_input, 0, NULL, NULL);
