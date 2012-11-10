@@ -67,6 +67,7 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
   
   clReleaseMemObject(input);
   clReleaseMemObject(output);
+  clReleaseMemObject(kparams);
 }
 
 void OpenCLBayerFilter::prepare()
