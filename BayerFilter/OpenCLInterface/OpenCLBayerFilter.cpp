@@ -21,7 +21,7 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
 {
   if (params.width == 0 || params.height == 0) throw OpenCLAlgorithmException("Must set image width and height", 0);
   
-  cl_mem kparams, lut_mem, input, output;
+  cl_mem kparams, input, output;
   cl_int err;
     
   cl_uchar kernel_params[4];
@@ -30,10 +30,12 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
   kernel_params[2] = (params.mode >> 2) & 0x03;
   kernel_params[3] = params.mode & 0x03;
     
-  kparams = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY, sizeof(cl_uchar) * 4,NULL,NULL);
-  lut_mem = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY, sizeof(cl_uchar) * 12,NULL,NULL);
-  input = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY,di_size,NULL,NULL);
-  output = clCreateBuffer(device.getContext(),CL_MEM_WRITE_ONLY,do_size,NULL,NULL);
+  kparams = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY, sizeof(cl_uchar) * 4,NULL, &err);
+  ASSERT_OPENCL_ERR(err, "Error while creating buffer kparams");
+  input = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY,di_size,NULL, &err);
+  ASSERT_OPENCL_ERR(err, "Error while creating buffer input");
+  output = clCreateBuffer(device.getContext(),CL_MEM_WRITE_ONLY,do_size,NULL, &err);
+  ASSERT_OPENCL_ERR(err, "Error while creating buffer output");
   
   //Wgraj dane
   err = clEnqueueWriteBuffer(command_queue, kparams,CL_TRUE,0, sizeof(kernel_params), kernel_params, 0, NULL, NULL);
@@ -50,6 +52,7 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
   
   err = clSetKernelArg(kernel, 2, sizeof(cl_mem), (void*) &output);
   ASSERT_OPENCL_ERR(err,"Cant set kernel arg 2")
+
 
   //Wykonaj operacje
   size_t global_work_size[2];
