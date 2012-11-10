@@ -23,13 +23,7 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
   
   cl_mem kparams, lut_mem, input, output;
   cl_int err;
-  
-  cl_uchar LUT[12] = { 1, 2, 0,
-                       4, 0, 3,
-                       3, 0, 4,
-                       0, 2, 1 };
-  
-  
+    
   cl_uchar kernel_params[4];
   kernel_params[0] = params.pattern;
   kernel_params[1] = (params.mode >> 4) & 0x03;
@@ -42,9 +36,6 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
   output = clCreateBuffer(device.getContext(),CL_MEM_WRITE_ONLY,do_size,NULL,NULL);
   
   //Wgraj dane
-  err = clEnqueueWriteBuffer(command_queue, lut_mem,CL_TRUE,0, sizeof(LUT), LUT, 0, NULL, NULL);
-  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer");
-
   err = clEnqueueWriteBuffer(command_queue, kparams,CL_TRUE,0, sizeof(kernel_params), kernel_params, 0, NULL, NULL);
   ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer")
   
