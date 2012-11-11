@@ -16,6 +16,7 @@
 #define BFIOCL_MODE_GBR 0x21
 #define BFIOCL_MODE_GRB 0x18
 
+
 #include "OpenCLAlgorithm.h"
 
 class OpenCLBayerFilterParams : public OpenCLAlgorithmParams
@@ -43,6 +44,10 @@ private:
 
   //work size
   size_t global_work_size[2];
+  
+  //kernel params
+  static const unsigned int kernel_params_size = 4;
+  cl_uchar kernel_params[kernel_params_size];
 };
 
 #endif // OPENCLBAYERFILTER_H

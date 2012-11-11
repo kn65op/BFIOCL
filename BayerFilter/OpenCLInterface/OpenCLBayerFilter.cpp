@@ -19,6 +19,12 @@ void OpenCLBayerFilter::setParams(const OpenCLBayerFilterParams& params) {
   //set work size
   global_work_size[0] = params.width;
   global_work_size[1] = params.height;
+
+  //set other params
+  kernel_params[0] = params.pattern;
+  kernel_params[1] = (params.mode >> 4) & 0x03;
+  kernel_params[2] = (params.mode >> 2) & 0x03;
+  kernel_params[3] = params.mode & 0x03;
 }
 
 void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, unsigned char* data_output, size_t do_size)
@@ -27,12 +33,6 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
   
   cl_mem kparams, input, output;
   cl_int err;
-    
-  cl_uchar kernel_params[4];
-  kernel_params[0] = params.pattern;
-  kernel_params[1] = (params.mode >> 4) & 0x03;
-  kernel_params[2] = (params.mode >> 2) & 0x03;
-  kernel_params[3] = params.mode & 0x03;
     
   kparams = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY, sizeof(cl_uchar) * 4,NULL, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating buffer kparams");
@@ -57,9 +57,7 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
   err = clSetKernelArg(kernel, 2, sizeof(cl_mem), (void*) &output);
   ASSERT_OPENCL_ERR(err,"Cant set kernel arg 2")
 
-
   //Wykonaj operacje
-  
   enqueueNDRangeKernelWithTimeMeasurment(2, NULL, global_work_size, NULL, 0);
   
   //Odczytaj dane
