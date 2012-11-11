@@ -40,6 +40,9 @@ public:
 private:
   static const std::string SOURCEFILE;
   OpenCLBayerFilterParams params;
+
+  //work size
+  size_t global_work_size[2];
 };
 
 #endif // OPENCLBAYERFILTER_H

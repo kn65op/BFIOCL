@@ -15,6 +15,10 @@ void OpenCLBayerFilter::setParams(const OpenCLAlgorithmParams& params)
 
 void OpenCLBayerFilter::setParams(const OpenCLBayerFilterParams& params) {
   this->params = params;
+  
+  //set work size
+  global_work_size[0] = params.width;
+  global_work_size[1] = params.height;
 }
 
 void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, unsigned char* data_output, size_t do_size)
@@ -55,9 +59,6 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
 
 
   //Wykonaj operacje
-  size_t global_work_size[2];
-  global_work_size[0] = params.width;
-  global_work_size[1] = params.height;
   
   enqueueNDRangeKernelWithTimeMeasurment(2, NULL, global_work_size, NULL, 0);
   
