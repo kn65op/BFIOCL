@@ -34,7 +34,7 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
   cl_mem kparams, input, output;
   cl_int err;
     
-  kparams = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY, sizeof(cl_uchar) * 4,NULL, &err);
+  kparams = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY, sizeof(kernel_params),NULL, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating buffer kparams");
   input = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY,di_size,NULL, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating buffer input");
