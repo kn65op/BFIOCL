@@ -10,7 +10,7 @@ __kernel void  bayer( __constant uchar * params, __global float* input, __global
   int ptr = i * width + j; 
   int ptro = iout * width_output+ j; 
   uchar offset_type = params[0]; 
-  uchar pixel_offset_type = ( (offset_type & 0x02) + (i%2 << 1) + (offset_type + j)%2) %4;
+  uchar pixel_offset_type = ( (offset_type & 0x02) + (iout%2 << 1) + (offset_type + j+1)%2) %4;
   uchar r_pos = params[1]; 
   uchar g_pos = params[2]; 
   uchar b_pos = params[3]; 
