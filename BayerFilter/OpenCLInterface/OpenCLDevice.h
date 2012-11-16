@@ -11,7 +11,9 @@ struct OpenCLDeviceException : public OpenCLException
   OpenCLDeviceException(std::string m, int err = 0) : OpenCLException(m, err) {}
 };
 
-
+/**
+ * @brief Class represents CL Device.
+ */
 class OpenCLDevice
 {
 public:

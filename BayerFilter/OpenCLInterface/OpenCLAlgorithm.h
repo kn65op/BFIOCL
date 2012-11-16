@@ -13,6 +13,9 @@ public:
   virtual ~OpenCLAlgorithmParams() {};
 };
 
+/**
+ * @brief Iterface for OpenCL algorithm.
+ */
 class OpenCLAlgorithm
 {
 public:

@@ -19,6 +19,7 @@
 
 #include "OpenCLAlgorithm.h"
 
+
 class OpenCLBayerFilterParams : public OpenCLAlgorithmParams
 {
 public:
@@ -29,6 +30,11 @@ public:
   cl_uchar pattern;
 };
 
+/**
+ * @brief Bayer filter.
+ * 
+ * It use float as parameter to OpenCL kernel.
+ */
 class OpenCLBayerFilter : public OpenCLAlgorithm
 {
 
