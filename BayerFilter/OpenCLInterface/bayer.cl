@@ -4,11 +4,12 @@ __kernel void  bayer( __constant uchar * params, __global float* input, __global
   int width = get_global_size(0) + 2; 
 
 //  int height = get_global_size(1); 
-  int j = get_global_id(0); //column number
+  int jout = get_global_id(0); //column number
+  int j = get_global_id(0) + 1; //column number
   int i = get_global_id(1) + 1; //row number
   int iout = get_global_id(1); 
   int ptr = i * width + j; 
-  int ptro = iout * width_output+ j; 
+  int ptro = iout * width_output+ jout; 
   uchar offset_type = params[0]; 
   uchar pixel_offset_type = ( (offset_type & 0x02) + (iout%2 << 1) + (offset_type + j+1)%2) %4;
   uchar r_pos = params[1]; 
