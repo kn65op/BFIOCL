@@ -38,6 +38,8 @@ class OpenCLBayerFilter : public OpenCLAlgorithm
 {
 
 public:
+  OpenCLBayerFilter();
+  ~OpenCLBayerFilter();
   virtual void setParams(const OpenCLAlgorithmParams& params);
   void setParams(const OpenCLBayerFilterParams& params);
   virtual void prepare();

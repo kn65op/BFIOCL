@@ -21,7 +21,7 @@ class OpenCLAlgorithm
 public:
   OpenCLAlgorithm(void);
   OpenCLAlgorithm(const OpenCLDevice & dev);
-  ~OpenCLAlgorithm(void);
+  virtual ~OpenCLAlgorithm(void);
 
   virtual void setDevice(const OpenCLDevice & dev);
   virtual void enqueueNDRangeKernelWithTimeMeasurment(cl_uint work_dim, size_t * global_work_offset, const size_t *global_work_size, const size_t *local_work_size, cl_uint num_events_in_wait_list);

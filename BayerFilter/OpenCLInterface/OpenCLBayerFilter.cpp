@@ -8,6 +8,16 @@
 
 const std::string OpenCLBayerFilter::SOURCEFILE = "bayer.cl";
 
+OpenCLBayerFilter::OpenCLBayerFilter() : OpenCLAlgorithm()
+{
+  input = output = kparams = NULL;
+}
+
+OpenCLBayerFilter::~OpenCLBayerFilter()
+{
+  releaseMem();
+}
+
 void OpenCLBayerFilter::setParams(const OpenCLAlgorithmParams& params)
 {
   setParams(dynamic_cast<const OpenCLBayerFilterParams&>(params));
@@ -77,6 +87,7 @@ void OpenCLBayerFilter::releaseMem()
   clReleaseMemObject(input);
   clReleaseMemObject(output);
   clReleaseMemObject(kparams);
+  input = output = kparams = NULL;
 }
 
 void OpenCLBayerFilter::prepare()
