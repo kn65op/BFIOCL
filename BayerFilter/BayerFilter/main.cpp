@@ -103,7 +103,7 @@ void list_supported_image_formats ()
   OpenCLDevice d = OpenCLDevice::getDevices ().front ();
   cl_image_format formats[100];
   cl_uint returned;
-  clGetSupportedImageFormats (d.getContext (), CL_MEM_WRITE_ONLY, CL_MEM_OBJECT_IMAGE2D, 100, formats, &returned);
+  clGetSupportedImageFormats (d.getContext (), CL_MEM_READ_ONLY, CL_MEM_OBJECT_IMAGE2D, 100, formats, &returned);
   std::cout << returned << "\n";
   for (unsigned int i = 0; i < returned; ++i)
     {

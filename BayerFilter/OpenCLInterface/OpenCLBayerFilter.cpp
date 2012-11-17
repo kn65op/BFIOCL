@@ -107,14 +107,14 @@ void OpenCLBayerFilterImage::setKernelArgs (const unsigned char* data_input, siz
   cl_image_format output_format;
   output_format.image_channel_data_type = input_format.image_channel_data_type = CL_FLOAT;
   input_format.image_channel_order = CL_INTENSITY;
-  input_format.image_channel_data_type = CL_RGB;
+  output_format.image_channel_order = CL_RGB;
   size_t origin[] = {0,0,0};
   size_t region[] = {params.width, params.height, 1};
   
   //create structures
   kparams = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY, sizeof(kernel_params),NULL, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating buffer kparams");
-
+    
   input = clCreateImage2D(device.getContext(), CL_MEM_READ_ONLY, &input_format, params.width, params.height, 0, NULL, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating image2D for input");
 
