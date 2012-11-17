@@ -43,6 +43,12 @@ int main(int argv, char * argc[])
     if (argv > 3) {
       filter.saveOutputImage(argc[3]);
       std::cout << "Image '" << argc[3] << "' saved!\n";
+      if (argv > 5)
+      {
+        filter.setInputImage(argc[4]);
+        filter.saveOutputImage(argc[5]);
+      std::cout << "Image '" << argc[5] << "' saved!\n";
+      }
     }
     else
     {

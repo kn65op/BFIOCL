@@ -7,13 +7,7 @@
 
 OpenCLImageFilter::OpenCLImageFilter(std::string filename, cl_uchar mode)
 {
-  //convert image
-  cv::Mat tmp;
-  input_image_raw = cv::imread(filename, -1);
-  input_image_raw.convertTo(tmp, CV_32F, 1.0/255.0f);
-
-  //set input image
-  setInputImage(tmp);
+  setInputImage(filename);
 
   algorithm = OpenCLBayerFilter();
   algorithm.setDevice(OpenCLDevice::getDevices().front());
@@ -21,9 +15,23 @@ OpenCLImageFilter::OpenCLImageFilter(std::string filename, cl_uchar mode)
   this->mode = mode;
 }
 
+void OpenCLImageFilter::setInputImage (const std::string filename)
+{
+  //convert image
+  cv::Mat tmp;
+  input_image_raw = cv::imread(filename, -1);
+  input_image_raw.convertTo(tmp, CV_32F, 1.0/255.0f);
+
+  //set input image
+  setInputImage(tmp);
+}
+
 void OpenCLImageFilter::setInputImage(const cv::Mat & source)
 {
-  input_image = cv::Mat::zeros(source.rows + 2, source.cols + 2, source.type());
+  if (input_image.cols + 2 != source.cols && input_image.rows + 2 != source.cols)
+  {
+    input_image = cv::Mat::zeros(source.rows + 2, source.cols + 2, source.type());
+  }
 
   //copy data
   int is, idest, js, jdest;
@@ -34,7 +42,11 @@ void OpenCLImageFilter::setInputImage(const cv::Mat & source)
       input_image.at<float>(idest, jdest) = source.at<float>(is, js);
     }
   }
-  output_image.create(input_image.rows - 2, input_image.cols - 2, CV_32FC3);
+
+  if (output_image.rows != input_image.rows - 2 && output_image.cols != input_image.cols - 2)
+  {
+    output_image.create(input_image.rows - 2, input_image.cols - 2, CV_32FC3);
+  }
 }
 
 OpenCLImageFilter::~OpenCLImageFilter()

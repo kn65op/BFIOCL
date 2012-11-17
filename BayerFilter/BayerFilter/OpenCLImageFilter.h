@@ -16,6 +16,7 @@ public:
   cv::Mat getOutputImageOpenCV();
 
   
+  void setInputImage(const std::string filename);
   bool saveOutputImage(std::string filename);
   
 private:
