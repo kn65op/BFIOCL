@@ -106,7 +106,7 @@ void OpenCLBayerFilterImage::setKernelArgs (const unsigned char* data_input, siz
   cl_image_format input_format;
   cl_image_format output_format;
   output_format.image_channel_data_type = input_format.image_channel_data_type = CL_FLOAT;
-  input_format.image_channel_order = CL_R;
+  input_format.image_channel_order = CL_INTENSITY;
   input_format.image_channel_data_type = CL_RGB;
   size_t origin[] = {0,0,0};
   size_t region[] = {params.width, params.height, 1};
