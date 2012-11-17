@@ -8,7 +8,7 @@
 
 const std::string OpenCLBayerFilter::SOURCEFILE = "bayer.cl";
 
-OpenCLBayerFilter::OpenCLBayerFilter() : OpenCLAlgorithm()
+OpenCLBayerFilter::OpenCLBayerFilter()
 {
   input = output = kparams = NULL;
 }
@@ -35,34 +35,6 @@ void OpenCLBayerFilter::setParams(const OpenCLBayerFilterParams& params) {
   kernel_params[1] = (params.mode >> 4) & 0x03;
   kernel_params[2] = (params.mode >> 2) & 0x03;
   kernel_params[3] = params.mode & 0x03;
-}
-
-void OpenCLBayerFilter::setKernelArgs(const unsigned char* data_input, size_t di_size, size_t do_size)
-{
-  cl_int err;
-    
-  kparams = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY, sizeof(kernel_params),NULL, &err);
-  ASSERT_OPENCL_ERR(err, "Error while creating buffer kparams");
-  input = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY,di_size,NULL, &err);
-  ASSERT_OPENCL_ERR(err, "Error while creating buffer input");
-  output = clCreateBuffer(device.getContext(),CL_MEM_WRITE_ONLY,do_size,NULL, &err);
-  ASSERT_OPENCL_ERR(err, "Error while creating buffer output");
-  
-  //Wgraj dane
-  err = clEnqueueWriteBuffer(command_queue, kparams,CL_TRUE,0, sizeof(kernel_params), kernel_params, 0, NULL, NULL);
-  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer")
-  
-  err = clEnqueueWriteBuffer(command_queue, input,CL_TRUE,0, di_size, data_input, 0, NULL, NULL);
-  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer");
-    
-  err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*) &kparams);
-  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0")
-    
-  err = clSetKernelArg(kernel, 1, sizeof(cl_mem), (void*) &input);
-  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 1")
-  
-  err = clSetKernelArg(kernel, 2, sizeof(cl_mem), (void*) &output);
-  ASSERT_OPENCL_ERR(err,"Cant set kernel arg 2")
 }
 
 void OpenCLBayerFilter::getResult (unsigned char* data_output, size_t do_size)
@@ -100,3 +72,72 @@ void OpenCLBayerFilter::prepare()
 
 }
 
+void OpenCLBayerFilterFloat::setKernelArgs(const unsigned char* data_input, size_t di_size, size_t do_size)
+{
+  cl_int err;
+    
+  kparams = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY, sizeof(kernel_params),NULL, &err);
+  ASSERT_OPENCL_ERR(err, "Error while creating buffer kparams");
+  input = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY,di_size,NULL, &err);
+  ASSERT_OPENCL_ERR(err, "Error while creating buffer input");
+  output = clCreateBuffer(device.getContext(),CL_MEM_WRITE_ONLY,do_size,NULL, &err);
+  ASSERT_OPENCL_ERR(err, "Error while creating buffer output");
+  
+  //Wgraj dane
+  err = clEnqueueWriteBuffer(command_queue, kparams,CL_TRUE,0, sizeof(kernel_params), kernel_params, 0, NULL, NULL);
+  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer")
+  
+  err = clEnqueueWriteBuffer(command_queue, input,CL_TRUE,0, di_size, data_input, 0, NULL, NULL);
+  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer");
+    
+  err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*) &kparams);
+  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0")
+    
+  err = clSetKernelArg(kernel, 1, sizeof(cl_mem), (void*) &input);
+  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 1")
+  
+  err = clSetKernelArg(kernel, 2, sizeof(cl_mem), (void*) &output);
+  ASSERT_OPENCL_ERR(err,"Cant set kernel arg 2")
+}
+
+void OpenCLBayerFilterImage::setKernelArgs (const unsigned char* data_input, size_t di_size, size_t do_size)
+{
+  cl_int err;
+  cl_image_format input_format;
+  cl_image_format output_format;
+  output_format.image_channel_data_type = input_format.image_channel_data_type = CL_FLOAT;
+  input_format.image_channel_order = CL_R;
+  input_format.image_channel_data_type = CL_RGB;
+  size_t origin[] = {0,0,0};
+  size_t region[] = {params.width, params.height, 1};
+  
+  //create structures
+  kparams = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY, sizeof(kernel_params),NULL, &err);
+  ASSERT_OPENCL_ERR(err, "Error while creating buffer kparams");
+
+  input = clCreateImage2D(device.getContext(), CL_MEM_READ_ONLY, &input_format, params.width, params.height, 0, NULL, &err);
+  ASSERT_OPENCL_ERR(err, "Error while creating image2D for input");
+
+  input = clCreateImage2D(device.getContext(), CL_MEM_WRITE_ONLY, &output_format, params.width, params.height, 0, NULL, &err);
+  ASSERT_OPENCL_ERR(err, "Error while creating image2D for output");
+
+  sampler = clCreateSampler(device.getContext(), CL_TRUE, CL_ADDRESS_MIRRORED_REPEAT, CL_FILTER_LINEAR, &err);
+  ASSERT_OPENCL_ERR(err, "Error while creating sampler");
+
+  //wgraj dane
+  err = clEnqueueWriteBuffer(command_queue, kparams,CL_TRUE,0, sizeof(kernel_params), kernel_params, 0, NULL, NULL);
+  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer")
+
+  err = clEnqueueWriteImage(command_queue, input, CL_TRUE, origin, region, 0, 0, (void*)data_input, 0, NULL, NULL);
+  ASSERT_OPENCL_ERR(err,"Cant enqueue write image");
+
+  err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*) &kparams);
+  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0")
+    
+  err = clSetKernelArg(kernel, 1, sizeof(cl_mem), (void*) &input);
+  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 1")
+  
+  err = clSetKernelArg(kernel, 2, sizeof(cl_mem), (void*) &output);
+  ASSERT_OPENCL_ERR(err,"Cant set kernel arg 2")
+  //TODO;
+}

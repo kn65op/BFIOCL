@@ -45,14 +45,14 @@ public:
   virtual void prepare();
   virtual void run(const unsigned char* data_input, size_t di_size, unsigned char* data_output, size_t do_size);
   
-private:
+protected:
   static const std::string SOURCEFILE;
   OpenCLBayerFilterParams params;
 
   //function that differ for methods, 
-  void setKernelArgs(const unsigned char* data_input, size_t di_size, size_t do_size);
-  void getResult(unsigned char* data_output, size_t do_size);
-  void releaseMem();
+  virtual void setKernelArgs(const unsigned char* data_input, size_t di_size, size_t do_size) = 0;
+  virtual void getResult(unsigned char* data_output, size_t do_size);
+  virtual void releaseMem();
 
   //work size
   size_t global_work_size[2];
@@ -64,5 +64,17 @@ private:
   //cl_mems
   cl_mem kparams, input, output;
 };
+
+class OpenCLBayerFilterFloat : public OpenCLBayerFilter
+{
+  void setKernelArgs(const unsigned char* data_input, size_t di_size, size_t do_size);
+};
+
+class OpenCLBayerFilterImage : public OpenCLBayerFilter
+{
+  void setKernelArgs(const unsigned char* data_input, size_t di_size, size_t do_size);
+  cl_sampler sampler;
+};
+
 
 #endif // OPENCLBAYERFILTER_H

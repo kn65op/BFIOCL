@@ -27,7 +27,7 @@ private:
   cv::Mat input_image;
   cv::Mat output_image;
   cv::Mat output_image_open_cv;
-  OpenCLBayerFilter algorithm;
+  OpenCLBayerFilter* algorithm;
   cl_uchar mode;
   
 };

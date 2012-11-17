@@ -23,7 +23,6 @@ void list_devices()
   }
 }
 
-
 int main(int argv, char * argc[])
 {
   if (argv < 3) {

@@ -93,6 +93,10 @@ std::string OpenCLException::getInfoFromErrorCode()
     return "CL_OUT_OF_HOST_MEMORY";
   case CL_BUILD_PROGRAM_FAILURE:
     return "CL_BUILD_PROGRAM_FAILURE";
+  case CL_IMAGE_FORMAT_NOT_SUPPORTED:
+    return "CL_IMAGE_FORMAT_NOT_SUPPORTED";
+  case CL_MEM_OBJECT_ALLOCATION_FAILURE: //-4
+    return "CL_MEM_OBJECT_ALLOCATION_FAILURE";
   case 0:
     return "No OpenCLError";
   }
