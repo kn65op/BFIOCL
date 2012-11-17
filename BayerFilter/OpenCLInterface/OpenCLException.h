@@ -8,6 +8,10 @@
 class OpenCLException
 {
 public:
+  /**
+   * @param m Message.
+   * @param err Error code. Put 0 if it is not an OpenCL internal error.
+   */
   OpenCLException(std::string m, int err) : message(m), error_no(err) {}
   std::string getFullMessage();
 private:

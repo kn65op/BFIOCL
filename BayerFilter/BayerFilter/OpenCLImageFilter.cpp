@@ -34,6 +34,7 @@ void OpenCLImageFilter::setInputImage(const cv::Mat & source)
       input_image.at<float>(idest, jdest) = source.at<float>(is, js);
     }
   }
+  output_image.create(input_image.rows - 2, input_image.cols - 2, CV_32FC3);
 }
 
 OpenCLImageFilter::~OpenCLImageFilter()
@@ -57,7 +58,7 @@ cv::Mat OpenCLImageFilter::getInputImage() const
 
 cv::Mat OpenCLImageFilter::getOutputImage()
 {
-  if (output_image.empty()) run();
+  run();
   //cv::Vec3f t = output_image.at<cv::Vec3f>(100, 30);
   //std::cout << "Pixel(100,30): " << (float) t[0] << ", " << (float) t[1] << ", " << (float) t[2] << "\n";
   std::cout << algorithm.getTimeConsumed() << "\n";
@@ -82,7 +83,6 @@ void OpenCLImageFilter::run()
   try
   {
     uchar * input_data = input_image.data;
-    output_image.create(input_image.rows - 2, input_image.cols - 2, CV_32FC3);
     algorithm.setParams(OpenCLBayerFilterParams(output_image.cols, output_image.rows, mode, BFIOCL_MODE_BGR));
     algorithm.run(input_data, 
 		  input_image.total()*input_image.elemSize(),

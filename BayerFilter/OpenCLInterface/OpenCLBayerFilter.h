@@ -19,7 +19,6 @@
 
 #include "OpenCLAlgorithm.h"
 
-
 class OpenCLBayerFilterParams : public OpenCLAlgorithmParams
 {
 public:
@@ -48,12 +47,20 @@ private:
   static const std::string SOURCEFILE;
   OpenCLBayerFilterParams params;
 
+  //function that differ for methods, 
+  void setKernelArgs(const unsigned char* data_input, size_t di_size, size_t do_size);
+  void getResult(unsigned char* data_output, size_t do_size);
+  void releaseMem();
+
   //work size
   size_t global_work_size[2];
   
   //kernel params
   static const unsigned int kernel_params_size = 4;
   cl_uchar kernel_params[kernel_params_size];
+
+  //cl_mems
+  cl_mem kparams, input, output;
 };
 
 #endif // OPENCLBAYERFILTER_H

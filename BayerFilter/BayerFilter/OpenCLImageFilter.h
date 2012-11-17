@@ -29,7 +29,6 @@ private:
   OpenCLBayerFilter algorithm;
   cl_uchar mode;
   
-  
 };
 
 #endif // OPENCLIMAGEFILTER_H

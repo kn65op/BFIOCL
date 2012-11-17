@@ -27,11 +27,8 @@ void OpenCLBayerFilter::setParams(const OpenCLBayerFilterParams& params) {
   kernel_params[3] = params.mode & 0x03;
 }
 
-void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, unsigned char* data_output, size_t do_size)
+void OpenCLBayerFilter::setKernelArgs(const unsigned char* data_input, size_t di_size, size_t do_size)
 {
-  if (params.width == 0 || params.height == 0) throw OpenCLAlgorithmException("Must set image width and height", 0);
-  
-  cl_mem kparams, input, output;
   cl_int err;
     
   kparams = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY, sizeof(kernel_params),NULL, &err);
@@ -56,14 +53,27 @@ void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, uns
   
   err = clSetKernelArg(kernel, 2, sizeof(cl_mem), (void*) &output);
   ASSERT_OPENCL_ERR(err,"Cant set kernel arg 2")
+}
 
+void OpenCLBayerFilter::getResult (unsigned char* data_output, size_t do_size)
+{
+  cl_int err = clEnqueueReadBuffer(command_queue, output, CL_TRUE, 0, do_size, data_output, 0, NULL, NULL);
+  ASSERT_OPENCL_ERR(err, "Cant enqueue read buffer")
+}
+
+void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, unsigned char* data_output, size_t do_size)
+{
+  if (params.width == 0 || params.height == 0) throw OpenCLAlgorithmException("Must set image width and height", 0);
+ 
+  setKernelArgs(data_input, di_size, do_size);
   //Wykonaj operacje
   enqueueNDRangeKernelWithTimeMeasurment(2, NULL, global_work_size, NULL, 0);
-  
-  //Odczytaj dane
-  err = clEnqueueReadBuffer(command_queue, output, CL_TRUE, 0, do_size, data_output, 0, NULL, NULL);
-  ASSERT_OPENCL_ERR(err, "Cant enqueue read buffer")
-  
+  getResult(data_output, do_size);
+  releaseMem();
+}
+
+void OpenCLBayerFilter::releaseMem()
+{
   clReleaseMemObject(input);
   clReleaseMemObject(output);
   clReleaseMemObject(kparams);

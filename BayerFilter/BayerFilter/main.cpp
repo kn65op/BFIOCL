@@ -26,7 +26,6 @@ void list_devices()
 
 int main(int argv, char * argc[])
 {
-  
   if (argv < 3) {
     std::cout << "Usage: " << argc[0] << " 0-3 filename.bmp [output_filename.bmp]\n";
     std::cout << "\n\t0-3 - bayer matix start mode\n";
