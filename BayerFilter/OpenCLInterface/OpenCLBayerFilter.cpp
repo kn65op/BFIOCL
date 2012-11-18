@@ -119,7 +119,7 @@ void OpenCLBayerFilterImage::setKernelArgs (const unsigned char* data_input, siz
   input = clCreateImage2D(device.getContext(), CL_MEM_READ_ONLY, &input_format, params.width, params.height, 0, NULL, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating image2D for input");
 
-  input = clCreateImage2D(device.getContext(), CL_MEM_WRITE_ONLY, &output_format, params.width, params.height, 0, NULL, &err);
+  output = clCreateImage2D(device.getContext(), CL_MEM_WRITE_ONLY, &output_format, params.width, params.height, 0, NULL, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating image2D for output");
 
   sampler = clCreateSampler(device.getContext(), CL_TRUE, CL_ADDRESS_MIRRORED_REPEAT, CL_FILTER_LINEAR, &err);
@@ -129,10 +129,6 @@ void OpenCLBayerFilterImage::setKernelArgs (const unsigned char* data_input, siz
   err = clEnqueueWriteBuffer(command_queue, kparams,CL_TRUE, 0, sizeof(kernel_params), kernel_params, 0, NULL, NULL);
   ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer");
     
-  std::cout << (void*) data_input << "\n";
-  std::cout << (void*)((params.width * params.height * 4) + data_input) << "\n";
-  std::cout << (void*)((region[0] * region[1] * sizeof(float)) + data_input) << "\n";
-  std::cout << (void*)(di_size + data_input) << "\n";
   err = clEnqueueWriteImage(command_queue, input, CL_TRUE, origin, region, 0, 0, (void*)data_input, 0, NULL, NULL);
   ASSERT_OPENCL_ERR(err,"Cant enqueue write image");
 
