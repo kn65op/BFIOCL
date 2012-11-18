@@ -105,9 +105,10 @@ void OpenCLBayerFilterImage::setKernelArgs (const unsigned char* data_input, siz
   cl_int err;
   cl_image_format input_format;
   cl_image_format output_format;
-  output_format.image_channel_data_type = input_format.image_channel_data_type = CL_FLOAT;
-  input_format.image_channel_order = CL_INTENSITY;
-  output_format.image_channel_order = CL_RGB;
+  output_format.image_channel_data_type = CL_FLOAT;
+  input_format.image_channel_data_type = CL_FLOAT;
+  input_format.image_channel_order = CL_R;
+  output_format.image_channel_order = CL_ARGB;
   size_t origin[] = {0,0,0};
   size_t region[] = {params.width, params.height, 1};
   
@@ -125,9 +126,13 @@ void OpenCLBayerFilterImage::setKernelArgs (const unsigned char* data_input, siz
   ASSERT_OPENCL_ERR(err, "Error while creating sampler");
 
   //wgraj dane
-  err = clEnqueueWriteBuffer(command_queue, kparams,CL_TRUE,0, sizeof(kernel_params), kernel_params, 0, NULL, NULL);
-  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer")
-
+  err = clEnqueueWriteBuffer(command_queue, kparams,CL_TRUE, 0, sizeof(kernel_params), kernel_params, 0, NULL, NULL);
+  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer");
+    
+  std::cout << (void*) data_input << "\n";
+  std::cout << (void*)((params.width * params.height * 4) + data_input) << "\n";
+  std::cout << (void*)((region[0] * region[1] * sizeof(float)) + data_input) << "\n";
+  std::cout << (void*)(di_size + data_input) << "\n";
   err = clEnqueueWriteImage(command_queue, input, CL_TRUE, origin, region, 0, 0, (void*)data_input, 0, NULL, NULL);
   ASSERT_OPENCL_ERR(err,"Cant enqueue write image");
 

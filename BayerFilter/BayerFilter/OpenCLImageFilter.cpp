@@ -7,9 +7,9 @@
 
 OpenCLImageFilter::OpenCLImageFilter(std::string filename, cl_uchar mode)
 {
+  algorithm = new OpenCLBayerFilterImage();
   setInputImage(filename);
 
-  algorithm = new OpenCLBayerFilterImage();
   algorithm->setDevice(OpenCLDevice::getDevices().front());
   algorithm->prepare();
   this->mode = mode;
@@ -28,6 +28,15 @@ void OpenCLImageFilter::setInputImage (const std::string filename)
 
 void OpenCLImageFilter::setInputImage(const cv::Mat & source)
 {
+  if (dynamic_cast<OpenCLBayerFilterImage*>(algorithm))
+  {
+    input_image = source;
+    if (output_image.rows != input_image.rows && output_image.cols != input_image.cols)
+    {
+      output_image.create(input_image.rows, input_image.cols, CV_32FC4);
+    }
+    return;
+  }
   if (input_image.cols + 2 != source.cols && input_image.rows + 2 != source.cols)
   {
     input_image = cv::Mat::zeros(source.rows + 2, source.cols + 2, source.type());
