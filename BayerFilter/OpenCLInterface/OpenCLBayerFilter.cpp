@@ -142,7 +142,7 @@ void OpenCLBayerFilterImage::setKernelArgs (size_t di_size, size_t do_size)
   cl_image_format output_format;
   output_format.image_channel_data_type = CL_FLOAT;
   input_format.image_channel_data_type = CL_FLOAT;
-  input_format.image_channel_order = CL_INTENSITY;
+  input_format.image_channel_order = CL_LUMINANCE;
   output_format.image_channel_order = CL_RGBA;
   
   //create structures
