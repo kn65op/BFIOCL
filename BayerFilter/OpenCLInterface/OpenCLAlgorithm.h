@@ -29,7 +29,7 @@ public:
 
   //pure virtual functions
   virtual void setParams(const OpenCLAlgorithmParams & params) = 0;
-  virtual void prepare() = 0;
+  virtual void prepare(size_t di_size, size_t do_size) = 0;
   virtual void run(const unsigned char * data_input, size_t di_size, unsigned char * data_output, size_t do_size) = 0;
   
 protected:

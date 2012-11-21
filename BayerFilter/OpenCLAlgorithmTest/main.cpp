@@ -30,7 +30,7 @@ protected:
     {
       throw OpenCLAlgorithmException("Not implemented", 0);
     }
-    void prepare()
+    void prepare(size_t di_size, size_t do_size)
     {
       throw OpenCLAlgorithmException("Not implemented", 0);
     }

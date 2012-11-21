@@ -7,11 +7,12 @@
 
 OpenCLImageFilter::OpenCLImageFilter(std::string filename, cl_uchar mode)
 {
-  algorithm = new OpenCLBayerFilterImage();
+  algorithm = new OpenCLBayerFilterFloat();
   setInputImage(filename);
 
   algorithm->setDevice(OpenCLDevice::getDevices().front());
-  algorithm->prepare();
+  algorithm->setParams(OpenCLBayerFilterParams(output_image.cols, output_image.rows, mode, BFIOCL_MODE_BGR));
+  algorithm->prepare(input_image.total()*input_image.elemSize(), output_image.total()*output_image.elemSize());
   this->mode = mode;
 }
 
@@ -104,7 +105,6 @@ void OpenCLImageFilter::run()
   try
   {
     uchar * input_data = input_image.data;
-    algorithm->setParams(OpenCLBayerFilterParams(output_image.cols, output_image.rows, mode, BFIOCL_MODE_BGR));
     algorithm->run(input_data, 
 		  input_image.total()*input_image.elemSize(),
 		  output_image.data,
