@@ -7,7 +7,7 @@
 
 OpenCLImageFilter::OpenCLImageFilter(std::string filename, cl_uchar mode)
 {
-  algorithm = new OpenCLBayerFilterFloat();
+  algorithm = new OpenCLBayerFilterImage();
   setInputImage(filename);
 
   algorithm->setDevice(OpenCLDevice::getDevices().front());

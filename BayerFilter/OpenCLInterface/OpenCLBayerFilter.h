@@ -54,6 +54,7 @@ protected:
   virtual void getResult(unsigned char* data_output, size_t do_size) = 0;
   virtual void releaseMem();
   virtual void createKernel() = 0;
+  virtual void copyDataToGPU(const unsigned char* data_input, size_t di_size) = 0;
 
   //work size
   size_t global_work_size[2];
@@ -70,14 +71,16 @@ class OpenCLBayerFilterFloat : public OpenCLBayerFilter
 {
   void setKernelArgs(size_t di_size, size_t do_size);
   void createKernel();
-  virtual void getResult(unsigned char* data_output, size_t do_size);
+  void getResult(unsigned char* data_output, size_t do_size);
+  void copyDataToGPU(const unsigned char* data_input, size_t di_size);
 };
 
 class OpenCLBayerFilterImage : public OpenCLBayerFilter
 {
   void setKernelArgs(size_t di_size, size_t do_size);
   void createKernel();
-  virtual void getResult(unsigned char* data_output, size_t do_size);
+  void getResult(unsigned char* data_output, size_t do_size);
+  void copyDataToGPU(const unsigned char* data_input, size_t di_size);
   void releaseMem();
   cl_sampler sampler;
 };
