@@ -144,9 +144,9 @@ int main (int argv, char * argc[])
         }
       else
         {
-          cv::imshow ("Input Image", filter.getInputImage ());
+          //cv::imshow ("Input Image", filter.getInputImage ());
           cv::imshow ("Output Image", filter.getOutputImage ());
-          cv::imshow ("Output Image original", filter.getOutputImageOpenCV ());
+          //cv::imshow ("Output Image original", filter.getOutputImageOpenCV ());
           //cv::imwrite("tmp_OpenCV.bmp", filter.getOutputImageOpenCV());
 
           while (cv::waitKey (10) < 0)
@@ -156,7 +156,7 @@ int main (int argv, char * argc[])
         }
 
     }
-  catch (OpenCLDeviceException e)
+  catch (OpenCLException e)
     {
       std::cout << e.getFullMessage () << "\n";
     }

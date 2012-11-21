@@ -81,8 +81,8 @@ cv::Mat OpenCLImageFilter::getInputImage() const
 cv::Mat OpenCLImageFilter::getOutputImage()
 {
   run();
-  //cv::Vec3f t = output_image.at<cv::Vec3f>(100, 30);
-  //std::cout << "Pixel(100,30): " << (float) t[0] << ", " << (float) t[1] << ", " << (float) t[2] << "\n";
+  cv::Vec4f t = output_image.at<cv::Vec4f>(100, 30);
+  std::cout << "Pixel(100,30): " << (float) t[0] << ", " << (float) t[1] << ", " << (float) t[2] << ", " << (float) t[3] << "\n";
   std::cout << algorithm->getTimeConsumed() << "\n";
   return output_image;  
 }
