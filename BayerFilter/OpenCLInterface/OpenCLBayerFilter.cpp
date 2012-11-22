@@ -12,6 +12,7 @@ OpenCLBayerFilter::OpenCLBayerFilter()
 {
   input = output = kparams = NULL;
   source_file = "bayer.cl";
+  input_element_size = sizeof(float);
 }
 
 OpenCLBayerFilter::~OpenCLBayerFilter()
@@ -62,6 +63,7 @@ void OpenCLBayerFilter::releaseMem()
 OpenCLBayerFilterFloat::OpenCLBayerFilterFloat()
 {
   kernel_name = "bayer";
+  output_element_size = sizeof(float) * 3;//3 channels
 }
 
 
@@ -111,6 +113,7 @@ void OpenCLBayerFilterFloat::getResult (unsigned char* data_output, size_t do_si
 OpenCLBayerFilterImage::OpenCLBayerFilterImage()
 {
   kernel_name = "bayer_image";
+  output_element_size = sizeof(float) * 4; //four channels
 }
 
 void OpenCLBayerFilterImage::copyDataToGPU(const unsigned char* data_input, size_t di_size)

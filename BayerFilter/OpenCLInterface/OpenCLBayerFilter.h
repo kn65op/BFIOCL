@@ -34,7 +34,7 @@ public:
  * 
  * It use float as parameter to OpenCL kernel.
  */
-class OpenCLBayerFilter : public OpenCLAlgorithm
+class OpenCLBayerFilter : public OpenCLImageAlgorithm
 {
 
 public:

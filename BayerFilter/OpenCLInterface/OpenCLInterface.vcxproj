@@ -73,6 +73,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="OpenCLAlgorithm.h" />
+    <ClInclude Include="OpenCLAlgorithmsStream.h" />
     <ClInclude Include="OpenCLBayerFilter.h" />
     <ClInclude Include="OpenCLDevice.h" />
     <ClInclude Include="OpenCLException.h" />
@@ -80,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenCLAlgorithm.cpp" />
+    <ClCompile Include="OpenCLAlgorithmsStream.cpp" />
     <ClCompile Include="OpenCLBayerFilter.cpp" />
     <ClCompile Include="OpenCLDevice.cpp" />
     <ClCompile Include="OpenCLException.cpp" />

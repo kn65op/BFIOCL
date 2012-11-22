@@ -39,7 +39,6 @@ protected:
  
   cl_kernel kernel;
   cl_program program;  
-  cl_command_queue command_queue;
 
   //kernel name
   std::string kernel_name;
@@ -51,5 +50,19 @@ protected:
 
   //cl_mem for input and output 
   cl_mem input, output;
+
 };
 
+class OpenCLImageAlgorithm : public OpenCLAlgorithm
+{
+protected:
+  //size of elements inputs and outputs kernel
+  size_t input_element_size;
+  size_t output_element_size;
+
+  //pure virtual functions
+  virtual void prepareForStream();
+
+
+  friend class OpenCLAlgorithmsStream;
+};
