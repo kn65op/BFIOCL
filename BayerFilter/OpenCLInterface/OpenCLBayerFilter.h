@@ -42,7 +42,6 @@ public:
   ~OpenCLBayerFilter();
   virtual void setParams(const OpenCLAlgorithmParams& params);
   void setParams(const OpenCLBayerFilterParams& params);
-  virtual void prepare(size_t di_size, size_t do_siz);
   virtual void run(const unsigned char* data_input, size_t di_size, unsigned char* data_output, size_t do_size);
   
 protected:
@@ -50,10 +49,8 @@ protected:
   OpenCLBayerFilterParams params;
 
   //function that differ for methods, 
-  virtual void setKernelArgs(size_t di_size, size_t do_size) = 0;
   virtual void getResult(unsigned char* data_output, size_t do_size) = 0;
   virtual void releaseMem();
-  virtual void createKernel() = 0;
   virtual void copyDataToGPU(const unsigned char* data_input, size_t di_size) = 0;
 
   //work size
@@ -64,21 +61,27 @@ protected:
   cl_uchar kernel_params[kernel_params_size];
 
   //cl_mems
-  cl_mem kparams, input, output;
+  cl_mem kparams;
 };
 
 class OpenCLBayerFilterFloat : public OpenCLBayerFilter
 {
+public:
+  OpenCLBayerFilterFloat();
+
+private:
   void setKernelArgs(size_t di_size, size_t do_size);
-  void createKernel();
   void getResult(unsigned char* data_output, size_t do_size);
   void copyDataToGPU(const unsigned char* data_input, size_t di_size);
 };
 
 class OpenCLBayerFilterImage : public OpenCLBayerFilter
 {
+public:
+  OpenCLBayerFilterImage();
+
+private:
   void setKernelArgs(size_t di_size, size_t do_size);
-  void createKernel();
   void getResult(unsigned char* data_output, size_t do_size);
   void copyDataToGPU(const unsigned char* data_input, size_t di_size);
   void releaseMem();

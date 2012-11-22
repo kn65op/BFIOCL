@@ -2,6 +2,11 @@
 
 #include <iostream>
 
+#define ASSERT_OPENCL_ERR(ERR,MSG) if(ERR != CL_SUCCESS) \
+{ \
+  throw OpenCLAlgorithmException(MSG, ERR); \
+}
+
 OpenCLAlgorithm::OpenCLAlgorithm(void)
 {
   kernel = NULL;
@@ -58,4 +63,16 @@ void OpenCLAlgorithm::enqueueNDRangeKernelWithTimeMeasurment(cl_uint work_dim, s
 double OpenCLAlgorithm::getTimeConsumed() const
 {
   return total_time;
+}
+
+void OpenCLAlgorithm::prepare(size_t di_size, size_t do_size)
+{
+  command_queue = device.getCommandQueue();
+  program = device.createAndBuildProgramFromFile(source_file);
+ 
+  cl_int err;
+  kernel = clCreateKernel(program, kernel_name.c_str(), &err);
+  ASSERT_OPENCL_ERR(err, "Cant create kernel");
+
+  setKernelArgs(di_size, do_size);
 }

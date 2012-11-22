@@ -11,6 +11,7 @@ const std::string OpenCLBayerFilter::SOURCEFILE = "bayer.cl";
 OpenCLBayerFilter::OpenCLBayerFilter()
 {
   input = output = kparams = NULL;
+  source_file = "bayer.cl";
 }
 
 OpenCLBayerFilter::~OpenCLBayerFilter()
@@ -56,22 +57,13 @@ void OpenCLBayerFilter::releaseMem()
   input = output = kparams = NULL;
 }
 
-void OpenCLBayerFilter::prepare(size_t di_size, size_t do_size)
-{
-  command_queue = device.getCommandQueue();
-  program = device.createAndBuildProgramFromFile(OpenCLBayerFilter::SOURCEFILE);
-  createKernel();
-  setKernelArgs(di_size, do_size);
-}
-
 /************** FLOAT *************************/
 
-void OpenCLBayerFilterFloat::createKernel()
-{ 
-  cl_int err;
-  kernel = clCreateKernel(program, "bayer", &err);
-  ASSERT_OPENCL_ERR(err, "Cant create kernel");
+OpenCLBayerFilterFloat::OpenCLBayerFilterFloat()
+{
+  kernel_name = "bayer";
 }
+
 
 void OpenCLBayerFilterFloat::copyDataToGPU(const unsigned char* data_input, size_t di_size)
 {
@@ -86,6 +78,8 @@ void OpenCLBayerFilterFloat::copyDataToGPU(const unsigned char* data_input, size
 
 void OpenCLBayerFilterFloat::setKernelArgs(size_t di_size, size_t do_size)
 {
+  releaseMem();
+
   cl_int err;
     
   kparams = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY, sizeof(kernel_params),NULL, &err);
@@ -114,11 +108,9 @@ void OpenCLBayerFilterFloat::getResult (unsigned char* data_output, size_t do_si
 
 /************************* IMAGE ************************************/
 
-void OpenCLBayerFilterImage::createKernel()
-{ 
-  cl_int err;
-  kernel = clCreateKernel(program, "bayer_image", &err);
-  ASSERT_OPENCL_ERR(err, "Cant create kernel");
+OpenCLBayerFilterImage::OpenCLBayerFilterImage()
+{
+  kernel_name = "bayer_image";
 }
 
 void OpenCLBayerFilterImage::copyDataToGPU(const unsigned char* data_input, size_t di_size)
@@ -137,6 +129,8 @@ void OpenCLBayerFilterImage::copyDataToGPU(const unsigned char* data_input, size
 
 void OpenCLBayerFilterImage::setKernelArgs (size_t di_size, size_t do_size)
 {
+  releaseMem();
+
   cl_int err;
   cl_image_format input_format;
   cl_image_format output_format;
@@ -155,8 +149,8 @@ void OpenCLBayerFilterImage::setKernelArgs (size_t di_size, size_t do_size)
   output = clCreateImage2D(device.getContext(), CL_MEM_WRITE_ONLY, &output_format, params.width, params.height, 0, NULL, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating image2D for output");
 
-  sampler = clCreateSampler(device.getContext(), CL_TRUE, CL_ADDRESS_MIRRORED_REPEAT, CL_FILTER_LINEAR, &err);
-  ASSERT_OPENCL_ERR(err, "Error while creating sampler");
+  /*sampler = clCreateSampler(device.getContext(), CL_TRUE, CL_ADDRESS_MIRRORED_REPEAT, CL_FILTER_LINEAR, &err);
+  ASSERT_OPENCL_ERR(err, "Error while creating sampler");*/
 
   err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*) &kparams);
   ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0")
@@ -172,7 +166,7 @@ void OpenCLBayerFilterImage::setKernelArgs (size_t di_size, size_t do_size)
 void OpenCLBayerFilterImage::releaseMem()
 {
   OpenCLBayerFilter::releaseMem();
-  clReleaseSampler(sampler);
+  //clReleaseSampler(sampler);
 }
 
 void OpenCLBayerFilterImage::getResult (unsigned char* data_output, size_t do_size)

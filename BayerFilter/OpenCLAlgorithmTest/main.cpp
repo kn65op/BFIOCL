@@ -38,6 +38,10 @@ protected:
     {
       throw OpenCLAlgorithmException("Not implemented", 0);
     }
+    void setKernelArgs(size_t di_size, size_t do_size)
+    {
+      throw OpenCLAlgorithmException("Not implemented", 0);
+    }
   };
 
   OpenCLDevice device;
