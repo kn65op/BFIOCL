@@ -1,5 +1,7 @@
 #include "OpenCLAlgorithmsStream.h"
 
+#include <algorithm>
+
 #define ASSERT_OPENCL_ERR(ERR,MSG) if(ERR != CL_SUCCESS) \
 { \
   throw OpenCLAlgorithmException(MSG, ERR); \
@@ -44,5 +46,66 @@ void OpenCLAlgorithmsStream::setDataSize(size_t w, size_t h)
 
 void OpenCLAlgorithmsStream::prepare()
 {
-  std::for_each(
+  //create all kernels
+  std::for_each(algorithms.begin(), algorithms.end(), [this](OpenCLImageAlgorithm* al)
+  {
+    al->prepareForStream(device.getCommandQueue(), device.getContext());
+  });
+
+  //creates input and outputs
+  cl_int err;
+
+  //input //TODO:Change to images
+  input = clCreateImage2D(context, CL_MEM_READ_ONLY, &algorithms.front()->input_format, width, height, 0, NULL, &err);
+  ASSERT_OPENCL_ERR(err, "Error while creating image2D for input");
+  
+  err = clSetKernelArg(algorithms.front()->kernel, 0, sizeof(cl_mem), (void*) &input);
+  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0 of first algorithm");
+  
+  //output
+  output = clCreateImage2D(context, CL_MEM_WRITE_ONLY, &algorithms.back()->output_format, width, height, 0, NULL, &err);
+  ASSERT_OPENCL_ERR(err, "Error while creating image2D for output");
+  
+  err = clSetKernelArg(algorithms.back()->kernel, 1, sizeof(cl_mem), (void*) &input);
+  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 1 of last algorithm");
+
+  //middle - starts with first and finish in one before last
+  auto end = --algorithms.end();
+  for (auto al = algorithms.begin(); al != end; ++al)
+  {
+    cl_mem mem_tmp = clCreateImage2D(context, CL_MEM_WRITE_ONLY, &(*al)->output_format, width, height, 0, NULL, &err);
+    ASSERT_OPENCL_ERR(err, "Error while creating image2D for output");
+
+    //set kernel arg for this algorithm
+    err = clSetKernelArg((*al)->kernel, 1, sizeof(cl_mem), (void*) &mem_tmp);
+    ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0 of middle algorithm: " + (*al)->kernel_name);
+
+    //set kernel arg for next algorithm
+    err = clSetKernelArg((*++al)->kernel, 0, sizeof(cl_mem), (void*) &mem_tmp);
+    ASSERT_OPENCL_ERR(err, "Cant set kernel arg 1 of middle algorithm: " + (*al)->kernel_name);
+
+    //save cl_mem for releasing
+    mems.push_back(mem_tmp);
+  }
+}
+
+void OpenCLAlgorithmsStream::processImage(void * data_input, void * data_output)
+{
+  cl_int err;
+  
+  size_t origin[] = {0,0,0};
+  size_t region[] = {width, height, 1};
+
+  const size_t global_work_size[] = {width, height};
+  
+  err = clEnqueueWriteImage(command_queue, input, CL_TRUE, origin, region, 0, 0, data_input, 0, NULL, NULL);
+  ASSERT_OPENCL_ERR(err, "Cant set equeue write input image");
+
+  std::for_each(algorithms.begin(), algorithms.end(), [&global_work_size, this](OpenCLImageAlgorithm *al)
+  {
+    al->runStream(global_work_size);
+  });
+
+  err = clEnqueueReadImage(command_queue, output, CL_TRUE, origin, region, 0, 0, data_output, 0, NULL, NULL);
+  ASSERT_OPENCL_ERR(err, "Cant enqueue read buffer")
 }

@@ -56,7 +56,7 @@ __kernel void  bayer( __constant uchar * params, __global float* input, __global
 
 const sampler_t sampler = CLK_NORMALIZED_COORDS_FALSE | CLK_ADDRESS_MIRRORED_REPEAT | CLK_FILTER_NEAREST;
   
-__kernel void  bayer_image( __constant uchar * params,  __read_only image2d_t input, __write_only image2d_t output) 
+__kernel void  bayer_image(__read_only image2d_t input, __write_only image2d_t output, __constant uchar * params) 
 {
   
   const int i = get_global_id(1); //row
@@ -114,13 +114,12 @@ __kernel void  bayer_image( __constant uchar * params,  __read_only image2d_t in
       green = (p_tt.s0 + p_bb.s0 + p_ll.s0 + p_rr.s0) / 4.0;
       blue = (p_tl.s0 + p_tr.s0 + p_bl.s0 + p_br.s0) / 4.0;
   }
-  float4 output_pixel;
-  output_pixel.s0 = blue;
-  output_pixel.s1 = green;
-  output_pixel.s2 = red;
+  pixel.s0 = blue;
+  pixel.s1 = green;
+  pixel.s2 = red;
 //   output_pixel.s0 = 0;
 //   output_pixel.s1 = 0;
 //   output_pixel.s2 = 0;
   
-  write_imagef(output, (int2)(i,j), output_pixel);
+  write_imagef(output, (int2)(i,j), pixel);
 }

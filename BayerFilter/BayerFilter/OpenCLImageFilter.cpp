@@ -119,5 +119,3 @@ void OpenCLImageFilter::run()
 
 
 
-
-

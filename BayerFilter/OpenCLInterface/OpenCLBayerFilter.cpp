@@ -12,7 +12,6 @@ OpenCLBayerFilter::OpenCLBayerFilter()
 {
   input = output = kparams = NULL;
   source_file = "bayer.cl";
-  input_element_size = sizeof(float);
 }
 
 OpenCLBayerFilter::~OpenCLBayerFilter()
@@ -58,12 +57,23 @@ void OpenCLBayerFilter::releaseMem()
   input = output = kparams = NULL;
 }
 
+void OpenCLBayerFilter::setKernelArgsForStream()
+{
+  cl_int err;
+    
+  kparams = clCreateBuffer(context,CL_MEM_READ_ONLY, sizeof(kernel_params),NULL, &err);
+  ASSERT_OPENCL_ERR(err, "Error while creating buffer kparams");
+
+  err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*) &kparams);
+  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0")
+}
+
 /************** FLOAT *************************/
 
 OpenCLBayerFilterFloat::OpenCLBayerFilterFloat()
 {
   kernel_name = "bayer";
-  output_element_size = sizeof(float) * 3;//3 channels
+  //output_element_size = sizeof(float) * 3;//3 channels
 }
 
 
@@ -84,21 +94,21 @@ void OpenCLBayerFilterFloat::setKernelArgs(size_t di_size, size_t do_size)
 
   cl_int err;
     
-  kparams = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY, sizeof(kernel_params),NULL, &err);
+  kparams = clCreateBuffer(context,CL_MEM_READ_ONLY, sizeof(kernel_params),NULL, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating buffer kparams");
-  input = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY,di_size,NULL, &err);
+  input = clCreateBuffer(context,CL_MEM_READ_ONLY,di_size,NULL, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating buffer input");
-  output = clCreateBuffer(device.getContext(),CL_MEM_WRITE_ONLY,do_size,NULL, &err);
+  output = clCreateBuffer(context,CL_MEM_WRITE_ONLY,do_size,NULL, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating buffer output");
-      
-  err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*) &kparams);
+
+  err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*) &input);
   ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0")
-    
-  err = clSetKernelArg(kernel, 1, sizeof(cl_mem), (void*) &input);
-  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 1")
   
-  err = clSetKernelArg(kernel, 2, sizeof(cl_mem), (void*) &output);
-  ASSERT_OPENCL_ERR(err,"Cant set kernel arg 2")
+  err = clSetKernelArg(kernel, 1, sizeof(cl_mem), (void*) &output);
+  ASSERT_OPENCL_ERR(err,"Cant set kernel arg 1")
+
+  err = clSetKernelArg(kernel, 2, sizeof(cl_mem), (void*) &kparams);
+  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 2")
 }
 
 
@@ -113,7 +123,12 @@ void OpenCLBayerFilterFloat::getResult (unsigned char* data_output, size_t do_si
 OpenCLBayerFilterImage::OpenCLBayerFilterImage()
 {
   kernel_name = "bayer_image";
+  input_element_size = sizeof(float);
+  input_format.image_channel_order = CL_LUMINANCE;
+  input_format.image_channel_data_type = CL_FLOAT;
   output_element_size = sizeof(float) * 4; //four channels
+  output_format.image_channel_order = CL_RGBA;
+  output_format.image_channel_data_type= CL_FLOAT;
 }
 
 void OpenCLBayerFilterImage::copyDataToGPU(const unsigned char* data_input, size_t di_size)
@@ -135,34 +150,28 @@ void OpenCLBayerFilterImage::setKernelArgs (size_t di_size, size_t do_size)
   releaseMem();
 
   cl_int err;
-  cl_image_format input_format;
-  cl_image_format output_format;
-  output_format.image_channel_data_type = CL_FLOAT;
-  input_format.image_channel_data_type = CL_FLOAT;
-  input_format.image_channel_order = CL_LUMINANCE;
-  output_format.image_channel_order = CL_RGBA;
   
   //create structures
-  kparams = clCreateBuffer(device.getContext(),CL_MEM_READ_ONLY, sizeof(kernel_params),NULL, &err);
+  kparams = clCreateBuffer(context,CL_MEM_READ_ONLY, sizeof(kernel_params),NULL, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating buffer kparams");
     
-  input = clCreateImage2D(device.getContext(), CL_MEM_READ_ONLY, &input_format, params.width, params.height, 0, NULL, &err);
+  input = clCreateImage2D(context, CL_MEM_READ_ONLY, &input_format, params.width, params.height, 0, NULL, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating image2D for input");
 
-  output = clCreateImage2D(device.getContext(), CL_MEM_WRITE_ONLY, &output_format, params.width, params.height, 0, NULL, &err);
+  output = clCreateImage2D(context, CL_MEM_WRITE_ONLY, &output_format, params.width, params.height, 0, NULL, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating image2D for output");
 
-  /*sampler = clCreateSampler(device.getContext(), CL_TRUE, CL_ADDRESS_MIRRORED_REPEAT, CL_FILTER_LINEAR, &err);
+  /*sampler = clCreateSampler(context, CL_TRUE, CL_ADDRESS_MIRRORED_REPEAT, CL_FILTER_LINEAR, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating sampler");*/
 
-  err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*) &kparams);
-  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0")
+  err = clSetKernelArg(kernel, 2, sizeof(cl_mem), (void*) &kparams);
+  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 2")
     
-  err = clSetKernelArg(kernel, 1, sizeof(cl_mem), (void*) &input);
-  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 1")
+  err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*) &input);
+  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0")
   
-  err = clSetKernelArg(kernel, 2, sizeof(cl_mem), (void*) &output);
-  ASSERT_OPENCL_ERR(err,"Cant set kernel arg 2")
+  err = clSetKernelArg(kernel, 1, sizeof(cl_mem), (void*) &output);
+  ASSERT_OPENCL_ERR(err,"Cant set kernel arg 1")
   //TODO;
 }
 
@@ -178,4 +187,25 @@ void OpenCLBayerFilterImage::getResult (unsigned char* data_output, size_t do_si
   size_t region[] = {params.width, params.height, 1};
   cl_int err = clEnqueueReadImage(command_queue, output, CL_TRUE, origin, region, 0, 0, (void*)data_output, 0, NULL, NULL);
   ASSERT_OPENCL_ERR(err, "Cant enqueue read buffer")
+}
+
+void OpenCLBayerFilterImage::copyDataToGPUStream()
+{
+  cl_int err;
+
+  err = clEnqueueWriteBuffer(command_queue, kparams,CL_TRUE, 0, sizeof(kernel_params), kernel_params, 0, NULL, NULL);
+  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer");
+}
+
+void OpenCLBayerFilterImage::setKernelArgsForStream()
+{
+  //TODO: Release memory
+  cl_int err;
+  
+  //create structures
+  kparams = clCreateBuffer(context,CL_MEM_READ_ONLY, sizeof(kernel_params),NULL, &err);
+  ASSERT_OPENCL_ERR(err, "Error while creating buffer kparams");
+
+  err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*) &kparams);
+  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0")  
 }

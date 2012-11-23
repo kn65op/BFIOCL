@@ -27,6 +27,7 @@ public:
   virtual void enqueueNDRangeKernelWithTimeMeasurment(cl_uint work_dim, size_t * global_work_offset, const size_t *global_work_size, const size_t *local_work_size, cl_uint num_events_in_wait_list);
   double getTimeConsumed() const;
   virtual void prepare(size_t di_size, size_t do_size);
+  virtual void releaseMem() = 0; //TODO: unpure 
 
   //pure virtual functions
   virtual void setParams(const OpenCLAlgorithmParams & params) = 0;
@@ -39,6 +40,8 @@ protected:
  
   cl_kernel kernel;
   cl_program program;  
+  cl_command_queue command_queue;
+  cl_context context;
 
   //kernel name
   std::string kernel_name;
@@ -51,18 +54,27 @@ protected:
   //cl_mem for input and output 
   cl_mem input, output;
 
+private:
+  void setDevice();
+
 };
 
-class OpenCLImageAlgorithm : public OpenCLAlgorithm
+class OpenCLImageAlgorithm : virtual public OpenCLAlgorithm
 {
 protected:
   //size of elements inputs and outputs kernel
   size_t input_element_size;
   size_t output_element_size;
+  //format of input and output
+  cl_image_format input_format;
+  cl_image_format output_format;
+  
+  virtual void prepareForStream(cl_command_queue cc, cl_context c);
+  virtual void runStream(const size_t * global_work_size);
+  virtual void copyDataToGPUStream() = 0;
 
   //pure virtual functions
-  virtual void prepareForStream();
-
+  virtual void setKernelArgsForStream() = 0;
 
   friend class OpenCLAlgorithmsStream;
 };

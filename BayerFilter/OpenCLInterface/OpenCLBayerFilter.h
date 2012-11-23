@@ -34,7 +34,7 @@ public:
  * 
  * It use float as parameter to OpenCL kernel.
  */
-class OpenCLBayerFilter : public OpenCLImageAlgorithm
+class OpenCLBayerFilter : virtual public OpenCLAlgorithm
 {
 
 public:
@@ -52,6 +52,9 @@ protected:
   virtual void getResult(unsigned char* data_output, size_t do_size) = 0;
   virtual void releaseMem();
   virtual void copyDataToGPU(const unsigned char* data_input, size_t di_size) = 0;
+
+  //for stream
+  void setKernelArgsForStream();
 
   //work size
   size_t global_work_size[2];
@@ -75,7 +78,7 @@ private:
   void copyDataToGPU(const unsigned char* data_input, size_t di_size);
 };
 
-class OpenCLBayerFilterImage : public OpenCLBayerFilter
+class OpenCLBayerFilterImage : virtual public OpenCLBayerFilter, public OpenCLImageAlgorithm
 {
 public:
   OpenCLBayerFilterImage();
@@ -85,7 +88,11 @@ private:
   void getResult(unsigned char* data_output, size_t do_size);
   void copyDataToGPU(const unsigned char* data_input, size_t di_size);
   void releaseMem();
+  void copyDataToGPUStream();
+  void setKernelArgsForStream();
+
   cl_sampler sampler;
+#pragma warning (disable :4250) //for disable warning in vs about inhertance via dominance, may not work in gcc
 };
 
 

@@ -23,10 +23,14 @@ public:
   void processImage(void * data_input, void * data_output);
   
 private:
-  OpenCLDevice& device;
+  OpenCLDevice device;
 
   std::list<OpenCLImageAlgorithm*> algorithms;
   size_t width, height;
+  cl_mem input, output;
+  std::list<cl_mem> mems;
+  cl_context context;
+  cl_command_queue command_queue;
 };
 
 

@@ -42,6 +42,10 @@ protected:
     {
       throw OpenCLAlgorithmException("Not implemented", 0);
     }
+    void releaseMem()
+    {
+      throw OpenCLAlgorithmException("Not implemented", 0);
+    }
   };
 
   OpenCLDevice device;

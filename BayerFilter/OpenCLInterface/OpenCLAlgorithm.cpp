@@ -22,6 +22,7 @@ OpenCLAlgorithm::OpenCLAlgorithm(const OpenCLDevice & dev)
   kernel = NULL;
   program = NULL;
   device = dev;
+  setDevice();
 }
 
 OpenCLAlgorithm::~OpenCLAlgorithm(void)
@@ -35,6 +36,7 @@ void OpenCLAlgorithm::setDevice(const OpenCLDevice & dev)
   if (dev.isValid())
   {
     device = dev;
+    setDevice();
     return;
   }
   throw OpenCLAlgorithmException("Invalid Device");
@@ -67,7 +69,6 @@ double OpenCLAlgorithm::getTimeConsumed() const
 
 void OpenCLAlgorithm::prepare(size_t di_size, size_t do_size)
 {
-  command_queue = device.getCommandQueue();
   program = device.createAndBuildProgramFromFile(source_file);
  
   cl_int err;
@@ -75,4 +76,30 @@ void OpenCLAlgorithm::prepare(size_t di_size, size_t do_size)
   ASSERT_OPENCL_ERR(err, "Cant create kernel");
 
   setKernelArgs(di_size, do_size);
+}
+
+void OpenCLAlgorithm::setDevice()
+{
+  command_queue = device.getCommandQueue();
+  context = device.getContext();
+}
+
+void OpenCLImageAlgorithm::prepareForStream(cl_command_queue cc, cl_context c)
+{
+  command_queue = cc;
+  context = c;
+
+  program = device.createAndBuildProgramFromFile(source_file);
+ 
+  cl_int err;
+  kernel = clCreateKernel(program, kernel_name.c_str(), &err);
+  ASSERT_OPENCL_ERR(err, "Cant create kernel");
+
+  setKernelArgsForStream();
+}
+
+void OpenCLImageAlgorithm::runStream(const size_t * global_work_size)
+{
+  copyDataToGPUStream();
+  enqueueNDRangeKernelWithTimeMeasurment(2, NULL, global_work_size, NULL, 0);
 }

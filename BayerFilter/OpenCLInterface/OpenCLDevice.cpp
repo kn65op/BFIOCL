@@ -24,7 +24,7 @@ OpenCLDevice::OpenCLDevice(cl_platform_id pid, cl_device_id did)
 
 OpenCLDevice::OpenCLDevice(const OpenCLDevice & orig)
 {
-  context = NULL;
+  context = NULL; //TODO: copy this also
   command_queue = NULL;
   copyFrom(orig);
 }
