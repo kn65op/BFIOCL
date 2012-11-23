@@ -123,10 +123,8 @@ void OpenCLBayerFilterFloat::getResult (unsigned char* data_output, size_t do_si
 OpenCLBayerFilterImage::OpenCLBayerFilterImage()
 {
   kernel_name = "bayer_image";
-  input_element_size = sizeof(float);
   input_format.image_channel_order = CL_LUMINANCE;
   input_format.image_channel_data_type = CL_FLOAT;
-  output_element_size = sizeof(float) * 4; //four channels
   output_format.image_channel_order = CL_RGBA;
   output_format.image_channel_data_type= CL_FLOAT;
 }

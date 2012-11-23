@@ -62,18 +62,15 @@ private:
 class OpenCLImageAlgorithm : virtual public OpenCLAlgorithm
 {
 protected:
-  //size of elements inputs and outputs kernel
-  size_t input_element_size;
-  size_t output_element_size;
   //format of input and output
   cl_image_format input_format;
   cl_image_format output_format;
   
   virtual void prepareForStream(cl_command_queue cc, cl_context c);
   virtual void runStream(const size_t * global_work_size);
-  virtual void copyDataToGPUStream() = 0;
 
   //pure virtual functions
+  virtual void copyDataToGPUStream() = 0;
   virtual void setKernelArgsForStream() = 0;
 
   friend class OpenCLAlgorithmsStream;

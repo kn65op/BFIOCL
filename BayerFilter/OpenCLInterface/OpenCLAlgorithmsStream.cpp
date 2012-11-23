@@ -20,7 +20,9 @@ OpenCLAlgorithmsStream::~OpenCLAlgorithmsStream(void)
 
 void OpenCLAlgorithmsStream::pushAlgorithm(OpenCLImageAlgorithm * al)
 {
-  if (!algorithms.empty() && algorithms.back()->output_element_size == al->input_element_size) //not first algorithm - need to check if data types for output of last algorithm and input of al is same
+  if (!algorithms.empty() &&
+    algorithms.back()->output_format.image_channel_data_type == al->input_format.image_channel_data_type &&
+    algorithms.back()->output_format.image_channel_order == al->input_format.image_channel_order) //not first algorithm - need to check if data types for output of last algorithm and input of al is same
   {//TODO: more validations
     ASSERT_OPENCL_ERR(0, "Wrog data types");
   }
@@ -72,7 +74,8 @@ void OpenCLAlgorithmsStream::prepare()
 
   //middle - starts with first and finish in one before last
   auto end = --algorithms.end();
-  for (auto al = algorithms.begin(); al != end; ++al)
+  auto next = ++algorithms.begin();
+  for (auto al = algorithms.begin(); al != end; ++al, ++next)
   {
     cl_mem mem_tmp = clCreateImage2D(context, CL_MEM_READ_WRITE, &(*al)->output_format, width, height, 0, NULL, &err);
     ASSERT_OPENCL_ERR(err, "Error while creating image2D for output");
@@ -82,7 +85,7 @@ void OpenCLAlgorithmsStream::prepare()
     ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0 of middle algorithm: " + (*al)->kernel_name);
 
     //set kernel arg for next algorithm
-    err = clSetKernelArg((*++al)->kernel, 0, sizeof(cl_mem), (void*) &mem_tmp);
+    err = clSetKernelArg((*next)->kernel, 0, sizeof(cl_mem), (void*) &mem_tmp);
     ASSERT_OPENCL_ERR(err, "Cant set kernel arg 1 of middle algorithm: " + (*al)->kernel_name);
 
     //save cl_mem for releasing
