@@ -138,7 +138,7 @@ void OpenCLBayerFilterImage::copyDataToGPU(const unsigned char* data_input, size
   size_t origin[] = {0,0,0};
   size_t region[] = {params.width, params.height, 1};
 
-  err = clEnqueueWriteBuffer(command_queue, kparams,CL_TRUE, 0, sizeof(kernel_params), kernel_params, 0, NULL, NULL);
+  err = clEnqueueWriteBuffer(command_queue, kparams, CL_TRUE, 0, sizeof(kernel_params), kernel_params, 0, NULL, NULL);
   ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer");
     
   err = clEnqueueWriteImage(command_queue, input, CL_TRUE, origin, region, 0, 0, (void*)data_input, 0, NULL, NULL);
@@ -206,6 +206,6 @@ void OpenCLBayerFilterImage::setKernelArgsForStream()
   kparams = clCreateBuffer(context,CL_MEM_READ_ONLY, sizeof(kernel_params),NULL, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating buffer kparams");
 
-  err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*) &kparams);
-  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0")  
+  err = clSetKernelArg(kernel, 2, sizeof(cl_mem), (void*) &kparams);
+  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 2 - kparams for BayerFilterImage")  
 }

@@ -21,7 +21,7 @@ OpenCLAlgorithmsStream::~OpenCLAlgorithmsStream(void)
 void OpenCLAlgorithmsStream::pushAlgorithm(OpenCLImageAlgorithm * al)
 {
   if (!algorithms.empty() && algorithms.back()->output_element_size == al->input_element_size) //not first algorithm - need to check if data types for output of last algorithm and input of al is same
-  {
+  {//TODO: more validations
     ASSERT_OPENCL_ERR(0, "Wrog data types");
   }
   algorithms.push_back(al);
@@ -45,11 +45,12 @@ void OpenCLAlgorithmsStream::setDataSize(size_t w, size_t h)
 }
 
 void OpenCLAlgorithmsStream::prepare()
-{
+{//TODO: test if algorithms has at least one algorithm
   //create all kernels
   std::for_each(algorithms.begin(), algorithms.end(), [this](OpenCLImageAlgorithm* al)
   {
-    al->prepareForStream(device.getCommandQueue(), device.getContext());
+    al->setDevice(device);
+    al->prepareForStream(command_queue, context);
   });
 
   //creates input and outputs
@@ -66,14 +67,14 @@ void OpenCLAlgorithmsStream::prepare()
   output = clCreateImage2D(context, CL_MEM_WRITE_ONLY, &algorithms.back()->output_format, width, height, 0, NULL, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating image2D for output");
   
-  err = clSetKernelArg(algorithms.back()->kernel, 1, sizeof(cl_mem), (void*) &input);
+  err = clSetKernelArg(algorithms.back()->kernel, 1, sizeof(cl_mem), (void*) &output);
   ASSERT_OPENCL_ERR(err, "Cant set kernel arg 1 of last algorithm");
 
   //middle - starts with first and finish in one before last
   auto end = --algorithms.end();
   for (auto al = algorithms.begin(); al != end; ++al)
   {
-    cl_mem mem_tmp = clCreateImage2D(context, CL_MEM_WRITE_ONLY, &(*al)->output_format, width, height, 0, NULL, &err);
+    cl_mem mem_tmp = clCreateImage2D(context, CL_MEM_READ_WRITE, &(*al)->output_format, width, height, 0, NULL, &err);
     ASSERT_OPENCL_ERR(err, "Error while creating image2D for output");
 
     //set kernel arg for this algorithm
@@ -89,7 +90,7 @@ void OpenCLAlgorithmsStream::prepare()
   }
 }
 
-void OpenCLAlgorithmsStream::processImage(void * data_input, void * data_output)
+void OpenCLAlgorithmsStream::processImage(const void * data_input, void * data_output)
 {
   cl_int err;
   
@@ -108,4 +109,16 @@ void OpenCLAlgorithmsStream::processImage(void * data_input, void * data_output)
 
   err = clEnqueueReadImage(command_queue, output, CL_TRUE, origin, region, 0, 0, data_output, 0, NULL, NULL);
   ASSERT_OPENCL_ERR(err, "Cant enqueue read buffer")
+}
+
+void OpenCLAlgorithmsStream::setDevice(OpenCLDevice & d)
+{
+  if (d.isValid())
+  {
+    device = d;
+    command_queue = device.getCommandQueue();
+    context = device.getContext();
+    return;
+  }
+  throw OpenCLAlgorithmException("Invalid Device");
 }

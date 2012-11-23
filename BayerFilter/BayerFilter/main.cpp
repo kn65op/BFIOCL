@@ -1,5 +1,7 @@
 #include <OpenCLDevice.h>
 #include "OpenCLImageFilter.h"
+#include "BayerFilterStream.h"
+
 #include <iostream>
 #include <list>
 #include <opencv2/highgui/highgui.hpp>
@@ -115,6 +117,25 @@ int main (int argv, char * argc[])
 {
   //list_supported_image_formats ();
   //return 0;
+  try
+  {
+    int i = 2;
+    int inf, outf;
+    uchar mode = (uchar) atoi (argc[1]);
+    BayerFilterStream bfs(1024, 1024, mode);
+    while (i+2 <= argv)
+    {
+      inf = i++;
+      outf = i++;
+      bfs.setFiles(argc[inf], argc[outf]); 
+    }
+  }
+  catch (OpenCLException e)
+  {
+    std::cout << e.getFullMessage () << "\n";
+  }
+
+  return 0;
 
   if (argv < 3)
     {

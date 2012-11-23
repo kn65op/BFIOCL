@@ -20,7 +20,8 @@ public:
 
   void setDataSize(size_t w, size_t h);
   void prepare();
-  void processImage(void * data_input, void * data_output);
+  void processImage(const void * data_input, void * data_output);
+  void setDevice(OpenCLDevice & d);
   
 private:
   OpenCLDevice device;

@@ -196,13 +196,16 @@ void OpenCLDevice::copyFrom(const OpenCLDevice & orig)
   device_id = orig.device_id;
   platform_name = orig.platform_name;
   device_name = orig.device_name;
-  clean();
+  context = orig.context;
+  command_queue = orig.command_queue;
+  //clean();
 }
 
 void OpenCLDevice::clean()
 {
-  if (command_queue) clReleaseCommandQueue(command_queue);
-  if (context) clReleaseContext(context);
+  //TODO: Add releasing - smart ptr
+  //if (command_queue) clReleaseCommandQueue(command_queue);
+  //if (context) clReleaseContext(context);
   command_queue = NULL;
   context = NULL;
 }
