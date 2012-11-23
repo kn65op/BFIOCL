@@ -14,3 +14,19 @@ __kernel void  intToFloatOneChannel(__read_only image2d_t input, __write_only im
   
   write_imagef(output, (int2)(i,j), out);
 }
+
+__kernel void  floatToIntThreeChannels(__read_only image2d_t input, __write_only image2d_t output) 
+{
+  
+  const int i = get_global_id(1); //row
+  const int j = get_global_id(0); //column
+
+  float4 pixel = read_imagef(input, sampler, (int2)(i,j));
+
+  uint4 out;
+  out.s0 = pixel.s0 * 255.0;
+  out.s1 = pixel.s1 * 255.0;
+  out.s2 = pixel.s2 * 255.0;
+  
+  write_imageui(output, (int2)(i,j), out);
+}

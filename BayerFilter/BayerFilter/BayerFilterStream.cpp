@@ -2,6 +2,7 @@
 #include <OpenCLBayerFilter.h>
 #include <OpenCLDevice.h>
 #include <OpenCLIntToFloat.h>
+#include <OpenCLFloatToInt.h>
 
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -17,6 +18,7 @@ BayerFilterStream::BayerFilterStream(int w, int h, cl_uchar mode)
 
   stream.pushAlgorithm(new OpenCLIntToFloat());
   stream.pushAlgorithm(bayer);
+  stream.pushAlgorithm(new OpenCLFloatToInt());
   stream.prepare();
 }
 
@@ -30,9 +32,7 @@ BayerFilterStream::~BayerFilterStream(void)
 void BayerFilterStream::setFiles(std::string in, std::string out)
 {
   cv::Mat input_image_raw = cv::imread(in, -1);
-  cv::Mat tmp;
-  cv::Mat output_image_raw(input_image_raw.size(), CV_32FC4);
+  cv::Mat output_image_raw(input_image_raw.size(), CV_8UC4);
   stream.processImage(input_image_raw.data, output_image_raw.data);
-  output_image_raw.convertTo(tmp, CV_8U, 255);
-  cv::imwrite(out, tmp);
+  cv::imwrite(out, output_image_raw);
 }
