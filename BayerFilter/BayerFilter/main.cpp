@@ -127,6 +127,7 @@ int main (int argv, char * argc[])
     {
       inf = i++;
       outf = i++;
+      
       bfs.setFiles(argc[inf], argc[outf]); 
     }
   }

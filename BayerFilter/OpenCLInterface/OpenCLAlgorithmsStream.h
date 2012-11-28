@@ -22,9 +22,11 @@ public:
   void prepare();
   void processImage(const void * data_input, void * data_output);
   void setDevice(OpenCLDevice & d);
+  double getTime();
   
 private:
   OpenCLDevice device;
+  double time;
 
   std::list<OpenCLImageAlgorithm*> algorithms;
   size_t width, height;

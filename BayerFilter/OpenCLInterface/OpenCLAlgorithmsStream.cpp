@@ -96,6 +96,7 @@ void OpenCLAlgorithmsStream::prepare()
 void OpenCLAlgorithmsStream::processImage(const void * data_input, void * data_output)
 {
   cl_int err;
+  time = 0;
   
   size_t origin[] = {0,0,0};
   size_t region[] = {width, height, 1};
@@ -108,6 +109,7 @@ void OpenCLAlgorithmsStream::processImage(const void * data_input, void * data_o
   std::for_each(algorithms.begin(), algorithms.end(), [&global_work_size, this](OpenCLImageAlgorithm *al)
   {
     al->runStream(global_work_size);
+    time += al->getTimeConsumed();
   });
 
   err = clEnqueueReadImage(command_queue, output, CL_TRUE, origin, region, 0, 0, data_output, 0, NULL, NULL);
@@ -124,4 +126,9 @@ void OpenCLAlgorithmsStream::setDevice(OpenCLDevice & d)
     return;
   }
   throw OpenCLAlgorithmException("Invalid Device");
+}
+
+double OpenCLAlgorithmsStream::getTime()
+{
+  return time;
 }
