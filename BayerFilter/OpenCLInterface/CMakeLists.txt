@@ -10,14 +10,20 @@ set(opencl-interface-srcs
   OpenCLInvertImage.cpp
   OpenCLBayerFilter.cpp
   OpenCLDevice.cpp
-  OpenCLException.cpp)
+  OpenCLException.cpp
+  OpenCLAlgorithmsStream.cpp
+  OpenCLFloatToInt.cpp
+  OpenCLIntToFloat.cpp)
   
 set(opencl-interface-headers
   OpenCLAlgorithm.h
   OpenCLInvertImage.h
   OpenCLBayerFilter.h
   OpenCLDevice.h
-  OpenCLException.h)
+  OpenCLException.h
+  OpenCLAlgorithmsStream.h
+  OpenCLFloatToInt.h
+  OpenCLIntToFloat.h)
 
 message(${OPENCL_INCLUDE_DIR})
 include_directories(${OPENCL_INCLUDE_DIR})

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "openclalgorithm.h"
+#include "OpenCLAlgorithm.h"
 
 class OpenCLIntToFloat : public OpenCLImageAlgorithm
 {
