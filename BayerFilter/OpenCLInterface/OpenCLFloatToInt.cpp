@@ -19,30 +19,30 @@ OpenCLFloatToInt::~OpenCLFloatToInt(void)
 
 void OpenCLFloatToInt::copyDataToGPUStream()
 {
-  //nothing to do now, before there is no other parameters
+  //nothing to do now, because there is no other parameters
 }
 
 void OpenCLFloatToInt::setKernelArgsForStream()
 {
-  //nothing to do now, before there is no other parameters
+  //nothing to do now, because there is no other parameters
 }
 
 void OpenCLFloatToInt::releaseMem ()
 {
-  //nothing to do now, before there is no other parameters
+  //nothing to do now, because there is no other parameters
 }
 
 void OpenCLFloatToInt::setParams (const OpenCLAlgorithmParams& params)
 {
-  //nothing to do now, before there is no other parameters
+  //nothing to do now, because there is no other parameters
 }
 
 void OpenCLFloatToInt::run (const unsigned char* data_input, size_t di_size, unsigned char* data_output, size_t do_size)
 {
-  //nothing to do now, before there is no other parameters
+  //nothing to do now, because there is no other parameters
 }
 
 void OpenCLFloatToInt::setKernelArgs (size_t di_size, size_t do_size)
 {
-  //nothing to do now, before there is no other parameters 
+  //nothing to do now, because there is no other parameters 
 }
