@@ -13,6 +13,7 @@
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>C:\Users\Tomko\Documents\GitHub\BFIOCL\BayerFilter\OpenCLInterface;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_VARIADIC_MAX=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup />
