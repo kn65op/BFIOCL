@@ -16,9 +16,9 @@ BayerFilterStream::BayerFilterStream(int w, int h, cl_uchar mode)
   OpenCLImageAlgorithm* bayer = new OpenCLBayerFilterImage();
   bayer->setParams(OpenCLBayerFilterParams(w, h, mode, BFIOCL_MODE_BGR));
 
-  stream.pushAlgorithm(new OpenCLIntToFloat());
+  //stream.pushAlgorithm(new OpenCLIntToFloat());
   stream.pushAlgorithm(bayer);
-  stream.pushAlgorithm(new OpenCLFloatToInt());
+  //stream.pushAlgorithm(new OpenCLFloatToInt());
   stream.prepare();
 }
 
