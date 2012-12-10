@@ -122,8 +122,7 @@ int main (int argv, char * argc[])
     int i = 2;
     int inf, outf;
     uchar mode = (uchar) atoi (argc[1]);
-    //BayerFilterStream bfs(1024, 1024, mode, 0.8, 0.7, 0.9);
-    BayerFilterStream bfs(1024, 1024, mode, 2.0, 3.5, 3.5);
+    BayerFilterStream bfs(1024, 1024, mode, 0.8, 0.7, 0.9);
     while (i+2 <= argv)
     {
       inf = i++;
