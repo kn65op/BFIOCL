@@ -2,10 +2,17 @@
 
 #include "OpenCLAlgorithm.h"
 
+enum class OpenCLFloatToIntMode
+{
+  UINT8,
+  UINT16,
+  UINT32 
+};
+
 class OpenCLFloatToInt : public OpenCLImageAlgorithm
 {
 public:
-  OpenCLFloatToInt(void);
+  OpenCLFloatToInt(OpenCLFloatToIntMode mode = OpenCLFloatToIntMode::UINT8);
   ~OpenCLFloatToInt(void);
 private:
 //from OpenCLImageAlgorithm

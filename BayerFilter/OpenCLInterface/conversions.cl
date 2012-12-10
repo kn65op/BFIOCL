@@ -15,7 +15,7 @@ __kernel void  intToFloatOneChannel(__read_only image2d_t input, __write_only im
   write_imagef(output, (int2)(i,j), out);
 }
 
-__kernel void  floatToIntThreeChannels(__read_only image2d_t input, __write_only image2d_t output) 
+__kernel void  floatToUInt8ThreeChannels(__read_only image2d_t input, __write_only image2d_t output) 
 {
   
   const int i = get_global_id(1); //row
@@ -24,6 +24,32 @@ __kernel void  floatToIntThreeChannels(__read_only image2d_t input, __write_only
   float4 pixel = read_imagef(input, sampler, (int2)(i,j));
 
   uint4 out = convert_uint4(pixel * 255.0);
+  
+  write_imageui(output, (int2)(i,j), out);
+}
+
+__kernel void  floatToUInt16ThreeChannels(__read_only image2d_t input, __write_only image2d_t output) 
+{
+  
+  const int i = get_global_id(1); //row
+  const int j = get_global_id(0); //column
+
+  float4 pixel = read_imagef(input, sampler, (int2)(i,j));
+
+  uint4 out = convert_uint4(pixel * 511.0);
+  
+  write_imageui(output, (int2)(i,j), out);
+}
+
+__kernel void  floatToUInt32ThreeChannels(__read_only image2d_t input, __write_only image2d_t output) 
+{
+  
+  const int i = get_global_id(1); //row
+  const int j = get_global_id(0); //column
+
+  float4 pixel = read_imagef(input, sampler, (int2)(i,j));
+
+  uint4 out = convert_uint4(pixel * 1023.0);
   
   write_imageui(output, (int2)(i,j), out);
 }
