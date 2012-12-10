@@ -37,6 +37,7 @@
     <Import Project="..\OpenCLD.props" />
     <Import Project="..\OpenCV.props" />
     <Import Project="..\OpenCVD.props" />
+    <Import Project="..\BayerFilterTests.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -47,8 +48,6 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\Tomko\Documents\GitHub\BFIOCL\BayerFilter\OpenCLInterface;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Tomko\Documents\GitHub\BFIOCL\BayerFilter\Debug;C:\Programy\opencv\build\x86\vc10\staticlib;$(LibraryPath)</LibraryPath>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
@@ -60,7 +59,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenCLInterface.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_core242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_imgproc242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_highgui242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_ml242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_video242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_features2d242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_calib3d242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_objdetect242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_contrib242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_legacy242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\opencv_flann242d.lib;C:\Programy\opencv\build\x86\vc10\staticlib\zlibd.lib;C:\Programy\opencv\build\x86\vc10\staticlib\libtiffd.lib;C:\Programy\opencv\build\x86\vc10\staticlib\libpngd.lib;C:\Programy\opencv\build\x86\vc10\staticlib\libjpegd.lib;C:\Programy\opencv\build\x86\vc10\staticlib\libjasperd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenCLInterface.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

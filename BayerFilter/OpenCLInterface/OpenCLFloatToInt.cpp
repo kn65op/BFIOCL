@@ -6,9 +6,9 @@ OpenCLFloatToInt::OpenCLFloatToInt(void)
   source_file = "conversions.cl";
   input = output = NULL;
   kernel_name = "floatToIntThreeChannels";
-  input_format.image_channel_order = CL_LUMINANCE;
+  input_format.image_channel_order = CL_RGBA;
   input_format.image_channel_data_type = CL_FLOAT;
-  output_format.image_channel_order = CL_LUMINANCE;
+  output_format.image_channel_order = CL_RGBA;
   output_format.image_channel_data_type= CL_UNSIGNED_INT8;
 }
 

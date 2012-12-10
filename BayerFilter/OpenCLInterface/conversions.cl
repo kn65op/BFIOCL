@@ -23,10 +23,7 @@ __kernel void  floatToIntThreeChannels(__read_only image2d_t input, __write_only
 
   float4 pixel = read_imagef(input, sampler, (int2)(i,j));
 
-  uint4 out;
-  out.s0 = pixel.s0 * 255.0;
-  out.s1 = pixel.s1 * 255.0;
-  out.s2 = pixel.s2 * 255.0;
+  uint4 out = convert_uint4(pixel * 255.0);
   
   write_imageui(output, (int2)(i,j), out);
 }

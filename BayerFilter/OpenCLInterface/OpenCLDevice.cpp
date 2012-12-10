@@ -68,7 +68,7 @@ std::string OpenCLDevice::getPlatformName()
   return this->platform_name;
 }
 
-cl_context OpenCLDevice::getContext()
+inline cl_context OpenCLDevice::getContext()
 {
   if (this->context == NULL)
   {

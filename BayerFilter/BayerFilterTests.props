@@ -4,12 +4,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <IncludePath>$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Tomko\Documents\GitHub\BFIOCL\BayerFilter\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\..\BayerFilter\Debug;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Configuration)\Tests\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalDependencies>OpenCLInterface.lib;C:\ProgramData\NVIDIA Corporation\NVIDIA GPU Computing SDK 4.2\OpenCL\common\lib\Win32\OpenCL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenCLInterface.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>C:\Users\Tomko\Documents\GitHub\BFIOCL\BayerFilter\OpenCLInterface;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
