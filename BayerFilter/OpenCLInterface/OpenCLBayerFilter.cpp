@@ -10,7 +10,7 @@ const std::string OpenCLBayerFilter::SOURCEFILE = "bayer.cl";
 
 OpenCLBayerFilter::OpenCLBayerFilter()
 {
-  input = output = kparams = NULL;
+  input = output = kparams = mem_balance = NULL;
   source_file = "bayer.cl";
 }
 
@@ -36,6 +36,11 @@ void OpenCLBayerFilter::setParams(const OpenCLBayerFilterParams& params) {
   kernel_params[1] = (params.mode >> 4) & 0x03;
   kernel_params[2] = (params.mode >> 2) & 0x03;
   kernel_params[3] = params.mode & 0x03;
+
+  //set color balance
+  balance[0] = params.balance[0];
+  balance[1] = params.balance[1];
+  balance[2] = params.balance[2];
 }
 
 void OpenCLBayerFilter::run(const unsigned char* data_input, size_t di_size, unsigned char* data_output, size_t do_size)
@@ -54,18 +59,19 @@ void OpenCLBayerFilter::releaseMem()
   clReleaseMemObject(input);
   clReleaseMemObject(output);
   clReleaseMemObject(kparams);
-  input = output = kparams = NULL;
+  clReleaseMemObject(mem_balance);
+  input = output = kparams = mem_balance = NULL;
 }
 
 void OpenCLBayerFilter::setKernelArgsForStream()
 {
-  cl_int err;
-    
+ // cl_int err;
+    /*
   kparams = clCreateBuffer(context,CL_MEM_READ_ONLY, sizeof(kernel_params),NULL, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating buffer kparams");
 
   err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*) &kparams);
-  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0")
+  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0")*/
 }
 
 /************** FLOAT *************************/
@@ -85,7 +91,10 @@ void OpenCLBayerFilterFloat::copyDataToGPU(const unsigned char* data_input, size
   ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer: BayerFilterFloat  kernel params to GPU")
   
   err = clEnqueueWriteBuffer(command_queue, input,CL_TRUE,0, di_size, data_input, 0, NULL, NULL);
-  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer: BayerFilterFloat input image to GPI");
+  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer: BayerFilterFloat input image to GPU");
+  
+  err = clEnqueueWriteBuffer(command_queue, mem_balance,CL_TRUE,0, sizeof(balance), balance, 0, NULL, NULL);
+  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer: BayerFilterFloat balance to GPU");
 }
 
 void OpenCLBayerFilterFloat::setKernelArgs(size_t di_size, size_t do_size)
@@ -100,6 +109,8 @@ void OpenCLBayerFilterFloat::setKernelArgs(size_t di_size, size_t do_size)
   ASSERT_OPENCL_ERR(err, "Error while creating buffer input");
   output = clCreateBuffer(context,CL_MEM_WRITE_ONLY,do_size,NULL, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating buffer output");
+  output = clCreateBuffer(context,CL_MEM_WRITE_ONLY,sizeof(balance),NULL, &err);
+  ASSERT_OPENCL_ERR(err, "Error while creating buffer balance");
 
   err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*) &input);
   ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0")
@@ -109,6 +120,9 @@ void OpenCLBayerFilterFloat::setKernelArgs(size_t di_size, size_t do_size)
 
   err = clSetKernelArg(kernel, 2, sizeof(cl_mem), (void*) &kparams);
   ASSERT_OPENCL_ERR(err, "Cant set kernel arg 2")
+
+  err = clSetKernelArg(kernel, 3, sizeof(cl_mem), (void*) &balance);
+  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 3")
 }
 
 
@@ -141,6 +155,9 @@ void OpenCLBayerFilterImage::copyDataToGPU(const unsigned char* data_input, size
     
   err = clEnqueueWriteImage(command_queue, input, CL_TRUE, origin, region, 0, 0, (void*)data_input, 0, NULL, NULL);
   ASSERT_OPENCL_ERR(err,"Cant enqueue write image: BayerFilterImage");
+
+  err = clEnqueueWriteBuffer(command_queue, mem_balance, CL_TRUE, 0, sizeof(balance), balance, 0, NULL, NULL);
+  ASSERT_OPENCL_ERR(err,"Cant enqueue write image: BayerFilterImage");
 }
 
 void OpenCLBayerFilterImage::setKernelArgs (size_t di_size, size_t do_size)
@@ -161,16 +178,18 @@ void OpenCLBayerFilterImage::setKernelArgs (size_t di_size, size_t do_size)
 
   /*sampler = clCreateSampler(context, CL_TRUE, CL_ADDRESS_MIRRORED_REPEAT, CL_FILTER_LINEAR, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating sampler");*/
-
-  err = clSetKernelArg(kernel, 2, sizeof(cl_mem), (void*) &kparams);
-  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 2")
-    
+ 
   err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*) &input);
-  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0")
+  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 0");
   
   err = clSetKernelArg(kernel, 1, sizeof(cl_mem), (void*) &output);
-  ASSERT_OPENCL_ERR(err,"Cant set kernel arg 1")
-  //TODO;
+  ASSERT_OPENCL_ERR(err,"Cant set kernel arg 1");
+
+  err = clSetKernelArg(kernel, 2, sizeof(cl_mem), (void*) &kparams);
+  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 2");
+
+  err = clSetKernelArg(kernel, 3, sizeof(cl_mem), (void*) &mem_balance);
+  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 3");
 }
 
 void OpenCLBayerFilterImage::releaseMem()
@@ -193,6 +212,9 @@ void OpenCLBayerFilterImage::copyDataToGPUStream()
 
   err = clEnqueueWriteBuffer(command_queue, kparams,CL_TRUE, 0, sizeof(kernel_params), kernel_params, 0, NULL, NULL);
   ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer: BayerFilterImage for Stream kernel params");
+
+  err = clEnqueueWriteBuffer(command_queue, mem_balance, CL_TRUE, 0, sizeof(balance), balance, 0, NULL, NULL);
+  ASSERT_OPENCL_ERR(err,"Cant enqueue write mem_balance: BayerFilterImage");
 }
 
 void OpenCLBayerFilterImage::setKernelArgsForStream()
@@ -203,7 +225,13 @@ void OpenCLBayerFilterImage::setKernelArgsForStream()
   //create structures
   kparams = clCreateBuffer(context,CL_MEM_READ_ONLY, sizeof(kernel_params),NULL, &err);
   ASSERT_OPENCL_ERR(err, "Error while creating buffer kparams");
+  
+  mem_balance = clCreateBuffer(context,CL_MEM_READ_ONLY, sizeof(balance),NULL, &err);
+  ASSERT_OPENCL_ERR(err, "Error while creating buffer balance");
 
   err = clSetKernelArg(kernel, 2, sizeof(cl_mem), (void*) &kparams);
-  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 2 - kparams for BayerFilterImage")  
+  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 2 - kparams for BayerFilterImage");
+
+  err = clSetKernelArg(kernel, 3, sizeof(cl_mem), (void*) &mem_balance);
+  ASSERT_OPENCL_ERR(err, "Cant set kernel arg 2 - kparams for BayerFilterImage");
 }

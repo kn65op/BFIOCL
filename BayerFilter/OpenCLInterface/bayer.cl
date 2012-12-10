@@ -1,4 +1,4 @@
-__kernel void  bayer( __constant uchar * params, __global float* input, __global float* output) 
+__kernel void  bayer(__global float* input, __global float* output, __constant uchar * params, __global float* balance) 
 {
   int width_output = get_global_size(0); 
   int width = get_global_size(0) + 2; 
@@ -29,34 +29,34 @@ __kernel void  bayer( __constant uchar * params, __global float* input, __global
 
   if (pixel_offset_type == 0)
   {
-	  output[3*ptro + r_pos] = (P.s0 + P.s2 + P.s5 + P.s7) / 4.0;
-	  output[3*ptro + g_pos] = (P.s1 + P.s3 + P.s4 + P.s6) / 4.0;
-	  output[3*ptro + b_pos] = input[ptr];
+	  output[3*ptro + r_pos] = (P.s0 + P.s2 + P.s5 + P.s7) / 4.0 * balance[0];
+	  output[3*ptro + g_pos] = (P.s1 + P.s3 + P.s4 + P.s6) / 4.0 * balance[1];
+	  output[3*ptro + b_pos] = input[ptr] * balance[2];
   }
   else if (pixel_offset_type == 1)
   {
-	  output[3*ptro + r_pos] = (P.s1 + P.s6) / 2.0;
-	  output[3*ptro + g_pos] = input[ptr];
-	  output[3*ptro + b_pos] = (P.s3 + P.s4) / 2.0;
+	  output[3*ptro + r_pos] = (P.s1 + P.s6) / 2.0 * balance[0];
+	  output[3*ptro + g_pos] = input[ptr] * balance[1];
+	  output[3*ptro + b_pos] = (P.s3 + P.s4) / 2.0 * balance[2];
   }
   else if (pixel_offset_type == 2)
   {
-	  output[3*ptro + r_pos] = (P.s3 + P.s4) / 2.0;
-	  output[3*ptro + g_pos] = input[ptr];
-	  output[3*ptro + b_pos] = (P.s1 + P.s6) / 2.0;
+	  output[3*ptro + r_pos] = (P.s3 + P.s4) / 2.0 * balance[0];
+	  output[3*ptro + g_pos] = input[ptr] * balance[1];
+	  output[3*ptro + b_pos] = (P.s1 + P.s6) / 2.0 * balance[2];
   }
   else
   {
-	  output[3*ptro + r_pos] = input[ptr];
-	  output[3*ptro + g_pos] = (P.s1 + P.s3 + P.s4 + P.s6) / 4.0;
-	  output[3*ptro + b_pos] = (P.s0 + P.s2 + P.s5 + P.s7) / 4.0;
+	  output[3*ptro + r_pos] = input[ptr] * balance[0];
+	  output[3*ptro + g_pos] = (P.s1 + P.s3 + P.s4 + P.s6) / 4.0 * balance[1];
+	  output[3*ptro + b_pos] = (P.s0 + P.s2 + P.s5 + P.s7) / 4.0 * balance[2];
   }
   
 }
 
 const sampler_t sampler = CLK_NORMALIZED_COORDS_FALSE | CLK_ADDRESS_MIRRORED_REPEAT | CLK_FILTER_NEAREST;
   
-__kernel void  bayer_image(__read_only image2d_t input, __write_only image2d_t output, __constant uchar * params) 
+__kernel void  bayer_image(__read_only image2d_t input, __write_only image2d_t output, __constant uchar * params, __global float* balance) 
 {
   
   const int i = get_global_id(1); //row
@@ -114,9 +114,9 @@ __kernel void  bayer_image(__read_only image2d_t input, __write_only image2d_t o
       green = (p_tt.s0 + p_bb.s0 + p_ll.s0 + p_rr.s0) / 4.0;
       blue = (p_tl.s0 + p_tr.s0 + p_bl.s0 + p_br.s0) / 4.0;
   }
-  pixel.s0 = blue;
-  pixel.s1 = green;
-  pixel.s2 = red;
+  pixel.s0 = blue * balance[2];
+  pixel.s1 = green * balance[1];
+  pixel.s2 = red * balance[0];
 //   output_pixel.s0 = 0;
 //   output_pixel.s1 = 0;
 //   output_pixel.s2 = 0;

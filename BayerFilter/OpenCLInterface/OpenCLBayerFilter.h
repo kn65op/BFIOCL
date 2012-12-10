@@ -22,11 +22,18 @@
 class OpenCLBayerFilterParams : public OpenCLAlgorithmParams
 {
 public:
-  OpenCLBayerFilterParams(unsigned int width = 0, unsigned int height = 0, cl_uchar pattern = BFIOCL_PAT_RGR, int mode = BFIOCL_MODE_BGR)
-    : width(width), height(height), pattern(pattern), mode(mode) {}
+  OpenCLBayerFilterParams(unsigned int width = 0, unsigned int height = 0, cl_uchar pattern = BFIOCL_PAT_RGR, int mode = BFIOCL_MODE_BGR, float red_b = 1.0, float green_b = 1.0, float blue_b = 1.0)
+    : width(width), height(height), pattern(pattern), mode(mode)
+  {
+    balance[0] = red_b;
+    balance[1] = green_b;
+    balance[2] = blue_b;
+  }
+
   unsigned int width, height;
   int mode;
   cl_uchar pattern;
+  float balance[3];
 };
 
 /**
@@ -64,7 +71,10 @@ protected:
   cl_uchar kernel_params[kernel_params_size];
 
   //cl_mems
-  cl_mem kparams;
+  cl_mem kparams, mem_balance;
+
+  //color balance
+  float balance[3];
 };
 
 class OpenCLBayerFilterFloat : public OpenCLBayerFilter
@@ -91,7 +101,6 @@ private:
   void copyDataToGPUStream();
   void setKernelArgsForStream();
 
-  cl_sampler sampler;
 #pragma warning (disable :4250) //for disable warning in vs about inhertance via dominance, may not work in gcc
 };
 

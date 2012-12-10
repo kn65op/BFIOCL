@@ -8,13 +8,13 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
 
-BayerFilterStream::BayerFilterStream(int w, int h, cl_uchar mode)
+BayerFilterStream::BayerFilterStream(int w, int h, cl_uchar mode, float red_k, float green_k, float blue_k) 
 {
   stream.setDataSize(w,h);
   stream.setDevice(OpenCLDevice::getDevices().front());
 
   OpenCLImageAlgorithm* bayer = new OpenCLBayerFilterImage();
-  bayer->setParams(OpenCLBayerFilterParams(w, h, mode, BFIOCL_MODE_BGR));
+  bayer->setParams(OpenCLBayerFilterParams(w, h, mode, BFIOCL_MODE_BGR, red_k, green_k, blue_k));
 
   stream.pushAlgorithm(new OpenCLIntToFloat());
   stream.pushAlgorithm(bayer);
