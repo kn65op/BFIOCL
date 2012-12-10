@@ -184,7 +184,7 @@ void OpenCLBayerFilterImage::getResult (unsigned char* data_output, size_t do_si
   size_t origin[] = {0,0,0};
   size_t region[] = {params.width, params.height, 1};
   cl_int err = clEnqueueReadImage(command_queue, output, CL_TRUE, origin, region, 0, 0, (void*)data_output, 0, NULL, NULL);
-  ASSERT_OPENCL_ERR(err, "Cant enqueue read buffer")
+  ASSERT_OPENCL_ERR(err, "Cant enqueue read buffer. BayerFilterImage")
 }
 
 void OpenCLBayerFilterImage::copyDataToGPUStream()
