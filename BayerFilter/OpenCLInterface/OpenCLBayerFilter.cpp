@@ -82,10 +82,10 @@ void OpenCLBayerFilterFloat::copyDataToGPU(const unsigned char* data_input, size
   cl_int err;
 
   err = clEnqueueWriteBuffer(command_queue, kparams,CL_TRUE,0, sizeof(kernel_params), kernel_params, 0, NULL, NULL);
-  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer")
+  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer: BayerFilterFloat  kernel params to GPU")
   
   err = clEnqueueWriteBuffer(command_queue, input,CL_TRUE,0, di_size, data_input, 0, NULL, NULL);
-  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer");
+  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer: BayerFilterFloat input image to GPI");
 }
 
 void OpenCLBayerFilterFloat::setKernelArgs(size_t di_size, size_t do_size)
@@ -137,10 +137,10 @@ void OpenCLBayerFilterImage::copyDataToGPU(const unsigned char* data_input, size
   size_t region[] = {params.width, params.height, 1};
 
   err = clEnqueueWriteBuffer(command_queue, kparams, CL_TRUE, 0, sizeof(kernel_params), kernel_params, 0, NULL, NULL);
-  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer");
+  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer: BayerFilterImage kernel params");
     
   err = clEnqueueWriteImage(command_queue, input, CL_TRUE, origin, region, 0, 0, (void*)data_input, 0, NULL, NULL);
-  ASSERT_OPENCL_ERR(err,"Cant enqueue write image");
+  ASSERT_OPENCL_ERR(err,"Cant enqueue write image: BayerFilterImage");
 }
 
 void OpenCLBayerFilterImage::setKernelArgs (size_t di_size, size_t do_size)
@@ -192,7 +192,7 @@ void OpenCLBayerFilterImage::copyDataToGPUStream()
   cl_int err;
 
   err = clEnqueueWriteBuffer(command_queue, kparams,CL_TRUE, 0, sizeof(kernel_params), kernel_params, 0, NULL, NULL);
-  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer");
+  ASSERT_OPENCL_ERR(err,"Cant enqueue write buffer: BayerFilterImage for Stream kernel params");
 }
 
 void OpenCLBayerFilterImage::setKernelArgsForStream()
