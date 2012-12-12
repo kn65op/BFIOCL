@@ -36,7 +36,7 @@ __kernel void  floatToUInt16ThreeChannels(__read_only image2d_t input, __write_o
 
   float4 pixel = read_imagef(input, sampler, (int2)(i,j));
 
-  uint4 out = convert_uint4(pixel * 511.0);
+  uint4 out = convert_uint4(pixel * 65535.0);
   
   write_imageui(output, (int2)(i,j), out);
 }
@@ -49,7 +49,7 @@ __kernel void  floatToUInt32ThreeChannels(__read_only image2d_t input, __write_o
 
   float4 pixel = read_imagef(input, sampler, (int2)(i,j));
 
-  uint4 out = convert_uint4(pixel * 1023.0);
+  uint4 out = convert_uint4(pixel * 4294967295.0);
   
   write_imageui(output, (int2)(i,j), out);
 }
