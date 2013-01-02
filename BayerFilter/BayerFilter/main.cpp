@@ -117,6 +117,11 @@ void list_supported_image_formats ()
 int main (int argv, char * argc[])
 {
   JAI::Camera * cam = JAI::Camera::getCameraList().front();
+  if (cam->open())
+  {
+    cam->getNextFrame();
+  }
+  cam->stop();
   //list_supported_image_formats ();
   //return 0;
   try

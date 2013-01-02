@@ -4,6 +4,13 @@
 
 using namespace JAI;
 
+#define NODE_NAME_WIDTH         "Width"
+#define NODE_NAME_HEIGHT        "Height"
+#define NODE_NAME_PIXELFORMAT   "PixelFormat"
+#define NODE_NAME_GAIN          "GainRaw"
+#define NODE_NAME_ACQSTART      "AcquisitionStart"
+#define NODE_NAME_ACQSTOP       "AcquisitionStop"
+
 FACTORY_HANDLE Camera::m_hFactory;
 
 Camera::Camera(int8_t* index)
@@ -115,4 +122,62 @@ std::list<Camera*> Camera::getCameraList()
   }
   std::cout << "Camera ID: %s\n" << m_sCameraId << "\n";
   return ret;
+}
+
+bool Camera::start()
+{
+  J_STATUS_TYPE   retval;
+  int64_t int64Val;
+  int64_t pixelFormat;
+
+  SIZE	ViewSize;
+  POINT	TopLeft;
+
+  // Get Width from the camera
+  retval = J_Camera_GetValueInt64(m_hCam, NODE_NAME_WIDTH, &int64Val);
+  ViewSize.cx = (LONG)int64Val;     // Set window size cx
+
+  // Get Height from the camera
+  retval = J_Camera_GetValueInt64(m_hCam, NODE_NAME_HEIGHT, &int64Val);
+  ViewSize.cy = (LONG)int64Val;     // Set window size cy
+
+  // Get pixelformat from the camera
+  retval = J_Camera_GetValueInt64(m_hCam, NODE_NAME_PIXELFORMAT, &int64Val);
+  pixelFormat = int64Val;
+
+  // Calculate number of bits (not bytes) per pixel using macro
+  int bpp = J_BitsPerPixel(pixelFormat);
+
+  // Set window position
+  TopLeft.x = 100;
+  TopLeft.y = 50;
+
+  // Open stream
+  retval = J_Image_OpenStream(m_hCam, 0, reinterpret_cast<J_IMG_CALLBACK_OBJECT>(this), reinterpret_cast<J_IMG_CALLBACK_FUNCTION>(&Camera::callback), &m_hThread, (ViewSize.cx*ViewSize.cy*bpp)/8);
+  if (retval != J_ST_SUCCESS) {
+    return false;
+  }
+  std::cout << "Opening stream succeeded\n";
+
+  // Start Acquision
+  retval = J_Camera_ExecuteCommand(m_hCam, NODE_NAME_ACQSTART);
+  return true;
+}
+
+void Camera::stop()
+{
+  J_STATUS_TYPE retval;
+
+  // Stop Acquision
+  if (m_hCam) {
+    retval = J_Camera_ExecuteCommand(m_hCam, NODE_NAME_ACQSTOP);
+  }
+
+  if(m_hThread)
+  {
+    // Close stream
+    retval = J_Image_CloseStream(m_hThread);
+    m_hThread = NULL;
+    std::cout << "Closed stream\n";
+  }
 }

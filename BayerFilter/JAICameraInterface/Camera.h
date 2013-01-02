@@ -20,7 +20,7 @@ public:
   void close();
 
   bool start();
-  bool stop();
+  void stop();
 
   cv::Mat & getNextFrame();
 
@@ -30,6 +30,8 @@ public:
 
 private:
   int index;
+
+  //JAI specific objects
   static FACTORY_HANDLE  m_hFactory;     // Factory Handle
   CAM_HANDLE      m_hCam;         // Camera Handle
   THRD_HANDLE     m_hThread;      // Acquisition Thread Handle
@@ -42,7 +44,8 @@ private:
   //max size of queue
   static const unsigned int queue_size = 100;
 
-  //JAI specific objects
+  void callback(J_tIMAGE_INFO * pAqImageInf);
+
 
 };
 
