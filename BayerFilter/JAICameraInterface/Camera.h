@@ -23,7 +23,7 @@ public:
   bool start();
   void stop();
 
-  cv::Mat & getNextFrame();
+  cv::Mat getNextFrame();
 
   //void setCallbackFunction(
 

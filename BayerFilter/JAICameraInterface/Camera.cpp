@@ -201,3 +201,16 @@ void Camera::callback(J_tIMAGE_INFO * pAqImageInfo)
   memcpy(tmp->data, pAqImageInfo->pImageBuffer, tmp->total() * tmp->elemSize());
   queue.push(tmp);
 }
+
+cv::Mat Camera::getNextFrame()
+{
+  if (queue.empty())
+  {
+    //TODO: error
+    return cv::Mat();
+  }
+  cv::Mat * ret = queue.front();
+  queue.pop();
+  free_queue.push(ret);
+  return *ret;
+}
