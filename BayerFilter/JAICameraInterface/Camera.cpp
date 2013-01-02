@@ -18,7 +18,6 @@ Camera::Camera(int8_t* index)
   m_hFactory = NULL;
   m_hCam = NULL;
   m_hThread = NULL;
-  m_pImg = NULL;
 }
 
 
@@ -161,6 +160,7 @@ bool Camera::start()
 
   // Start Acquision
   retval = J_Camera_ExecuteCommand(m_hCam, NODE_NAME_ACQSTART);
+
   return true;
 }
 
@@ -180,4 +180,24 @@ void Camera::stop()
     m_hThread = NULL;
     std::cout << "Closed stream\n";
   }
+}
+
+void Camera::callback(J_tIMAGE_INFO * pAqImageInfo)
+{
+  if (queue.size() == queue_size) //max limit for queue 
+  {
+    return;
+  }
+  cv::Mat * tmp;
+  if (free_queue.empty()) //get new image
+  {
+    tmp = new cv::Mat(pAqImageInfo->iSizeX, pAqImageInfo->iSizeY, CV_8UC1);
+  }
+  else //get image from free_queue
+  {
+    tmp = free_queue.front();
+    free_queue.pop();
+  }
+  memcpy(tmp->data, pAqImageInfo->pImageBuffer, tmp->total() * tmp->elemSize());
+  queue.push(tmp);
 }
