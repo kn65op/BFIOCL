@@ -15,6 +15,11 @@ Camera::Camera(int8_t* index)
 
 Camera::~Camera(void)
 {
+  close();
+}
+
+void Camera::close()
+{
   if (m_hCam)
     {
         // Close camera

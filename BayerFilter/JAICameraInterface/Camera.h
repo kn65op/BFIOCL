@@ -17,7 +17,7 @@ public:
 
   //open/close
   bool open();
-  bool close();
+  void close();
 
   bool start();
   bool stop();
