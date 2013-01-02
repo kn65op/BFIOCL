@@ -59,8 +59,8 @@ const sampler_t sampler = CLK_NORMALIZED_COORDS_FALSE | CLK_ADDRESS_MIRRORED_REP
 __kernel void  bayer_image(__read_only image2d_t input, __write_only image2d_t output, __constant uchar * params, __global float* balance) 
 {
   
-  const int i = get_global_id(1); //row
-  const int j = get_global_id(0); //column
+  const int i = get_global_id(0); //row
+  const int j = get_global_id(1); //column
   const uchar offset_type = params[0];
   const uchar pixel_offset_type = ( (offset_type & 0x02) + (i%2 << 1) + (offset_type + j)%2) %4;
   

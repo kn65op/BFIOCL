@@ -4,8 +4,8 @@ const sampler_t sampler = CLK_NORMALIZED_COORDS_FALSE | CLK_ADDRESS_NONE | CLK_F
 __kernel void  intToFloatOneChannel(__read_only image2d_t input, __write_only image2d_t output) 
 {
   
-  const int i = get_global_id(1); //row
-  const int j = get_global_id(0); //column
+  const int i = get_global_id(0); //row
+  const int j = get_global_id(1); //column
 
   uint4 pixel = read_imageui(input, sampler, (int2)(i,j));
 
@@ -18,8 +18,8 @@ __kernel void  intToFloatOneChannel(__read_only image2d_t input, __write_only im
 __kernel void  floatToUInt8ThreeChannels(__read_only image2d_t input, __write_only image2d_t output) 
 {
   
-  const int i = get_global_id(1); //row
-  const int j = get_global_id(0); //column
+  const int i = get_global_id(0); //row
+  const int j = get_global_id(1); //column
 
   float4 pixel = read_imagef(input, sampler, (int2)(i,j));
 
@@ -31,8 +31,8 @@ __kernel void  floatToUInt8ThreeChannels(__read_only image2d_t input, __write_on
 __kernel void  floatToUInt16ThreeChannels(__read_only image2d_t input, __write_only image2d_t output) 
 {
   
-  const int i = get_global_id(1); //row
-  const int j = get_global_id(0); //column
+  const int i = get_global_id(0); //row
+  const int j = get_global_id(1); //column
 
   float4 pixel = read_imagef(input, sampler, (int2)(i,j));
 
@@ -44,8 +44,8 @@ __kernel void  floatToUInt16ThreeChannels(__read_only image2d_t input, __write_o
 __kernel void  floatToUInt32ThreeChannels(__read_only image2d_t input, __write_only image2d_t output) 
 {
   
-  const int i = get_global_id(1); //row
-  const int j = get_global_id(0); //column
+  const int i = get_global_id(0); //row
+  const int j = get_global_id(1); //column
 
   float4 pixel = read_imagef(input, sampler, (int2)(i,j));
 
