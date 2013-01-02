@@ -4,6 +4,10 @@ using namespace JAI;
 
 Camera::Camera(int8_t index)
 {
+  m_hFactory = NULL;
+  m_hCam = NULL;
+  m_hThread = NULL;
+  m_pImg = NULL;
 }
 
 
