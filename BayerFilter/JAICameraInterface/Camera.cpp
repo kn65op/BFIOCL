@@ -4,6 +4,8 @@
 
 using namespace JAI;
 
+FACTORY_HANDLE Camera::m_hFactory;
+
 Camera::Camera(int8_t* index)
 {
   m_hFactory = NULL;

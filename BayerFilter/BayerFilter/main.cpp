@@ -1,6 +1,7 @@
 #include <OpenCLDevice.h>
 #include "OpenCLImageFilter.h"
 #include "BayerFilterStream.h"
+#include <Camera.h>
 
 #include <iostream>
 #include <list>
@@ -115,6 +116,7 @@ void list_supported_image_formats ()
 
 int main (int argv, char * argc[])
 {
+  JAI::Camera * cam = JAI::Camera::getCameraList().front();
   //list_supported_image_formats ();
   //return 0;
   try

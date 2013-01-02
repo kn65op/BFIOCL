@@ -50,6 +50,8 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <LibraryPath>$(JAI_SDK_LIB);..\JAICameraInterface\Debug;C:\Programy\opencv\build\vs2012\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(JAI_SDK_INCLUDE);..\JAICameraInterface;C:\Programy\opencv\build\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -59,7 +61,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenCLInterface.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Jai_Factory.lib;JAICameraInterface.lib;OpenCLInterface.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
