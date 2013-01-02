@@ -12,7 +12,7 @@ namespace JAI
 class Camera
 {
 public:
-  Camera(int8_t index);
+  Camera(int8_t* index);
   ~Camera(void);
 
   //open/close
@@ -30,7 +30,7 @@ public:
 
 private:
   int index;
-  FACTORY_HANDLE  m_hFactory;     // Factory Handle
+  static FACTORY_HANDLE  m_hFactory;     // Factory Handle
   CAM_HANDLE      m_hCam;         // Camera Handle
   THRD_HANDLE     m_hThread;      // Acquisition Thread Handle
   int8_t          m_sCameraId[J_CAMERA_ID_SIZE];    // Camera ID
