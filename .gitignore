@@ -203,6 +203,7 @@ pip-log.txt
 *~
 *.bak
 *.swp
+.~lock*
 
 ## Custom
 FakeMakefile.mk
