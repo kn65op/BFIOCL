@@ -6,6 +6,7 @@
 #include <iostream>
 #include <list>
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 
 void list_devices ()
 {
@@ -118,9 +119,13 @@ int main (int argv, char * argc[])
 {
   JAI::FakeCamera * cam = JAI::FakeCamera::getCameraList().front();
   if (cam->open())
+  {while(1)
   {
-    imshow("s", cam->getNextFrame());
-    cv::waitKey(2323);
+    cv::Mat res;
+    cv::resize(cam->getNextFrame(), res, cv::Size(800, 600));
+    imshow("s", res);
+    cv::waitKey(40);
+  }
   }
   cam->stop();
   return 0;
