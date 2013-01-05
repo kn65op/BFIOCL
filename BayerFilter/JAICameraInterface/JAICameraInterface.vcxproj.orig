@@ -70,17 +70,17 @@
     <ClInclude Include="Camera.h" />
 <<<<<<< HEAD
     <ClInclude Include="FakeCamera.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="FakeCamera.cpp" />
 =======
+>>>>>>> camera
     <ClInclude Include="CameraException.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CameraException.cpp" />
+<<<<<<< HEAD
+    <ClCompile Include="FakeCamera.cpp" />
+=======
 >>>>>>> camera
+    <ClCompile Include="CameraException.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
