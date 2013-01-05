@@ -1,11 +1,13 @@
+#include <iostream>
+#include <list>
+#include <chrono>
+
 #include <OpenCLDevice.h>
 #include "OpenCLImageFilter.h"
 #include "BayerFilterStream.h"
 #include <FakeCamera.h>
 #include <CameraException.h>
 
-#include <iostream>
-#include <list>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
@@ -122,6 +124,12 @@ int main (int argv, char * argc[])
   int x, y;
   cv::Mat example_image = cam->getImageSize(x, y);
   BayerFilterStream bfs(x, y, 0, 0.8f, 0.7f, 0.9f);
+  using std::chrono::milliseconds;
+  using std::chrono::duration_cast;
+  auto t0 = std::chrono::high_resolution_clock::now();
+  auto t1 = std::chrono::high_resolution_clock::now();
+  milliseconds ns = duration_cast<milliseconds>(t1-t0);
+  std::cout << ns.count() << "\n";
   if (cam->open())
   {
     try
@@ -130,6 +138,7 @@ int main (int argv, char * argc[])
       cv::Mat tmp(example_image.size(), CV_8UC4);
       while(1)
       {
+        
         bfs.processImage(cam->getNextFrame(), tmp);
         cv::resize(tmp, resize, cv::Size(800, 600));
         imshow("s", resize);
@@ -141,6 +150,9 @@ int main (int argv, char * argc[])
     } 
   }
   cam->stop();
+  auto t2 = std::chrono::high_resolution_clock::now();
+  milliseconds ns2 = duration_cast<milliseconds>(t2-t0);
+  std::cout << ns2.count() << "\n";
   return 0;
   //list_supported_image_formats ();
   //return 0;
