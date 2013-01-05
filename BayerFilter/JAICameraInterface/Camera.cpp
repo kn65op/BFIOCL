@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "CameraException.h"
 
 #include <iostream>
 
@@ -72,8 +73,7 @@ std::list<Camera*> Camera::getCameraList()
   retval = J_Factory_Open("" , &m_hFactory);
   if (retval != J_ST_SUCCESS)
   {
-    //TODO: throw
-    //AfxMessageBox(CString("Could not open factory!"));
+    throw CameraException("Could not open factory!");
     return ret;
   }
   std::cout << "Opening factory succeeded\n";
@@ -82,9 +82,7 @@ std::list<Camera*> Camera::getCameraList()
   retval = J_Factory_UpdateCameraList(m_hFactory, &bHasChange);
   if (retval != J_ST_SUCCESS)
   {
-    //TODO: throw
-    //AfxMessageBox(CString("Could not update camera list!"), MB_OK | MB_ICONEXCLAMATION);
-    return ret;
+    throw CameraException("Could not update camera list!");
   }
   std::cout << "Updating camera list succeeded\n";
 
@@ -92,15 +90,11 @@ std::list<Camera*> Camera::getCameraList()
   retval = J_Factory_GetNumOfCameras(m_hFactory, &iNumDev);
   if (retval != J_ST_SUCCESS)
   {
-    //TODO: throw
-    //AfxMessageBox(CString("Could not get the number of cameras!"), MB_OK | MB_ICONEXCLAMATION);
-    return ret;
+    throw CameraException("Could not get the number of cameras!");
   }
   if (iNumDev == 0)
   {
-    //TODO: throw
-    //AfxMessageBox(CString("There is no camera!"), MB_OK | MB_ICONEXCLAMATION);
-    return ret;
+    throw CameraException("There is no camera!");
   }
   std::cout << "%d cameras were found" << iNumDev << "\n";
 
@@ -206,8 +200,7 @@ cv::Mat Camera::getNextFrame()
 {
   if (queue.empty())
   {
-    //TODO: error
-    return cv::Mat();
+    throw NoNewFrameException();
   }
   cv::Mat * ret = queue.front();
   queue.pop();
