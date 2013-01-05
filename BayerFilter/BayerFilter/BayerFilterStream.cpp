@@ -18,7 +18,7 @@ BayerFilterStream::BayerFilterStream(int w, int h, cl_uchar mode, float red_k, f
 
   stream.pushAlgorithm(new OpenCLIntToFloat());
   stream.pushAlgorithm(bayer);
-  stream.pushAlgorithm(new OpenCLFloatToInt(OpenCLFloatToIntMode::UINT16));
+  stream.pushAlgorithm(new OpenCLFloatToInt(OpenCLFloatToIntMode::UINT8));
   stream.prepare();
 }
 
@@ -31,12 +31,12 @@ BayerFilterStream::~BayerFilterStream(void)
 
 void BayerFilterStream::setFiles(std::string in, std::string out)
 {
-  cv::Mat input_image_raw = cv::imread(in, 0);
+  cv::Mat input_image_raw = cv::imread(in, -1);
   if (!input_image_raw.isContinuous())
   {
     throw OpenCLException("Not continuous", 0);
   }
-  cv::Mat output_image_raw(input_image_raw.size(), CV_16UC4);
+  cv::Mat output_image_raw(input_image_raw.size(), CV_8UC4);
   stream.processImage(input_image_raw.data, output_image_raw.data);
   cv::imwrite(out, output_image_raw);
   std::cout << stream.getTime() << "\n";

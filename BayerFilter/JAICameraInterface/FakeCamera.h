@@ -25,7 +25,7 @@ public:
 
   cv::Mat getNextFrame();
 
-  void getImageSize(int & x, int & y);
+  cv::Mat getImageSize(int & x, int & y);
   //void setCallbackFunction(
 
   static std::list<FakeCamera*> getCameraList();

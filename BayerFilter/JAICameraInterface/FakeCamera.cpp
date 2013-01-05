@@ -63,7 +63,7 @@ cv::Mat FakeCamera::getNextFrame()
     u = 0;
     ++d;
   }
-  cv::Mat ret = cv::imread(filename.str(), 0);
+  cv::Mat ret = cv::imread(filename.str(), -1);
   if (ret.size().height == 0)
   {
     throw NoNewFrameException();
@@ -71,11 +71,12 @@ cv::Mat FakeCamera::getNextFrame()
   return ret;
 }
 
-void FakeCamera::getImageSize(int & x, int & y)
+cv::Mat FakeCamera::getImageSize(int & x, int & y)
 {
   std::stringstream filename;
   filename << dir << name_prefix << d << u << name_postfix;
   cv::Mat ret = cv::imread(filename.str(), -1);
   x = ret.size().width;
   y = ret.size().height;
+  return ret;
 }

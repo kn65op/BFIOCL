@@ -120,20 +120,20 @@ int main (int argv, char * argc[])
 {
   JAI::FakeCamera * cam = JAI::FakeCamera::getCameraList().front();
   int x, y;
-  cam->getImageSize(x, y);
+  cv::Mat example_image = cam->getImageSize(x, y);
   BayerFilterStream bfs(x, y, 0, 0.8f, 0.7f, 0.9f);
   if (cam->open())
   {
     try
     {
       cv::Mat resize;
-      cv::Mat tmp(x,y, CV_16UC4);
+      cv::Mat tmp(example_image.size(), CV_8UC4);
       while(1)
       {
         bfs.processImage(cam->getNextFrame(), tmp);
-        //cv::resize(tmp, resize, cv::Size(800, 600));
-       // imshow("s", tmp);
-        cv::waitKey(20);
+        cv::resize(tmp, resize, cv::Size(800, 600));
+        imshow("s", resize);
+        cv::waitKey(1);
       }
     }
     catch(JAI::NoNewFrameException & ex)
@@ -141,7 +141,8 @@ int main (int argv, char * argc[])
     } 
   }
   cam->stop();
- // return 0;  //list_supported_image_formats ();
+  return 0;
+  //list_supported_image_formats ();
   //return 0;
   try
   {
