@@ -4,6 +4,8 @@
 
 #include <string>
 
+#include <opencv2\core\core.hpp>
+
 class BayerFilterStream
 {
 public:
@@ -11,6 +13,7 @@ public:
   ~BayerFilterStream(void);
 
   void setFiles(std::string in, std::string out);
+  void processImage(cv::Mat & source, cv::Mat & dest);
 private:
   OpenCLAlgorithmsStream stream;
 };

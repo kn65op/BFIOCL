@@ -31,7 +31,7 @@ BayerFilterStream::~BayerFilterStream(void)
 
 void BayerFilterStream::setFiles(std::string in, std::string out)
 {
-  cv::Mat input_image_raw = cv::imread(in, -1);
+  cv::Mat input_image_raw = cv::imread(in, 0);
   if (!input_image_raw.isContinuous())
   {
     throw OpenCLException("Not continuous", 0);
@@ -40,4 +40,13 @@ void BayerFilterStream::setFiles(std::string in, std::string out)
   stream.processImage(input_image_raw.data, output_image_raw.data);
   cv::imwrite(out, output_image_raw);
   std::cout << stream.getTime() << "\n";
+}
+
+void BayerFilterStream::processImage(cv::Mat & source, cv::Mat & dest)
+{
+  if (!source.isContinuous())
+  {
+    throw OpenCLException("Not continuous", 0);
+  }
+  stream.processImage(source.data, dest.data);
 }

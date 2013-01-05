@@ -2,6 +2,7 @@
 #include "OpenCLImageFilter.h"
 #include "BayerFilterStream.h"
 #include <FakeCamera.h>
+#include <CameraException.h>
 
 #include <iostream>
 #include <list>
@@ -118,18 +119,29 @@ void list_supported_image_formats ()
 int main (int argv, char * argc[])
 {
   JAI::FakeCamera * cam = JAI::FakeCamera::getCameraList().front();
+  int x, y;
+  cam->getImageSize(x, y);
+  BayerFilterStream bfs(x, y, 0, 0.8f, 0.7f, 0.9f);
   if (cam->open())
-  {while(1)
   {
-    cv::Mat res;
-    cv::resize(cam->getNextFrame(), res, cv::Size(800, 600));
-    imshow("s", res);
-    cv::waitKey(40);
-  }
+    try
+    {
+      cv::Mat resize;
+      cv::Mat tmp(x,y, CV_16UC4);
+      while(1)
+      {
+        bfs.processImage(cam->getNextFrame(), tmp);
+        //cv::resize(tmp, resize, cv::Size(800, 600));
+       // imshow("s", tmp);
+        cv::waitKey(20);
+      }
+    }
+    catch(JAI::NoNewFrameException & ex)
+    {
+    } 
   }
   cam->stop();
-  return 0;
-  //list_supported_image_formats ();
+ // return 0;  //list_supported_image_formats ();
   //return 0;
   try
   {

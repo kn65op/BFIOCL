@@ -18,10 +18,11 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="FakeCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+=======
     <ClInclude Include="CameraException.h">
+>>>>>>> camera
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -29,10 +30,11 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="FakeCamera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+=======
     <ClCompile Include="CameraException.cpp">
+>>>>>>> camera
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

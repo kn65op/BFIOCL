@@ -1,4 +1,5 @@
 #include "FakeCamera.h"
+#include "CameraException.h"
 
 #include <iostream>
 #include <sstream>
@@ -16,6 +17,11 @@ using namespace JAI;
 
 FakeCamera::FakeCamera(int8_t* index)
 {
+  name_prefix = "RecordedImage_BB-500GE_00-0C-DF-04-11-C3_0";
+  name_postfix = ".bmp";
+  d = 0;
+  u = 0;
+  dir = "../../data2/";
 }
 
 
@@ -50,11 +56,6 @@ void FakeCamera::stop()
 
 cv::Mat FakeCamera::getNextFrame()
 {
-  static std::string name_prefix = "RecordedImage_BB-500GE_00-0C-DF-04-11-C3_0";
-  static std::string name_postfix = ".bmp";
-  static int d = 0;
-  static int u = 0;
-  static std::string dir = "../../data2/";
   std::stringstream filename;
   filename << dir << name_prefix << d << u << name_postfix;
   if (++u == 10)
@@ -62,6 +63,19 @@ cv::Mat FakeCamera::getNextFrame()
     u = 0;
     ++d;
   }
-  cv::Mat ret = cv::imread(filename.str(), -1);
+  cv::Mat ret = cv::imread(filename.str(), 0);
+  if (ret.size().height == 0)
+  {
+    throw NoNewFrameException();
+  }
   return ret;
+}
+
+void FakeCamera::getImageSize(int & x, int & y)
+{
+  std::stringstream filename;
+  filename << dir << name_prefix << d << u << name_postfix;
+  cv::Mat ret = cv::imread(filename.str(), -1);
+  x = ret.size().width;
+  y = ret.size().height;
 }

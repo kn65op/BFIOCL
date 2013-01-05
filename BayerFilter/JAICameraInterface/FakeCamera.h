@@ -25,11 +25,17 @@ public:
 
   cv::Mat getNextFrame();
 
+  void getImageSize(int & x, int & y);
   //void setCallbackFunction(
 
   static std::list<FakeCamera*> getCameraList();
 
 private:
+  std::string name_prefix;
+  std::string name_postfix;
+  int d;
+  int u;
+  std::string dir;
 };
 
 }
