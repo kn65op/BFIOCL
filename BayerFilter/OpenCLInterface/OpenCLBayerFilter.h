@@ -16,8 +16,14 @@
 #define BFIOCL_MODE_GBR 0x21
 #define BFIOCL_MODE_GRB 0x18
 
-
 #include "OpenCLAlgorithm.h"
+
+enum class BayerFilterMask
+{
+  SQUARE,
+  CIRCLE,
+  CROSS 
+};
 
 class OpenCLBayerFilterParams : public OpenCLAlgorithmParams
 {
@@ -91,7 +97,7 @@ private:
 class OpenCLBayerFilterImage : virtual public OpenCLBayerFilter, public OpenCLImageAlgorithm
 {
 public:
-  OpenCLBayerFilterImage();
+  OpenCLBayerFilterImage(BayerFilterMask mask_type = BayerFilterMask::SQUARE);
 
 private:
   void setKernelArgs(size_t di_size, size_t do_size);

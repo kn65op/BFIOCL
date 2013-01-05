@@ -134,9 +134,20 @@ void OpenCLBayerFilterFloat::getResult (unsigned char* data_output, size_t do_si
 
 /************************* IMAGE ************************************/
 
-OpenCLBayerFilterImage::OpenCLBayerFilterImage()
+OpenCLBayerFilterImage::OpenCLBayerFilterImage(BayerFilterMask mask_type)
 {
-  kernel_name = "bayer_image";
+  switch(mask_type) {
+    case BayerFilterMask::CROSS:
+      kernel_name = "bayer_image_cross_mask";
+      break;
+    case BayerFilterMask::CIRCLE:
+      kernel_name = "bayer_image_circle_mask";
+      break;
+    case BayerFilterMask::SQUARE:
+    default:
+      kernel_name = "bayer_image";
+      break;
+  }
   input_format.image_channel_order = CL_LUMINANCE;
   input_format.image_channel_data_type = CL_FLOAT;
   output_format.image_channel_order = CL_RGBA;
