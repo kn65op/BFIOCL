@@ -20,6 +20,8 @@ BayerFilterStream::BayerFilterStream(int w, int h, cl_uchar mode, float red_k, f
   stream.pushAlgorithm(bayer);
   stream.pushAlgorithm(new OpenCLFloatToInt(OpenCLFloatToIntMode::UINT8));
   stream.prepare();
+
+  all_time = 0;
 }
 
 
@@ -49,4 +51,6 @@ void BayerFilterStream::processImage(cv::Mat & source, cv::Mat & dest)
     throw OpenCLException("Not continuous", 0);
   }
   stream.processImage(source.data, dest.data);
+  all_time += stream.getTime();
+  std::cout << all_time << "\n";
 }

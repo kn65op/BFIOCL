@@ -16,5 +16,7 @@ public:
   void processImage(cv::Mat & source, cv::Mat & dest);
 private:
   OpenCLAlgorithmsStream stream;
+
+  double all_time;
 };
 

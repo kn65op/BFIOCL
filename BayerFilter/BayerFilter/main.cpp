@@ -140,9 +140,9 @@ int main (int argv, char * argc[])
       {
         
         bfs.processImage(cam->getNextFrame(), tmp);
-        cv::resize(tmp, resize, cv::Size(800, 600));
-        imshow("s", resize);
-        cv::waitKey(1);
+        //cv::resize(tmp, resize, cv::Size(800, 600));
+        //imshow("s", resize);
+        //cv::waitKey(1);
       }
     }
     catch(JAI::NoNewFrameException & ex)
