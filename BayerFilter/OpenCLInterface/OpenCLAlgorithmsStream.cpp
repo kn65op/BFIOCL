@@ -112,7 +112,7 @@ void OpenCLAlgorithmsStream::processImage(const void * data_input, void * data_o
     time += al->getTimeConsumed();
   });
 
-  err = clEnqueueReadImage(command_queue, output, CL_FALSE, origin, region, 0, 0, data_output, 0, NULL, NULL);
+  err = clEnqueueReadImage(command_queue, output, CL_TRUE, origin, region, 0, 0, data_output, 0, NULL, NULL);
   ASSERT_OPENCL_ERR(err, "Cant enqueue read buffer")
 }
 
