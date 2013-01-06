@@ -16,14 +16,20 @@
 #define BFIOCL_MODE_GBR 0x21
 #define BFIOCL_MODE_GRB 0x18
 
-
 #include "OpenCLAlgorithm.h"
+
+enum class BayerFilterMask
+{
+  SQUARE,
+  CIRCLE,
+  CROSS 
+};
 
 class OpenCLBayerFilterParams : public OpenCLAlgorithmParams
 {
 public:
   OpenCLBayerFilterParams(unsigned int width = 0, unsigned int height = 0, cl_uchar pattern = BFIOCL_PAT_RGR, int mode = BFIOCL_MODE_BGR, float red_b = 1.0, float green_b = 1.0, float blue_b = 1.0)
-    : width(width), height(height), pattern(pattern), mode(mode)
+    : width(width), height(height), mode(mode), pattern(pattern)
   {
     balance[0] = red_b;
     balance[1] = green_b;
@@ -91,7 +97,7 @@ private:
 class OpenCLBayerFilterImage : virtual public OpenCLBayerFilter, public OpenCLImageAlgorithm
 {
 public:
-  OpenCLBayerFilterImage();
+  OpenCLBayerFilterImage(BayerFilterMask mask_type = BayerFilterMask::SQUARE);
 
 private:
   void setKernelArgs(size_t di_size, size_t do_size);
@@ -101,7 +107,9 @@ private:
   void copyDataToGPUStream();
   void setKernelArgsForStream();
 
-#pragma warning (disable :4250) //for disable warning in vs about inhertance via dominance, may not work in gcc
+#ifndef __unix__
+  #pragma warning (disable :4250) //for disable warning in vs about inhertance via dominance, may not work in gcc
+#endif
 };
 
 
