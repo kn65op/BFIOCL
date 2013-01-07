@@ -41,3 +41,9 @@ void BayerFilterStream::setFiles(std::string in, std::string out)
   cv::imwrite(out, output_image_raw);
   std::cout << stream.getTime() << "\n";
 }
+
+void BayerFilterStream::processImage(cv::Mat & sc, cv::Mat & dst)
+{
+  dst = cv::Mat(sc.size(), CV_8UC4);
+  stream.processImage(sc, dst);
+}

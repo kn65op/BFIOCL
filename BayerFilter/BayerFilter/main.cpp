@@ -2,6 +2,7 @@
 #include "OpenCLImageFilter.h"
 #include "BayerFilterStream.h"
 #include <Camera.h>
+#include <CameraException.h>
 
 #include <iostream>
 #include <list>
@@ -117,14 +118,23 @@ void list_supported_image_formats ()
 int main (int argv, char * argc[])
 {
   JAI::Camera * cam = JAI::Camera::getCameraList().front();
-  if (cam->open())
+  if (cam->open() && cam->start())
   {
     for (int i=0; i < 100; ++i)
     {
-      cam->getNextFrame();
+      try
+      {
+          cv::imshow("d", cam->getNextFrame());
+          cv::waitKey(40);
+      }
+      catch(JAI::NoNewFrameException ex)
+      {
+        --i;
+      }
     }
   }
   cam->stop();
+  cam->close();
   //list_supported_image_formats ();
   return 0;
   try

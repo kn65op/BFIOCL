@@ -2,6 +2,7 @@
 #include "CameraException.h"
 
 #include <iostream>
+#include <opencv2\highgui\highgui.hpp>
 
 using namespace JAI;
 
@@ -16,7 +17,8 @@ FACTORY_HANDLE Camera::m_hFactory;
 
 Camera::Camera(int8_t* index)
 {
-  m_hFactory = NULL;
+  //copy memory
+  memcpy(m_sCameraId, index, J_CAMERA_ID_SIZE);
   m_hCam = NULL;
   m_hThread = NULL;
 }
@@ -27,7 +29,7 @@ Camera::~Camera(void)
   close();
 }
 
-void Camera::close()
+void Camera::close() //TODO: Add stop
 {
   if (m_hCam)
     {
@@ -185,7 +187,7 @@ void Camera::callback(J_tIMAGE_INFO * pAqImageInfo)
   cv::Mat * tmp;
   if (free_queue.empty()) //get new image
   {
-    tmp = new cv::Mat(pAqImageInfo->iSizeX, pAqImageInfo->iSizeY, CV_8UC1);
+    tmp = new cv::Mat(pAqImageInfo->iSizeY, pAqImageInfo->iSizeX, CV_8UC1);
   }
   else //get image from free_queue
   {

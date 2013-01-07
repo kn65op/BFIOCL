@@ -11,6 +11,7 @@ public:
   ~BayerFilterStream(void);
 
   void setFiles(std::string in, std::string out);
+  void processImage(cv::Mat & sc, cv::Mat & dst);
 private:
   OpenCLAlgorithmsStream stream;
 };
