@@ -35,6 +35,7 @@ private:
   std::string name_postfix;
   int d;
   int u;
+  int h;
   std::string dir;
 };
 

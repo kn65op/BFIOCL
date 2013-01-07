@@ -17,10 +17,11 @@ using namespace JAI;
 
 FakeCamera::FakeCamera(int8_t* index)
 {
-  name_prefix = "RecordedImage_BB-500GE_00-0C-DF-04-11-C3_0";
+  name_prefix = "RecordedImage_BB-500GE_00-0C-DF-04-11-C3_";
   name_postfix = ".bmp";
   d = 0;
   u = 0;
+  h = 0;
   dir = "../../data2/";
 }
 
@@ -57,11 +58,15 @@ void FakeCamera::stop()
 cv::Mat FakeCamera::getNextFrame()
 {
   std::stringstream filename;
-  filename << dir << name_prefix << d << u << name_postfix;
+  filename << dir << name_prefix << h << d << u << name_postfix;
   if (++u == 10)
   {
     u = 0;
-    ++d;
+    if(++d == 10)
+    {
+      d = 0;
+      ++h;
+    }
   }
   cv::Mat ret = cv::imread(filename.str(), -1);
   if (ret.size().height == 0)

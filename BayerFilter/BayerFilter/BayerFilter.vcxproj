@@ -82,10 +82,12 @@
     <ClCompile Include="BayerFilterStream.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OpenCLImageFilter.cpp" />
+    <ClCompile Include="Options.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BayerFilterStream.h" />
     <ClInclude Include="OpenCLImageFilter.h" />
+    <ClInclude Include="Options.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
