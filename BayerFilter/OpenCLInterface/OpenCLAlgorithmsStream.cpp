@@ -103,7 +103,7 @@ void OpenCLAlgorithmsStream::processImage(const void * data_input, void * data_o
 
   const size_t global_work_size[] = {width, height};
   
-  err = clEnqueueWriteImage(command_queue, input, CL_TRUE, origin, region, 0, 0, data_input, 0, NULL, NULL);
+  err = clEnqueueWriteImage(command_queue, input, CL_FALSE, origin, region, 0, 0, data_input, 0, NULL, NULL);
   ASSERT_OPENCL_ERR(err, "Cant set equeue write input image");
 
   std::for_each(algorithms.begin(), algorithms.end(), [&global_work_size, this](OpenCLImageAlgorithm *al)

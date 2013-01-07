@@ -68,12 +68,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+<<<<<<< HEAD
     <ClInclude Include="FakeCamera.h" />
+=======
+>>>>>>> camera
     <ClInclude Include="CameraException.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="FakeCamera.cpp" />
+=======
+>>>>>>> camera
     <ClCompile Include="CameraException.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

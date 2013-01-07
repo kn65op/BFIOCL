@@ -209,3 +209,19 @@ cv::Mat Camera::getNextFrame()
   free_queue.push(ret);
   return *ret;
 }
+
+void Camera::getImageSize(int & x, int & y)
+{
+  if (!m_hCam)
+  {
+    throw CameraException("No handle for camera - you must open camera first");
+  }
+  J_STATUS_TYPE   retval;
+  int64_t int64Val;
+  retval = J_Camera_GetValueInt64(m_hCam, NODE_NAME_WIDTH, &int64Val);
+  x = (int)int64Val;     // Set window size cx
+
+  // Get Height from the camera
+  retval = J_Camera_GetValueInt64(m_hCam, NODE_NAME_HEIGHT, &int64Val);
+  y = (int)int64Val;     // Set window size cy
+}
