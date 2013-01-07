@@ -119,11 +119,14 @@ int main (int argv, char * argc[])
   JAI::Camera * cam = JAI::Camera::getCameraList().front();
   if (cam->open())
   {
-    cam->getNextFrame();
+    for (int i=0; i < 100; ++i)
+    {
+      cam->getNextFrame();
+    }
   }
   cam->stop();
   //list_supported_image_formats ();
-  //return 0;
+  return 0;
   try
   {
     int i = 2;
