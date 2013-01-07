@@ -78,6 +78,7 @@
     <ClInclude Include="OpenCLDevice.h" />
     <ClInclude Include="OpenCLException.h" />
     <ClInclude Include="OpenCLFloatToInt.h" />
+    <ClInclude Include="OpenCLHelpers.h" />
     <ClInclude Include="OpenCLIntToFloat.h" />
     <ClInclude Include="OpenCLInvertImage.h" />
   </ItemGroup>
@@ -88,6 +89,7 @@
     <ClCompile Include="OpenCLDevice.cpp" />
     <ClCompile Include="OpenCLException.cpp" />
     <ClCompile Include="OpenCLFloatToInt.cpp" />
+    <ClCompile Include="OpenCLHelpers.cpp" />
     <ClCompile Include="OpenCLIntToFloat.cpp" />
     <ClCompile Include="OpenCLInvertImage.cpp" />
   </ItemGroup>
