@@ -1,0 +1,132 @@
+.TH "OpenCLBayerFilter" 3 "Tue Jan 8 2013" "BFIOCL" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+OpenCLBayerFilter \- 
+.PP
+Abstract class for Bayer filter implementation \&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <OpenCLBayerFilter\&.h>\fP
+.PP
+Inherits \fBOpenCLAlgorithm\fP\&.
+.PP
+Inherited by \fBOpenCLBayerFilterFloat\fP, and \fBOpenCLBayerFilterImage\fP\fC [virtual]\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual void \fBsetParams\fP (const \fBOpenCLAlgorithmParams\fP &params)"
+.br
+.ti -1c
+.RI "void \fBsetParams\fP (const \fBOpenCLBayerFilterParams\fP &params)"
+.br
+.ti -1c
+.RI "virtual void \fBrun\fP (const unsigned char *data_input, size_t di_size, unsigned char *data_output, size_t do_size)"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual void \fBgetResult\fP (unsigned char *data_output, size_t do_size)=0"
+.br
+.ti -1c
+.RI "virtual void \fBreleaseMem\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBcopyDataToGPU\fP (const unsigned char *data_input, size_t di_size)=0"
+.br
+.ti -1c
+.RI "void \fBsetKernelArgsForStream\fP ()"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBOpenCLBayerFilterParams\fP \fBparams\fP"
+.br
+.ti -1c
+.RI "size_t \fBglobal_work_size\fP [2]"
+.br
+.ti -1c
+.RI "cl_uchar \fBkernel_params\fP [kernel_params_size]"
+.br
+.ti -1c
+.RI "cl_mem \fBkparams\fP"
+.br
+.ti -1c
+.RI "cl_mem \fBmem_balance\fP"
+.br
+.ti -1c
+.RI "float \fBbalance\fP [3]"
+.br
+.in -1c
+.SS "Static Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "static const std::string \fBSOURCEFILE\fP = 'bayer\&.cl'"
+.br
+.ti -1c
+.RI "static const unsigned int \fBkernel_params_size\fP = 4"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Abstract class for Bayer filter implementation \&. 
+
+It has two derived class: one use cl_float and second use cl_image_2d 
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual void OpenCLBayerFilter::copyDataToGPU (const unsigned char *data_input, size_tdi_size)\fC [protected]\fP, \fC [pure virtual]\fP"
+Copy data to GPU\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdata_input\fP Pointer to data to copy\&. 
+.br
+\fIdi_size\fP Size of data to copy\&. 
+.RE
+.PP
+
+.SS "virtual void OpenCLBayerFilter::getResult (unsigned char *data_output, size_tdo_size)\fC [protected]\fP, \fC [pure virtual]\fP"
+Get result\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdata_output\fP Pointer where to store data output\&. 
+.br
+\fIdo_size\fP Size of data output\&. 
+.RE
+.PP
+
+.SS "void OpenCLBayerFilter::releaseMem ()\fC [protected]\fP, \fC [virtual]\fP"
+Release memory\&. 
+.PP
+Implements \fBOpenCLAlgorithm\fP\&.
+.SS "void OpenCLBayerFilter::run (const unsigned char *data_input, size_tdi_size, unsigned char *data_output, size_tdo_size)\fC [virtual]\fP"
+Run kernel\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdata_input\fP Pointer to input data\&. 
+.br
+\fIdi_size\fP Size of input data\&. 
+.br
+\fIdata_output\fP Pointer to output data\&. 
+.br
+\fIdo_size\fP Size of output data\&. 
+.RE
+.PP
+
+.PP
+Implements \fBOpenCLAlgorithm\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for BFIOCL from the source code\&.

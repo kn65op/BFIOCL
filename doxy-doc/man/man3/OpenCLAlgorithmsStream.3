@@ -1,0 +1,102 @@
+.TH "OpenCLAlgorithmsStream" 3 "Tue Jan 8 2013" "BFIOCL" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+OpenCLAlgorithmsStream \- 
+.PP
+Class for creating algorithms streams\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <OpenCLAlgorithmsStream\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBpushAlgorithm\fP (\fBOpenCLImageAlgorithm\fP *al)"
+.br
+.ti -1c
+.RI "void \fBclearAlgorithms\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetDataSize\fP (size_t w, size_t h)"
+.br
+.ti -1c
+.RI "void \fBprepare\fP ()"
+.br
+.ti -1c
+.RI "void \fBprocessImage\fP (const void *data_input, void *data_output)"
+.br
+.ti -1c
+.RI "void \fBsetDevice\fP (\fBOpenCLDevice\fP &d)"
+.br
+.ti -1c
+.RI "double \fBgetTime\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Class for creating algorithms streams\&. 
+
+It can be used with algorithms that use cl_image_2d\&. Algorithm must have first parameter as input image and second parameter as output image\&. Other parameters can be use manually and freely in copyDataToGPUStream and setKernelArgsForStream\&. Input for next algorithm must be same as output for previous algorithm\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void OpenCLAlgorithmsStream::clearAlgorithms ()"
+Removes all algorithms from stream\&. 
+.SS "double OpenCLAlgorithmsStream::getTime ()"
+Get time consumed on execution all algorithms in stream on last run\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+Time in ms\&. 
+.RE
+.PP
+
+.SS "void OpenCLAlgorithmsStream::prepare ()"
+Prepare algorithms for execution\&. 
+.SS "void OpenCLAlgorithmsStream::processImage (const void *data_input, void *data_output)"
+Execute stream\&. This function executes all algorithms in stream in order\&. Must call prepare and setDevice before\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdata_input\fP Pointer to data input\&. 
+.br
+\fIdata_output\fP Pointer to data output\&. 
+.RE
+.PP
+
+.SS "void OpenCLAlgorithmsStream::pushAlgorithm (\fBOpenCLImageAlgorithm\fP *al)"
+Add algorithm to stream on last position\&. Throws \fBOpenCLAlgorithmsStreamException\fP if input is differ from output of last algorithm on list\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIal\fP Algorithm to add\&. 
+.RE
+.PP
+
+.SS "void OpenCLAlgorithmsStream::setDataSize (size_tw, size_th)"
+Set size of image\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIw\fP Width\&. 
+.br
+\fIh\fP Height\&. 
+.RE
+.PP
+
+.SS "void OpenCLAlgorithmsStream::setDevice (\fBOpenCLDevice\fP &d)"
+Set device for executing\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fId\fP Device\&. 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for BFIOCL from the source code\&.

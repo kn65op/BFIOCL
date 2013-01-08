@@ -1,0 +1,168 @@
+.TH "OpenCLDevice" 3 "Tue Jan 8 2013" "BFIOCL" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+OpenCLDevice \- 
+.PP
+Class represents CL Device\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <OpenCLDevice\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBOpenCLDevice\fP (cl_platform_id pid, cl_device_id did)"
+.br
+.ti -1c
+.RI "\fBOpenCLDevice\fP (const \fBOpenCLDevice\fP &orig)"
+.br
+.ti -1c
+.RI "std::string \fBgetName\fP ()"
+.br
+.ti -1c
+.RI "std::string \fBgetPlatformName\fP ()"
+.br
+.ti -1c
+.RI "cl_context \fBgetContext\fP ()"
+.br
+.ti -1c
+.RI "cl_command_queue \fBgetCommandQueue\fP ()"
+.br
+.ti -1c
+.RI "cl_program \fBcreateAndBuildProgramFromSource\fP (std::string source)"
+.br
+.ti -1c
+.RI "cl_program \fBcreateAndBuildProgramFromFile\fP (std::string filename)"
+.br
+.ti -1c
+.RI "bool \fBisValid\fP () const "
+.br
+.ti -1c
+.RI "const \fBOpenCLDevice\fP & \fBoperator=\fP (const \fBOpenCLDevice\fP &)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static std::list< \fBOpenCLDevice\fP > \fBgetDevices\fP ()"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "cl_platform_id \fBplatform_id\fP"
+.br
+.ti -1c
+.RI "cl_device_id \fBdevice_id\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Class represents CL Device\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "OpenCLDevice::OpenCLDevice (cl_platform_idpid, cl_device_iddid)"
+Constructor with setting cl_platform_id and cl_device_id\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpid\fP cl_platform_id \&. 
+.br
+\fIdidcl_device_id\&.\fP 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "cl_program OpenCLDevice::createAndBuildProgramFromFile (std::stringfilename)"
+Create program from file\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfilename\fP Name in std::string of file with program source\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+cl_program with program\&. 
+.RE
+.PP
+
+.SS "cl_program OpenCLDevice::createAndBuildProgramFromSource (std::stringsource)"
+Create program from source\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsource\fP Program source in std::string\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+cl_program with program\&. 
+.RE
+.PP
+
+.SS "cl_command_queue OpenCLDevice::getCommandQueue ()"
+Get command queue for this device\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+cl_command_queue\&. 
+.RE
+.PP
+
+.SS "cl_context OpenCLDevice::getContext ()\fC [inline]\fP"
+Get context for this device\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+cl_context\&. 
+.RE
+.PP
+
+.SS "std::list< \fBOpenCLDevice\fP > OpenCLDevice::getDevices ()\fC [static]\fP"
+Returns list of all devices\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+List of all devices in system\&. 
+.RE
+.PP
+
+.SS "std::string OpenCLDevice::getName ()"
+Get device name\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+std::string with name; 
+.RE
+.PP
+
+.SS "std::string OpenCLDevice::getPlatformName ()"
+Get platform name\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+std::string with name\&. 
+.RE
+.PP
+
+.SS "bool OpenCLDevice::isValid () const"
+Checks if device is valid and ready for use it\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+true if yes, fakse otherwise\&. 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for BFIOCL from the source code\&.

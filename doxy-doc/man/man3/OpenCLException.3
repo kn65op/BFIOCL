@@ -1,0 +1,43 @@
+.TH "OpenCLException" 3 "Tue Jan 8 2013" "BFIOCL" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+OpenCLException \- 
+.PP
+Exception class for OpenCLInterface\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <OpenCLException\&.h>\fP
+.PP
+Inherited by \fBOpenCLAlgorithmException\fP, \fBOpenCLAlgorithmsStreamException\fP, and \fBOpenCLDeviceException\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBOpenCLException\fP (std::string m, int err)"
+.br
+.ti -1c
+.RI "std::string \fBgetFullMessage\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Exception class for OpenCLInterface\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "OpenCLException::OpenCLException (std::stringm, interr)\fC [inline]\fP"
+\fBParameters:\fP
+.RS 4
+\fIm\fP Message\&. 
+.br
+\fIerr\fP Error code\&. Put 0 if it is not an OpenCL internal error\&. 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for BFIOCL from the source code\&.

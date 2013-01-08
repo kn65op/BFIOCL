@@ -1,0 +1,62 @@
+.TH "JAI::FakeCamera" 3 "Tue Jan 8 2013" "BFIOCL" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+JAI::FakeCamera \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <FakeCamera\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBFakeCamera\fP (int8_t *index)"
+.br
+.ti -1c
+.RI "bool \fBopen\fP ()"
+.br
+.ti -1c
+.RI "void \fBclose\fP ()"
+.br
+.ti -1c
+.RI "bool \fBstart\fP ()"
+.br
+.ti -1c
+.RI "void \fBstop\fP ()"
+.br
+.ti -1c
+.RI "cv::Mat \fBgetNextFrame\fP ()"
+.br
+.ti -1c
+.RI "cv::Mat \fBgetImageSize\fP (int &x, int &y)"
+.br
+.ti -1c
+.RI "void \fBsetDir\fP (std::string d)"
+.br
+.ti -1c
+.RI "void \fBsetPrefix\fP (std::string prefix)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static std::list< \fBFakeCamera\fP * > \fBgetCameraList\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Fake camera that imitates real\&. It reads files and returns it like a camera\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIindex\fP 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for BFIOCL from the source code\&.

@@ -1,0 +1,100 @@
+\hypertarget{class_bayer_filter_stream}{\section{Bayer\-Filter\-Stream Class Reference}
+\label{class_bayer_filter_stream}\index{Bayer\-Filter\-Stream@{Bayer\-Filter\-Stream}}
+}
+
+
+{\ttfamily \#include $<$Bayer\-Filter\-Stream.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_bayer_filter_stream_abdc88b3471099e0c63a2061cc7c42065}{Bayer\-Filter\-Stream} (int w, int h, cl\-\_\-uchar mode, float red\-\_\-k=1.\-0, float green\-\_\-k=1.\-0, float blue\-\_\-k=1.\-0)
+\item 
+void \hyperlink{class_bayer_filter_stream_a338682cf7b8598b3c05f919c7417d3fd}{set\-Files} (std\-::string in, std\-::string out)
+\item 
+void \hyperlink{class_bayer_filter_stream_a62215f60224bc4d4066faaa4f127c2e7}{process\-Image} (cv\-::\-Mat \&source, cv\-::\-Mat \&dest)
+\item 
+double \hyperlink{class_bayer_filter_stream_a4ebb63461b4d34cb0d0f86bc61c3441a}{get\-All\-Time} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class which performs Bayer filter with coversions from int to float on input and from float to int on output. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_bayer_filter_stream_abdc88b3471099e0c63a2061cc7c42065}{\index{Bayer\-Filter\-Stream@{Bayer\-Filter\-Stream}!Bayer\-Filter\-Stream@{Bayer\-Filter\-Stream}}
+\index{Bayer\-Filter\-Stream@{Bayer\-Filter\-Stream}!BayerFilterStream@{Bayer\-Filter\-Stream}}
+\subsubsection[{Bayer\-Filter\-Stream}]{\setlength{\rightskip}{0pt plus 5cm}Bayer\-Filter\-Stream\-::\-Bayer\-Filter\-Stream (
+\begin{DoxyParamCaption}
+\item[{int}]{w, }
+\item[{int}]{h, }
+\item[{cl\-\_\-uchar}]{mode, }
+\item[{float}]{red\-\_\-k = {\ttfamily 1.0}, }
+\item[{float}]{green\-\_\-k = {\ttfamily 1.0}, }
+\item[{float}]{blue\-\_\-k = {\ttfamily 1.0}}
+\end{DoxyParamCaption}
+)}}\label{class_bayer_filter_stream_abdc88b3471099e0c63a2061cc7c42065}
+Constructor with setting main parameters of Bayer Filter. 
+\begin{DoxyParams}{Parameters}
+{\em w} & Image width. \\
+\hline
+{\em h} & Image height. \\
+\hline
+{\em mode} & Bayer filter mode. Can be 0-\/3 and represents type of Bayer Filter. \\
+\hline
+{\em red\-\_\-k} & Red color factor. Can be from 0 to 1. Default is 1. \\
+\hline
+{\em green\-\_\-k} & Green color factor. Can be from 0 to 1. Default is 1. \\
+\hline
+{\em blue\-\_\-k} & Blue color factor. Can be from 0 to 1. Default is 1. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_bayer_filter_stream_a4ebb63461b4d34cb0d0f86bc61c3441a}{\index{Bayer\-Filter\-Stream@{Bayer\-Filter\-Stream}!get\-All\-Time@{get\-All\-Time}}
+\index{get\-All\-Time@{get\-All\-Time}!BayerFilterStream@{Bayer\-Filter\-Stream}}
+\subsubsection[{get\-All\-Time}]{\setlength{\rightskip}{0pt plus 5cm}double Bayer\-Filter\-Stream\-::get\-All\-Time (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_bayer_filter_stream_a4ebb63461b4d34cb0d0f86bc61c3441a}
+Get all time consumed. \begin{DoxyReturn}{Returns}
+Time consumed on all execution of stream. 
+\end{DoxyReturn}
+\hypertarget{class_bayer_filter_stream_a62215f60224bc4d4066faaa4f127c2e7}{\index{Bayer\-Filter\-Stream@{Bayer\-Filter\-Stream}!process\-Image@{process\-Image}}
+\index{process\-Image@{process\-Image}!BayerFilterStream@{Bayer\-Filter\-Stream}}
+\subsubsection[{process\-Image}]{\setlength{\rightskip}{0pt plus 5cm}void Bayer\-Filter\-Stream\-::process\-Image (
+\begin{DoxyParamCaption}
+\item[{cv\-::\-Mat \&}]{source, }
+\item[{cv\-::\-Mat \&}]{dest}
+\end{DoxyParamCaption}
+)}}\label{class_bayer_filter_stream_a62215f60224bc4d4066faaa4f127c2e7}
+Set source and destination image. Images are in cv\-::\-Mat format. 
+\begin{DoxyParams}{Parameters}
+{\em source} & Source image. \\
+\hline
+{\em dest} & Destination image. Important, image must be allocated before for reasons of efficiency. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_bayer_filter_stream_a338682cf7b8598b3c05f919c7417d3fd}{\index{Bayer\-Filter\-Stream@{Bayer\-Filter\-Stream}!set\-Files@{set\-Files}}
+\index{set\-Files@{set\-Files}!BayerFilterStream@{Bayer\-Filter\-Stream}}
+\subsubsection[{set\-Files}]{\setlength{\rightskip}{0pt plus 5cm}void Bayer\-Filter\-Stream\-::set\-Files (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{in, }
+\item[{std\-::string}]{out}
+\end{DoxyParamCaption}
+)}}\label{class_bayer_filter_stream_a338682cf7b8598b3c05f919c7417d3fd}
+Set source and destination files and perform interpolation. 
+\begin{DoxyParams}{Parameters}
+{\em in} & Source file. \\
+\hline
+{\em out} & Destination file. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Bayer\-Filter/\-Bayer\-Filter/Bayer\-Filter\-Stream.\-h\item 
+Bayer\-Filter/\-Bayer\-Filter/Bayer\-Filter\-Stream.\-cpp\end{DoxyCompactItemize}

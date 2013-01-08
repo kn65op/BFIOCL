@@ -1,0 +1,87 @@
+.TH "OpenCLAlgorithm" 3 "Tue Jan 8 2013" "BFIOCL" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+OpenCLAlgorithm \- 
+.PP
+Iterface for OpenCL algorithm\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <OpenCLAlgorithm\&.h>\fP
+.PP
+Inherited by \fBOpenCLBayerFilter\fP\fC [virtual]\fP, \fBOpenCLImageAlgorithm\fP\fC [virtual]\fP, \fBOpenCLInvertImage\fP, and \fBSetDevice::OpenCLAlgorithmTest\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBOpenCLAlgorithm\fP (const \fBOpenCLDevice\fP &dev)"
+.br
+.ti -1c
+.RI "virtual void \fBsetDevice\fP (const \fBOpenCLDevice\fP &dev)"
+.br
+.ti -1c
+.RI "virtual void \fBenqueueNDRangeKernelWithTimeMeasurment\fP (cl_uint work_dim, size_t *global_work_offset, const size_t *global_work_size, const size_t *local_work_size, cl_uint num_events_in_wait_list)"
+.br
+.ti -1c
+.RI "double \fBgetTimeConsumed\fP () const "
+.br
+.ti -1c
+.RI "virtual void \fBprepare\fP (size_t di_size, size_t do_size)"
+.br
+.ti -1c
+.RI "virtual void \fBreleaseMem\fP ()=0"
+.br
+.ti -1c
+.RI "virtual void \fBsetParams\fP (const \fBOpenCLAlgorithmParams\fP &params)=0"
+.br
+.ti -1c
+.RI "virtual void \fBrun\fP (const unsigned char *data_input, size_t di_size, unsigned char *data_output, size_t do_size)=0"
+.br
+.ti -1c
+.RI "virtual void \fBsetKernelArgs\fP (size_t di_size, size_t do_size)=0"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBOpenCLDevice\fP \fBdevice\fP"
+.br
+.ti -1c
+.RI "cl_kernel \fBkernel\fP"
+.br
+.ti -1c
+.RI "cl_program \fBprogram\fP"
+.br
+.ti -1c
+.RI "cl_command_queue \fBcommand_queue\fP"
+.br
+.ti -1c
+.RI "cl_context \fBcontext\fP"
+.br
+.ti -1c
+.RI "std::string \fBkernel_name\fP"
+.br
+.ti -1c
+.RI "std::string \fBsource_file\fP"
+.br
+.ti -1c
+.RI "double \fBtotal_time\fP"
+.br
+.ti -1c
+.RI "cl_mem \fBinput\fP"
+.br
+.ti -1c
+.RI "cl_mem \fBoutput\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Iterface for OpenCL algorithm\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for BFIOCL from the source code\&.

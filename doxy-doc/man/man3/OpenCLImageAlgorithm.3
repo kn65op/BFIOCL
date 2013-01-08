@@ -1,0 +1,51 @@
+.TH "OpenCLImageAlgorithm" 3 "Tue Jan 8 2013" "BFIOCL" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+OpenCLImageAlgorithm \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits \fBOpenCLAlgorithm\fP\&.
+.PP
+Inherited by \fBOpenCLBayerFilterImage\fP, \fBOpenCLFloatToInt\fP, and \fBOpenCLIntToFloat\fP\&.
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual void \fBprepareForStream\fP (cl_command_queue cc, cl_context c)"
+.br
+.ti -1c
+.RI "virtual void \fBrunStream\fP (const size_t *global_work_size)"
+.br
+.ti -1c
+.RI "virtual void \fBcopyDataToGPUStream\fP ()=0"
+.br
+.ti -1c
+.RI "virtual void \fBsetKernelArgsForStream\fP ()=0"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "cl_image_format \fBinput_format\fP"
+.br
+.ti -1c
+.RI "cl_image_format \fBoutput_format\fP"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBOpenCLAlgorithmsStream\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for BFIOCL from the source code\&.

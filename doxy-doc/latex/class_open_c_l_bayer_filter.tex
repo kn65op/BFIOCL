@@ -1,0 +1,151 @@
+\hypertarget{class_open_c_l_bayer_filter}{\section{Open\-C\-L\-Bayer\-Filter Class Reference}
+\label{class_open_c_l_bayer_filter}\index{Open\-C\-L\-Bayer\-Filter@{Open\-C\-L\-Bayer\-Filter}}
+}
+
+
+Abstract class for Bayer filter implementation .  
+
+
+
+
+{\ttfamily \#include $<$Open\-C\-L\-Bayer\-Filter.\-h$>$}
+
+Inheritance diagram for Open\-C\-L\-Bayer\-Filter\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_open_c_l_bayer_filter}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_open_c_l_bayer_filter_ada768f4695c19bf563da79b303acfa8c}{virtual void {\bfseries set\-Params} (const \hyperlink{class_open_c_l_algorithm_params}{Open\-C\-L\-Algorithm\-Params} \&params)}\label{class_open_c_l_bayer_filter_ada768f4695c19bf563da79b303acfa8c}
+
+\item 
+\hypertarget{class_open_c_l_bayer_filter_af5c135c7124f7353cd5c1274d1a607ff}{void {\bfseries set\-Params} (const \hyperlink{class_open_c_l_bayer_filter_params}{Open\-C\-L\-Bayer\-Filter\-Params} \&params)}\label{class_open_c_l_bayer_filter_af5c135c7124f7353cd5c1274d1a607ff}
+
+\item 
+virtual void \hyperlink{class_open_c_l_bayer_filter_ac0ffdd5af33fa1c8cb82d2fdf0b6180f}{run} (const unsigned char $\ast$data\-\_\-input, size\-\_\-t di\-\_\-size, unsigned char $\ast$data\-\_\-output, size\-\_\-t do\-\_\-size)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \hyperlink{class_open_c_l_bayer_filter_a50325f961681d819961acfc99fec2fe5}{get\-Result} (unsigned char $\ast$data\-\_\-output, size\-\_\-t do\-\_\-size)=0
+\item 
+virtual void \hyperlink{class_open_c_l_bayer_filter_a43e509aca6345e0266bae6d1f76c5a72}{release\-Mem} ()
+\item 
+virtual void \hyperlink{class_open_c_l_bayer_filter_a85e7bb10cfd16da875c8ab82d84337a4}{copy\-Data\-To\-G\-P\-U} (const unsigned char $\ast$data\-\_\-input, size\-\_\-t di\-\_\-size)=0
+\item 
+\hypertarget{class_open_c_l_bayer_filter_a02f5b3e144a220c6cda4626e1ffd5baa}{void {\bfseries set\-Kernel\-Args\-For\-Stream} ()}\label{class_open_c_l_bayer_filter_a02f5b3e144a220c6cda4626e1ffd5baa}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_open_c_l_bayer_filter_aef5c712e709c7410afb176f6b10fe197}{\hyperlink{class_open_c_l_bayer_filter_params}{Open\-C\-L\-Bayer\-Filter\-Params} {\bfseries params}}\label{class_open_c_l_bayer_filter_aef5c712e709c7410afb176f6b10fe197}
+
+\item 
+\hypertarget{class_open_c_l_bayer_filter_a2be5251d1426f518ebda17808ab36036}{size\-\_\-t {\bfseries global\-\_\-work\-\_\-size} \mbox{[}2\mbox{]}}\label{class_open_c_l_bayer_filter_a2be5251d1426f518ebda17808ab36036}
+
+\item 
+\hypertarget{class_open_c_l_bayer_filter_a57f57696b18f7eb7c1970a2e4f7ef94c}{cl\-\_\-uchar {\bfseries kernel\-\_\-params} \mbox{[}kernel\-\_\-params\-\_\-size\mbox{]}}\label{class_open_c_l_bayer_filter_a57f57696b18f7eb7c1970a2e4f7ef94c}
+
+\item 
+\hypertarget{class_open_c_l_bayer_filter_ae7c11939dd3929466f79de5de8921d43}{cl\-\_\-mem {\bfseries kparams}}\label{class_open_c_l_bayer_filter_ae7c11939dd3929466f79de5de8921d43}
+
+\item 
+\hypertarget{class_open_c_l_bayer_filter_ae29dc77ad1a26089efd1c8191335073e}{cl\-\_\-mem {\bfseries mem\-\_\-balance}}\label{class_open_c_l_bayer_filter_ae29dc77ad1a26089efd1c8191335073e}
+
+\item 
+\hypertarget{class_open_c_l_bayer_filter_a7ab8551ca9a2c563b9f14d7ca9f6cf6e}{float {\bfseries balance} \mbox{[}3\mbox{]}}\label{class_open_c_l_bayer_filter_a7ab8551ca9a2c563b9f14d7ca9f6cf6e}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_open_c_l_bayer_filter_adaa7ba3b18e1e8f38a71aab1281786d7}{static const std\-::string {\bfseries S\-O\-U\-R\-C\-E\-F\-I\-L\-E} = \char`\"{}bayer.\-cl\char`\"{}}\label{class_open_c_l_bayer_filter_adaa7ba3b18e1e8f38a71aab1281786d7}
+
+\item 
+\hypertarget{class_open_c_l_bayer_filter_a7d460b328cc4ca3c32f0b94d0855c778}{static const unsigned int {\bfseries kernel\-\_\-params\-\_\-size} = 4}\label{class_open_c_l_bayer_filter_a7d460b328cc4ca3c32f0b94d0855c778}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Abstract class for Bayer filter implementation . 
+
+It has two derived class\-: one use cl\-\_\-float and second use cl\-\_\-image\-\_\-2d 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_open_c_l_bayer_filter_a85e7bb10cfd16da875c8ab82d84337a4}{\index{Open\-C\-L\-Bayer\-Filter@{Open\-C\-L\-Bayer\-Filter}!copy\-Data\-To\-G\-P\-U@{copy\-Data\-To\-G\-P\-U}}
+\index{copy\-Data\-To\-G\-P\-U@{copy\-Data\-To\-G\-P\-U}!OpenCLBayerFilter@{Open\-C\-L\-Bayer\-Filter}}
+\subsubsection[{copy\-Data\-To\-G\-P\-U}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Open\-C\-L\-Bayer\-Filter\-::copy\-Data\-To\-G\-P\-U (
+\begin{DoxyParamCaption}
+\item[{const unsigned char $\ast$}]{data\-\_\-input, }
+\item[{size\-\_\-t}]{di\-\_\-size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}}\label{class_open_c_l_bayer_filter_a85e7bb10cfd16da875c8ab82d84337a4}
+Copy data to G\-P\-U. 
+\begin{DoxyParams}{Parameters}
+{\em data\-\_\-input} & Pointer to data to copy. \\
+\hline
+{\em di\-\_\-size} & Size of data to copy. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_open_c_l_bayer_filter_a50325f961681d819961acfc99fec2fe5}{\index{Open\-C\-L\-Bayer\-Filter@{Open\-C\-L\-Bayer\-Filter}!get\-Result@{get\-Result}}
+\index{get\-Result@{get\-Result}!OpenCLBayerFilter@{Open\-C\-L\-Bayer\-Filter}}
+\subsubsection[{get\-Result}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Open\-C\-L\-Bayer\-Filter\-::get\-Result (
+\begin{DoxyParamCaption}
+\item[{unsigned char $\ast$}]{data\-\_\-output, }
+\item[{size\-\_\-t}]{do\-\_\-size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}}\label{class_open_c_l_bayer_filter_a50325f961681d819961acfc99fec2fe5}
+Get result. 
+\begin{DoxyParams}{Parameters}
+{\em data\-\_\-output} & Pointer where to store data output. \\
+\hline
+{\em do\-\_\-size} & Size of data output. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_open_c_l_bayer_filter_a43e509aca6345e0266bae6d1f76c5a72}{\index{Open\-C\-L\-Bayer\-Filter@{Open\-C\-L\-Bayer\-Filter}!release\-Mem@{release\-Mem}}
+\index{release\-Mem@{release\-Mem}!OpenCLBayerFilter@{Open\-C\-L\-Bayer\-Filter}}
+\subsubsection[{release\-Mem}]{\setlength{\rightskip}{0pt plus 5cm}void Open\-C\-L\-Bayer\-Filter\-::release\-Mem (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_open_c_l_bayer_filter_a43e509aca6345e0266bae6d1f76c5a72}
+Release memory. 
+
+Implements \hyperlink{class_open_c_l_algorithm}{Open\-C\-L\-Algorithm}.
+
+\hypertarget{class_open_c_l_bayer_filter_ac0ffdd5af33fa1c8cb82d2fdf0b6180f}{\index{Open\-C\-L\-Bayer\-Filter@{Open\-C\-L\-Bayer\-Filter}!run@{run}}
+\index{run@{run}!OpenCLBayerFilter@{Open\-C\-L\-Bayer\-Filter}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}void Open\-C\-L\-Bayer\-Filter\-::run (
+\begin{DoxyParamCaption}
+\item[{const unsigned char $\ast$}]{data\-\_\-input, }
+\item[{size\-\_\-t}]{di\-\_\-size, }
+\item[{unsigned char $\ast$}]{data\-\_\-output, }
+\item[{size\-\_\-t}]{do\-\_\-size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_open_c_l_bayer_filter_ac0ffdd5af33fa1c8cb82d2fdf0b6180f}
+Run kernel. 
+\begin{DoxyParams}{Parameters}
+{\em data\-\_\-input} & Pointer to input data. \\
+\hline
+{\em di\-\_\-size} & Size of input data. \\
+\hline
+{\em data\-\_\-output} & Pointer to output data. \\
+\hline
+{\em do\-\_\-size} & Size of output data. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_open_c_l_algorithm}{Open\-C\-L\-Algorithm}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Bayer\-Filter/\-Open\-C\-L\-Interface/Open\-C\-L\-Bayer\-Filter.\-h\item 
+Bayer\-Filter/\-Open\-C\-L\-Interface/Open\-C\-L\-Bayer\-Filter.\-cpp\end{DoxyCompactItemize}

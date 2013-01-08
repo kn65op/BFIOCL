@@ -1,0 +1,123 @@
+\hypertarget{class_j_a_i_1_1_camera}{\section{J\-A\-I\-:\-:Camera Class Reference}
+\label{class_j_a_i_1_1_camera}\index{J\-A\-I\-::\-Camera@{J\-A\-I\-::\-Camera}}
+}
+
+
+Class implement J\-A\-I \hyperlink{class_j_a_i_1_1_camera}{Camera} interface.  
+
+
+
+
+{\ttfamily \#include $<$Camera.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_j_a_i_1_1_camera_a85bf54a6d936d9d57c03aac12d1c26e1}{{\bfseries Camera} (int8\-\_\-t $\ast$index)}\label{class_j_a_i_1_1_camera_a85bf54a6d936d9d57c03aac12d1c26e1}
+
+\item 
+bool \hyperlink{class_j_a_i_1_1_camera_a721fd6f5f51eaa6c6fffa011156837f2}{open} ()
+\item 
+void \hyperlink{class_j_a_i_1_1_camera_a19b8e56ddba3acc0f7f963360418bf44}{close} ()
+\item 
+bool \hyperlink{class_j_a_i_1_1_camera_a0ada0a38ccf73515b68dfa813c629a73}{start} ()
+\item 
+void \hyperlink{class_j_a_i_1_1_camera_ae6c6aeaf70ad261f3c188c50e8701b0b}{stop} ()
+\item 
+cv\-::\-Mat \hyperlink{class_j_a_i_1_1_camera_a87db8a92842cd44b6f56e32ace2cee56}{get\-Next\-Frame} ()
+\item 
+void \hyperlink{class_j_a_i_1_1_camera_a763cae701a82b3356be061a0f4a7bdc3}{get\-Image\-Size} (int \&x, int \&y)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\-::list$<$ \hyperlink{class_j_a_i_1_1_camera}{Camera} $\ast$ $>$ \hyperlink{class_j_a_i_1_1_camera_abf0561e5508ed968e59cec9b6cee80c2}{get\-Camera\-List} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class implement J\-A\-I \hyperlink{class_j_a_i_1_1_camera}{Camera} interface. 
+
+Example of usage\-: \hyperlink{class_j_a_i_1_1_camera}{J\-A\-I\-::\-Camera} $\ast$camera = \hyperlink{class_j_a_i_1_1_camera_abf0561e5508ed968e59cec9b6cee80c2}{J\-A\-I\-::\-Camera\-::get\-Camera\-List()}.front(); camera.\-open(); //check return value camera.\-start(); //check return value //in loop, with try and catch blocks in case of getting new image, when camera haven't return it yet. cv\-::\-Mat image = camera.\-get\-Next\-Frame(); //do stuff with image camera.\-stop(); camera.\-close(); 
+\begin{DoxyParams}{Parameters}
+{\em index} & \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_j_a_i_1_1_camera_a19b8e56ddba3acc0f7f963360418bf44}{\index{J\-A\-I\-::\-Camera@{J\-A\-I\-::\-Camera}!close@{close}}
+\index{close@{close}!JAI::Camera@{J\-A\-I\-::\-Camera}}
+\subsubsection[{close}]{\setlength{\rightskip}{0pt plus 5cm}void Camera\-::close (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_j_a_i_1_1_camera_a19b8e56ddba3acc0f7f963360418bf44}
+Close camera. \hypertarget{class_j_a_i_1_1_camera_abf0561e5508ed968e59cec9b6cee80c2}{\index{J\-A\-I\-::\-Camera@{J\-A\-I\-::\-Camera}!get\-Camera\-List@{get\-Camera\-List}}
+\index{get\-Camera\-List@{get\-Camera\-List}!JAI::Camera@{J\-A\-I\-::\-Camera}}
+\subsubsection[{get\-Camera\-List}]{\setlength{\rightskip}{0pt plus 5cm}std\-::list$<$ {\bf Camera} $\ast$ $>$ Camera\-::get\-Camera\-List (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_j_a_i_1_1_camera_abf0561e5508ed968e59cec9b6cee80c2}
+Get list of all cameras. \begin{DoxyReturn}{Returns}
+List of all cameras. 
+\end{DoxyReturn}
+\hypertarget{class_j_a_i_1_1_camera_a763cae701a82b3356be061a0f4a7bdc3}{\index{J\-A\-I\-::\-Camera@{J\-A\-I\-::\-Camera}!get\-Image\-Size@{get\-Image\-Size}}
+\index{get\-Image\-Size@{get\-Image\-Size}!JAI::Camera@{J\-A\-I\-::\-Camera}}
+\subsubsection[{get\-Image\-Size}]{\setlength{\rightskip}{0pt plus 5cm}void Camera\-::get\-Image\-Size (
+\begin{DoxyParamCaption}
+\item[{int \&}]{x, }
+\item[{int \&}]{y}
+\end{DoxyParamCaption}
+)}}\label{class_j_a_i_1_1_camera_a763cae701a82b3356be061a0f4a7bdc3}
+Get camera image size. 
+\begin{DoxyParams}{Parameters}
+{\em x} & Width of image. \\
+\hline
+{\em y} & Height of image. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_j_a_i_1_1_camera_a87db8a92842cd44b6f56e32ace2cee56}{\index{J\-A\-I\-::\-Camera@{J\-A\-I\-::\-Camera}!get\-Next\-Frame@{get\-Next\-Frame}}
+\index{get\-Next\-Frame@{get\-Next\-Frame}!JAI::Camera@{J\-A\-I\-::\-Camera}}
+\subsubsection[{get\-Next\-Frame}]{\setlength{\rightskip}{0pt plus 5cm}cv\-::\-Mat Camera\-::get\-Next\-Frame (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_j_a_i_1_1_camera_a87db8a92842cd44b6f56e32ace2cee56}
+Get next captured image. \begin{DoxyReturn}{Returns}
+New image. If no new image have been captured throw \hyperlink{class_j_a_i_1_1_no_new_frame_exception}{No\-New\-Frame\-Exception}. 
+\end{DoxyReturn}
+\hypertarget{class_j_a_i_1_1_camera_a721fd6f5f51eaa6c6fffa011156837f2}{\index{J\-A\-I\-::\-Camera@{J\-A\-I\-::\-Camera}!open@{open}}
+\index{open@{open}!JAI::Camera@{J\-A\-I\-::\-Camera}}
+\subsubsection[{open}]{\setlength{\rightskip}{0pt plus 5cm}bool Camera\-::open (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_j_a_i_1_1_camera_a721fd6f5f51eaa6c6fffa011156837f2}
+Open camera. \begin{DoxyReturn}{Returns}
+true if opening was successful. 
+\end{DoxyReturn}
+\hypertarget{class_j_a_i_1_1_camera_a0ada0a38ccf73515b68dfa813c629a73}{\index{J\-A\-I\-::\-Camera@{J\-A\-I\-::\-Camera}!start@{start}}
+\index{start@{start}!JAI::Camera@{J\-A\-I\-::\-Camera}}
+\subsubsection[{start}]{\setlength{\rightskip}{0pt plus 5cm}bool Camera\-::start (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_j_a_i_1_1_camera_a0ada0a38ccf73515b68dfa813c629a73}
+Start capturing images. \begin{DoxyReturn}{Returns}
+true if opening was successful. 
+\end{DoxyReturn}
+\hypertarget{class_j_a_i_1_1_camera_ae6c6aeaf70ad261f3c188c50e8701b0b}{\index{J\-A\-I\-::\-Camera@{J\-A\-I\-::\-Camera}!stop@{stop}}
+\index{stop@{stop}!JAI::Camera@{J\-A\-I\-::\-Camera}}
+\subsubsection[{stop}]{\setlength{\rightskip}{0pt plus 5cm}void Camera\-::stop (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_j_a_i_1_1_camera_ae6c6aeaf70ad261f3c188c50e8701b0b}
+Stop capturing images. 
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Bayer\-Filter/\-J\-A\-I\-Camera\-Interface/Camera.\-h\item 
+Bayer\-Filter/\-J\-A\-I\-Camera\-Interface/Camera.\-cpp\end{DoxyCompactItemize}

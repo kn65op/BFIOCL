@@ -1,0 +1,36 @@
+var annotated =
+[
+    [ "JAI", null, [
+      [ "Camera", "class_j_a_i_1_1_camera.html", "class_j_a_i_1_1_camera" ],
+      [ "CameraException", "class_j_a_i_1_1_camera_exception.html", "class_j_a_i_1_1_camera_exception" ],
+      [ "NoNewFrameException", "class_j_a_i_1_1_no_new_frame_exception.html", "class_j_a_i_1_1_no_new_frame_exception" ],
+      [ "FakeCamera", "class_j_a_i_1_1_fake_camera.html", "class_j_a_i_1_1_fake_camera" ]
+    ] ],
+    [ "BayerFilterStream", "class_bayer_filter_stream.html", "class_bayer_filter_stream" ],
+    [ "BuildProgram", "class_build_program.html", "class_build_program" ],
+    [ "CommandQueue", "class_command_queue.html", null ],
+    [ "ConstructorTest", "class_constructor_test.html", "class_constructor_test" ],
+    [ "DeviceContext", "class_device_context.html", null ],
+    [ "DeviceParameters", "class_device_parameters.html", "class_device_parameters" ],
+    [ "IsValidTest", "class_is_valid_test.html", null ],
+    [ "OpenCLAlgorithm", "class_open_c_l_algorithm.html", "class_open_c_l_algorithm" ],
+    [ "OpenCLAlgorithmException", "struct_open_c_l_algorithm_exception.html", "struct_open_c_l_algorithm_exception" ],
+    [ "OpenCLAlgorithmParams", "class_open_c_l_algorithm_params.html", "class_open_c_l_algorithm_params" ],
+    [ "OpenCLAlgorithmsStream", "class_open_c_l_algorithms_stream.html", "class_open_c_l_algorithms_stream" ],
+    [ "OpenCLAlgorithmsStreamException", "struct_open_c_l_algorithms_stream_exception.html", "struct_open_c_l_algorithms_stream_exception" ],
+    [ "OpenCLBayerFilter", "class_open_c_l_bayer_filter.html", "class_open_c_l_bayer_filter" ],
+    [ "OpenCLBayerFilterFloat", "class_open_c_l_bayer_filter_float.html", "class_open_c_l_bayer_filter_float" ],
+    [ "OpenCLBayerFilterImage", "class_open_c_l_bayer_filter_image.html", "class_open_c_l_bayer_filter_image" ],
+    [ "OpenCLBayerFilterParams", "class_open_c_l_bayer_filter_params.html", "class_open_c_l_bayer_filter_params" ],
+    [ "OpenCLDevice", "class_open_c_l_device.html", "class_open_c_l_device" ],
+    [ "OpenCLDeviceException", "struct_open_c_l_device_exception.html", "struct_open_c_l_device_exception" ],
+    [ "OpenCLException", "class_open_c_l_exception.html", "class_open_c_l_exception" ],
+    [ "OpenCLFloatToInt", "class_open_c_l_float_to_int.html", "class_open_c_l_float_to_int" ],
+    [ "OpenCLImageAlgorithm", "class_open_c_l_image_algorithm.html", "class_open_c_l_image_algorithm" ],
+    [ "OpenCLImageFilter", "class_open_c_l_image_filter.html", "class_open_c_l_image_filter" ],
+    [ "OpenCLIntToFloat", "class_open_c_l_int_to_float.html", "class_open_c_l_int_to_float" ],
+    [ "OpenCLInvertImage", "class_open_c_l_invert_image.html", "class_open_c_l_invert_image" ],
+    [ "OpenCLInvertImageParams", "class_open_c_l_invert_image_params.html", "class_open_c_l_invert_image_params" ],
+    [ "Options", "class_options.html", "class_options" ],
+    [ "SetDevice", "class_set_device.html", "class_set_device" ]
+];

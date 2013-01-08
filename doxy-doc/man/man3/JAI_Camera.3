@@ -1,0 +1,114 @@
+.TH "JAI::Camera" 3 "Tue Jan 8 2013" "BFIOCL" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+JAI::Camera \- 
+.PP
+Class implement JAI \fBCamera\fP interface\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Camera\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCamera\fP (int8_t *index)"
+.br
+.ti -1c
+.RI "bool \fBopen\fP ()"
+.br
+.ti -1c
+.RI "void \fBclose\fP ()"
+.br
+.ti -1c
+.RI "bool \fBstart\fP ()"
+.br
+.ti -1c
+.RI "void \fBstop\fP ()"
+.br
+.ti -1c
+.RI "cv::Mat \fBgetNextFrame\fP ()"
+.br
+.ti -1c
+.RI "void \fBgetImageSize\fP (int &x, int &y)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static std::list< \fBCamera\fP * > \fBgetCameraList\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Class implement JAI \fBCamera\fP interface\&. 
+
+Example of usage: \fBJAI::Camera\fP *camera = \fBJAI::Camera::getCameraList()\fP\&.front(); camera\&.open(); //check return value camera\&.start(); //check return value //in loop, with try and catch blocks in case of getting new image, when camera haven't return it yet\&. cv::Mat image = camera\&.getNextFrame(); //do stuff with image camera\&.stop(); camera\&.close(); 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIindex\fP 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void Camera::close ()"
+Close camera\&. 
+.SS "std::list< \fBCamera\fP * > Camera::getCameraList ()\fC [static]\fP"
+Get list of all cameras\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+List of all cameras\&. 
+.RE
+.PP
+
+.SS "void Camera::getImageSize (int &x, int &y)"
+Get camera image size\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP Width of image\&. 
+.br
+\fIy\fP Height of image\&. 
+.RE
+.PP
+
+.SS "cv::Mat Camera::getNextFrame ()"
+Get next captured image\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+New image\&. If no new image have been captured throw \fBNoNewFrameException\fP\&. 
+.RE
+.PP
+
+.SS "bool Camera::open ()"
+Open camera\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+true if opening was successful\&. 
+.RE
+.PP
+
+.SS "bool Camera::start ()"
+Start capturing images\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+true if opening was successful\&. 
+.RE
+.PP
+
+.SS "void Camera::stop ()"
+Stop capturing images\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for BFIOCL from the source code\&.

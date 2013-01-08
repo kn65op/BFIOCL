@@ -1,0 +1,171 @@
+\hypertarget{class_open_c_l_device}{\section{Open\-C\-L\-Device Class Reference}
+\label{class_open_c_l_device}\index{Open\-C\-L\-Device@{Open\-C\-L\-Device}}
+}
+
+
+Class represents C\-L Device.  
+
+
+
+
+{\ttfamily \#include $<$Open\-C\-L\-Device.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_open_c_l_device_a8d4f5c50944c4745d1ee59b2b717a7d0}{Open\-C\-L\-Device} (cl\-\_\-platform\-\_\-id pid, cl\-\_\-device\-\_\-id did)
+\item 
+\hypertarget{class_open_c_l_device_a2af0a729c6e471b2189d3cb9acd6a3c4}{{\bfseries Open\-C\-L\-Device} (const \hyperlink{class_open_c_l_device}{Open\-C\-L\-Device} \&orig)}\label{class_open_c_l_device_a2af0a729c6e471b2189d3cb9acd6a3c4}
+
+\item 
+std\-::string \hyperlink{class_open_c_l_device_a8e5114c9c63095797470ddefc11f26ca}{get\-Name} ()
+\item 
+std\-::string \hyperlink{class_open_c_l_device_af1796ace34f0242ee569a5c34bb6034c}{get\-Platform\-Name} ()
+\item 
+cl\-\_\-context \hyperlink{class_open_c_l_device_a7fac33eb284c2e3a4fc7f93c8cfbf0b7}{get\-Context} ()
+\item 
+cl\-\_\-command\-\_\-queue \hyperlink{class_open_c_l_device_aff71ddd1dfd95962866ed614b24950d1}{get\-Command\-Queue} ()
+\item 
+cl\-\_\-program \hyperlink{class_open_c_l_device_a26a7c768342b44584a7d6d5b9ba1bfe6}{create\-And\-Build\-Program\-From\-Source} (std\-::string source)
+\item 
+cl\-\_\-program \hyperlink{class_open_c_l_device_a687671254390e260d51aa159d55958fd}{create\-And\-Build\-Program\-From\-File} (std\-::string filename)
+\item 
+bool \hyperlink{class_open_c_l_device_a88adcb0d7cba58d329f752f66868f568}{is\-Valid} () const 
+\item 
+\hypertarget{class_open_c_l_device_a66585eb3efeae9845d64f5485f6a34a1}{const \hyperlink{class_open_c_l_device}{Open\-C\-L\-Device} \& {\bfseries operator=} (const \hyperlink{class_open_c_l_device}{Open\-C\-L\-Device} \&)}\label{class_open_c_l_device_a66585eb3efeae9845d64f5485f6a34a1}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\-::list$<$ \hyperlink{class_open_c_l_device}{Open\-C\-L\-Device} $>$ \hyperlink{class_open_c_l_device_a9686b608738af475e51b0b56769bce82}{get\-Devices} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_open_c_l_device_a31d0472c5bccfd9242c31c3e5436386d}{cl\-\_\-platform\-\_\-id {\bfseries platform\-\_\-id}}\label{class_open_c_l_device_a31d0472c5bccfd9242c31c3e5436386d}
+
+\item 
+\hypertarget{class_open_c_l_device_a1e377390048b0e285812f27b22414451}{cl\-\_\-device\-\_\-id {\bfseries device\-\_\-id}}\label{class_open_c_l_device_a1e377390048b0e285812f27b22414451}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class represents C\-L Device. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_open_c_l_device_a8d4f5c50944c4745d1ee59b2b717a7d0}{\index{Open\-C\-L\-Device@{Open\-C\-L\-Device}!Open\-C\-L\-Device@{Open\-C\-L\-Device}}
+\index{Open\-C\-L\-Device@{Open\-C\-L\-Device}!OpenCLDevice@{Open\-C\-L\-Device}}
+\subsubsection[{Open\-C\-L\-Device}]{\setlength{\rightskip}{0pt plus 5cm}Open\-C\-L\-Device\-::\-Open\-C\-L\-Device (
+\begin{DoxyParamCaption}
+\item[{cl\-\_\-platform\-\_\-id}]{pid, }
+\item[{cl\-\_\-device\-\_\-id}]{did}
+\end{DoxyParamCaption}
+)}}\label{class_open_c_l_device_a8d4f5c50944c4745d1ee59b2b717a7d0}
+Constructor with setting cl\-\_\-platform\-\_\-id and cl\-\_\-device\-\_\-id. 
+\begin{DoxyParams}{Parameters}
+{\em pid} & cl\-\_\-platform\-\_\-id . \\
+\hline
+{\em didcl\-\_\-device\-\_\-id.} & \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_open_c_l_device_a687671254390e260d51aa159d55958fd}{\index{Open\-C\-L\-Device@{Open\-C\-L\-Device}!create\-And\-Build\-Program\-From\-File@{create\-And\-Build\-Program\-From\-File}}
+\index{create\-And\-Build\-Program\-From\-File@{create\-And\-Build\-Program\-From\-File}!OpenCLDevice@{Open\-C\-L\-Device}}
+\subsubsection[{create\-And\-Build\-Program\-From\-File}]{\setlength{\rightskip}{0pt plus 5cm}cl\-\_\-program Open\-C\-L\-Device\-::create\-And\-Build\-Program\-From\-File (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{filename}
+\end{DoxyParamCaption}
+)}}\label{class_open_c_l_device_a687671254390e260d51aa159d55958fd}
+Create program from file. 
+\begin{DoxyParams}{Parameters}
+{\em filename} & Name in std\-::string of file with program source. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+cl\-\_\-program with program. 
+\end{DoxyReturn}
+\hypertarget{class_open_c_l_device_a26a7c768342b44584a7d6d5b9ba1bfe6}{\index{Open\-C\-L\-Device@{Open\-C\-L\-Device}!create\-And\-Build\-Program\-From\-Source@{create\-And\-Build\-Program\-From\-Source}}
+\index{create\-And\-Build\-Program\-From\-Source@{create\-And\-Build\-Program\-From\-Source}!OpenCLDevice@{Open\-C\-L\-Device}}
+\subsubsection[{create\-And\-Build\-Program\-From\-Source}]{\setlength{\rightskip}{0pt plus 5cm}cl\-\_\-program Open\-C\-L\-Device\-::create\-And\-Build\-Program\-From\-Source (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{source}
+\end{DoxyParamCaption}
+)}}\label{class_open_c_l_device_a26a7c768342b44584a7d6d5b9ba1bfe6}
+Create program from source. 
+\begin{DoxyParams}{Parameters}
+{\em source} & Program source in std\-::string. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+cl\-\_\-program with program. 
+\end{DoxyReturn}
+\hypertarget{class_open_c_l_device_aff71ddd1dfd95962866ed614b24950d1}{\index{Open\-C\-L\-Device@{Open\-C\-L\-Device}!get\-Command\-Queue@{get\-Command\-Queue}}
+\index{get\-Command\-Queue@{get\-Command\-Queue}!OpenCLDevice@{Open\-C\-L\-Device}}
+\subsubsection[{get\-Command\-Queue}]{\setlength{\rightskip}{0pt plus 5cm}cl\-\_\-command\-\_\-queue Open\-C\-L\-Device\-::get\-Command\-Queue (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_open_c_l_device_aff71ddd1dfd95962866ed614b24950d1}
+Get command queue for this device. \begin{DoxyReturn}{Returns}
+cl\-\_\-command\-\_\-queue. 
+\end{DoxyReturn}
+\hypertarget{class_open_c_l_device_a7fac33eb284c2e3a4fc7f93c8cfbf0b7}{\index{Open\-C\-L\-Device@{Open\-C\-L\-Device}!get\-Context@{get\-Context}}
+\index{get\-Context@{get\-Context}!OpenCLDevice@{Open\-C\-L\-Device}}
+\subsubsection[{get\-Context}]{\setlength{\rightskip}{0pt plus 5cm}cl\-\_\-context Open\-C\-L\-Device\-::get\-Context (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_open_c_l_device_a7fac33eb284c2e3a4fc7f93c8cfbf0b7}
+Get context for this device. \begin{DoxyReturn}{Returns}
+cl\-\_\-context. 
+\end{DoxyReturn}
+\hypertarget{class_open_c_l_device_a9686b608738af475e51b0b56769bce82}{\index{Open\-C\-L\-Device@{Open\-C\-L\-Device}!get\-Devices@{get\-Devices}}
+\index{get\-Devices@{get\-Devices}!OpenCLDevice@{Open\-C\-L\-Device}}
+\subsubsection[{get\-Devices}]{\setlength{\rightskip}{0pt plus 5cm}std\-::list$<$ {\bf Open\-C\-L\-Device} $>$ Open\-C\-L\-Device\-::get\-Devices (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_open_c_l_device_a9686b608738af475e51b0b56769bce82}
+Returns list of all devices. \begin{DoxyReturn}{Returns}
+List of all devices in system. 
+\end{DoxyReturn}
+\hypertarget{class_open_c_l_device_a8e5114c9c63095797470ddefc11f26ca}{\index{Open\-C\-L\-Device@{Open\-C\-L\-Device}!get\-Name@{get\-Name}}
+\index{get\-Name@{get\-Name}!OpenCLDevice@{Open\-C\-L\-Device}}
+\subsubsection[{get\-Name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Open\-C\-L\-Device\-::get\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_open_c_l_device_a8e5114c9c63095797470ddefc11f26ca}
+Get device name. \begin{DoxyReturn}{Returns}
+std\-::string with name; 
+\end{DoxyReturn}
+\hypertarget{class_open_c_l_device_af1796ace34f0242ee569a5c34bb6034c}{\index{Open\-C\-L\-Device@{Open\-C\-L\-Device}!get\-Platform\-Name@{get\-Platform\-Name}}
+\index{get\-Platform\-Name@{get\-Platform\-Name}!OpenCLDevice@{Open\-C\-L\-Device}}
+\subsubsection[{get\-Platform\-Name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Open\-C\-L\-Device\-::get\-Platform\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_open_c_l_device_af1796ace34f0242ee569a5c34bb6034c}
+Get platform name. \begin{DoxyReturn}{Returns}
+std\-::string with name. 
+\end{DoxyReturn}
+\hypertarget{class_open_c_l_device_a88adcb0d7cba58d329f752f66868f568}{\index{Open\-C\-L\-Device@{Open\-C\-L\-Device}!is\-Valid@{is\-Valid}}
+\index{is\-Valid@{is\-Valid}!OpenCLDevice@{Open\-C\-L\-Device}}
+\subsubsection[{is\-Valid}]{\setlength{\rightskip}{0pt plus 5cm}bool Open\-C\-L\-Device\-::is\-Valid (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_open_c_l_device_a88adcb0d7cba58d329f752f66868f568}
+Checks if device is valid and ready for use it. \begin{DoxyReturn}{Returns}
+true if yes, fakse otherwise. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Bayer\-Filter/\-Open\-C\-L\-Interface/Open\-C\-L\-Device.\-h\item 
+Bayer\-Filter/\-Open\-C\-L\-Interface/Open\-C\-L\-Device.\-cpp\end{DoxyCompactItemize}

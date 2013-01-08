@@ -1,0 +1,121 @@
+\hypertarget{class_open_c_l_algorithms_stream}{\section{Open\-C\-L\-Algorithms\-Stream Class Reference}
+\label{class_open_c_l_algorithms_stream}\index{Open\-C\-L\-Algorithms\-Stream@{Open\-C\-L\-Algorithms\-Stream}}
+}
+
+
+Class for creating algorithms streams.  
+
+
+
+
+{\ttfamily \#include $<$Open\-C\-L\-Algorithms\-Stream.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_open_c_l_algorithms_stream_abf3cd39341605a40e7a49302f1f11f1d}{push\-Algorithm} (\hyperlink{class_open_c_l_image_algorithm}{Open\-C\-L\-Image\-Algorithm} $\ast$al)
+\item 
+void \hyperlink{class_open_c_l_algorithms_stream_a3854966e3f381639e7b10dafc142b63a}{clear\-Algorithms} ()
+\item 
+void \hyperlink{class_open_c_l_algorithms_stream_a7f0553ee23b81eb9ab4266cde99c1099}{set\-Data\-Size} (size\-\_\-t w, size\-\_\-t h)
+\item 
+void \hyperlink{class_open_c_l_algorithms_stream_a6bf87e51a5c322b613846eb4007ff200}{prepare} ()
+\item 
+void \hyperlink{class_open_c_l_algorithms_stream_ad2c501c0b348a5d1d5067738ac375e7d}{process\-Image} (const void $\ast$data\-\_\-input, void $\ast$data\-\_\-output)
+\item 
+void \hyperlink{class_open_c_l_algorithms_stream_ab12a6a4c643d0446daacb1290fbaa3f9}{set\-Device} (\hyperlink{class_open_c_l_device}{Open\-C\-L\-Device} \&d)
+\item 
+double \hyperlink{class_open_c_l_algorithms_stream_a7e5fc365834000c2132498e3d6d1f028}{get\-Time} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class for creating algorithms streams. 
+
+It can be used with algorithms that use cl\-\_\-image\-\_\-2d. Algorithm must have first parameter as input image and second parameter as output image. Other parameters can be use manually and freely in copy\-Data\-To\-G\-P\-U\-Stream and set\-Kernel\-Args\-For\-Stream. Input for next algorithm must be same as output for previous algorithm. 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_open_c_l_algorithms_stream_a3854966e3f381639e7b10dafc142b63a}{\index{Open\-C\-L\-Algorithms\-Stream@{Open\-C\-L\-Algorithms\-Stream}!clear\-Algorithms@{clear\-Algorithms}}
+\index{clear\-Algorithms@{clear\-Algorithms}!OpenCLAlgorithmsStream@{Open\-C\-L\-Algorithms\-Stream}}
+\subsubsection[{clear\-Algorithms}]{\setlength{\rightskip}{0pt plus 5cm}void Open\-C\-L\-Algorithms\-Stream\-::clear\-Algorithms (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_open_c_l_algorithms_stream_a3854966e3f381639e7b10dafc142b63a}
+Removes all algorithms from stream. \hypertarget{class_open_c_l_algorithms_stream_a7e5fc365834000c2132498e3d6d1f028}{\index{Open\-C\-L\-Algorithms\-Stream@{Open\-C\-L\-Algorithms\-Stream}!get\-Time@{get\-Time}}
+\index{get\-Time@{get\-Time}!OpenCLAlgorithmsStream@{Open\-C\-L\-Algorithms\-Stream}}
+\subsubsection[{get\-Time}]{\setlength{\rightskip}{0pt plus 5cm}double Open\-C\-L\-Algorithms\-Stream\-::get\-Time (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_open_c_l_algorithms_stream_a7e5fc365834000c2132498e3d6d1f028}
+Get time consumed on execution all algorithms in stream on last run. \begin{DoxyReturn}{Returns}
+Time in ms. 
+\end{DoxyReturn}
+\hypertarget{class_open_c_l_algorithms_stream_a6bf87e51a5c322b613846eb4007ff200}{\index{Open\-C\-L\-Algorithms\-Stream@{Open\-C\-L\-Algorithms\-Stream}!prepare@{prepare}}
+\index{prepare@{prepare}!OpenCLAlgorithmsStream@{Open\-C\-L\-Algorithms\-Stream}}
+\subsubsection[{prepare}]{\setlength{\rightskip}{0pt plus 5cm}void Open\-C\-L\-Algorithms\-Stream\-::prepare (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_open_c_l_algorithms_stream_a6bf87e51a5c322b613846eb4007ff200}
+Prepare algorithms for execution. \hypertarget{class_open_c_l_algorithms_stream_ad2c501c0b348a5d1d5067738ac375e7d}{\index{Open\-C\-L\-Algorithms\-Stream@{Open\-C\-L\-Algorithms\-Stream}!process\-Image@{process\-Image}}
+\index{process\-Image@{process\-Image}!OpenCLAlgorithmsStream@{Open\-C\-L\-Algorithms\-Stream}}
+\subsubsection[{process\-Image}]{\setlength{\rightskip}{0pt plus 5cm}void Open\-C\-L\-Algorithms\-Stream\-::process\-Image (
+\begin{DoxyParamCaption}
+\item[{const void $\ast$}]{data\-\_\-input, }
+\item[{void $\ast$}]{data\-\_\-output}
+\end{DoxyParamCaption}
+)}}\label{class_open_c_l_algorithms_stream_ad2c501c0b348a5d1d5067738ac375e7d}
+Execute stream. This function executes all algorithms in stream in order. Must call prepare and set\-Device before. 
+\begin{DoxyParams}{Parameters}
+{\em data\-\_\-input} & Pointer to data input. \\
+\hline
+{\em data\-\_\-output} & Pointer to data output. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_open_c_l_algorithms_stream_abf3cd39341605a40e7a49302f1f11f1d}{\index{Open\-C\-L\-Algorithms\-Stream@{Open\-C\-L\-Algorithms\-Stream}!push\-Algorithm@{push\-Algorithm}}
+\index{push\-Algorithm@{push\-Algorithm}!OpenCLAlgorithmsStream@{Open\-C\-L\-Algorithms\-Stream}}
+\subsubsection[{push\-Algorithm}]{\setlength{\rightskip}{0pt plus 5cm}void Open\-C\-L\-Algorithms\-Stream\-::push\-Algorithm (
+\begin{DoxyParamCaption}
+\item[{{\bf Open\-C\-L\-Image\-Algorithm} $\ast$}]{al}
+\end{DoxyParamCaption}
+)}}\label{class_open_c_l_algorithms_stream_abf3cd39341605a40e7a49302f1f11f1d}
+Add algorithm to stream on last position. Throws \hyperlink{struct_open_c_l_algorithms_stream_exception}{Open\-C\-L\-Algorithms\-Stream\-Exception} if input is differ from output of last algorithm on list. 
+\begin{DoxyParams}{Parameters}
+{\em al} & Algorithm to add. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_open_c_l_algorithms_stream_a7f0553ee23b81eb9ab4266cde99c1099}{\index{Open\-C\-L\-Algorithms\-Stream@{Open\-C\-L\-Algorithms\-Stream}!set\-Data\-Size@{set\-Data\-Size}}
+\index{set\-Data\-Size@{set\-Data\-Size}!OpenCLAlgorithmsStream@{Open\-C\-L\-Algorithms\-Stream}}
+\subsubsection[{set\-Data\-Size}]{\setlength{\rightskip}{0pt plus 5cm}void Open\-C\-L\-Algorithms\-Stream\-::set\-Data\-Size (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{w, }
+\item[{size\-\_\-t}]{h}
+\end{DoxyParamCaption}
+)}}\label{class_open_c_l_algorithms_stream_a7f0553ee23b81eb9ab4266cde99c1099}
+Set size of image. 
+\begin{DoxyParams}{Parameters}
+{\em w} & Width. \\
+\hline
+{\em h} & Height. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_open_c_l_algorithms_stream_ab12a6a4c643d0446daacb1290fbaa3f9}{\index{Open\-C\-L\-Algorithms\-Stream@{Open\-C\-L\-Algorithms\-Stream}!set\-Device@{set\-Device}}
+\index{set\-Device@{set\-Device}!OpenCLAlgorithmsStream@{Open\-C\-L\-Algorithms\-Stream}}
+\subsubsection[{set\-Device}]{\setlength{\rightskip}{0pt plus 5cm}void Open\-C\-L\-Algorithms\-Stream\-::set\-Device (
+\begin{DoxyParamCaption}
+\item[{{\bf Open\-C\-L\-Device} \&}]{d}
+\end{DoxyParamCaption}
+)}}\label{class_open_c_l_algorithms_stream_ab12a6a4c643d0446daacb1290fbaa3f9}
+Set device for executing. 
+\begin{DoxyParams}{Parameters}
+{\em d} & Device. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Bayer\-Filter/\-Open\-C\-L\-Interface/Open\-C\-L\-Algorithms\-Stream.\-h\item 
+Bayer\-Filter/\-Open\-C\-L\-Interface/Open\-C\-L\-Algorithms\-Stream.\-cpp\end{DoxyCompactItemize}

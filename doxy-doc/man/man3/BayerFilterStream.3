@@ -1,0 +1,87 @@
+.TH "BayerFilterStream" 3 "Tue Jan 8 2013" "BFIOCL" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+BayerFilterStream \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <BayerFilterStream\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBBayerFilterStream\fP (int w, int h, cl_uchar mode, float red_k=1\&.0, float green_k=1\&.0, float blue_k=1\&.0)"
+.br
+.ti -1c
+.RI "void \fBsetFiles\fP (std::string in, std::string out)"
+.br
+.ti -1c
+.RI "void \fBprocessImage\fP (cv::Mat &source, cv::Mat &dest)"
+.br
+.ti -1c
+.RI "double \fBgetAllTime\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Class which performs Bayer filter with coversions from int to float on input and from float to int on output\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "BayerFilterStream::BayerFilterStream (intw, inth, cl_ucharmode, floatred_k = \fC1\&.0\fP, floatgreen_k = \fC1\&.0\fP, floatblue_k = \fC1\&.0\fP)"
+Constructor with setting main parameters of Bayer Filter\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIw\fP Image width\&. 
+.br
+\fIh\fP Image height\&. 
+.br
+\fImode\fP Bayer filter mode\&. Can be 0-3 and represents type of Bayer Filter\&. 
+.br
+\fIred_k\fP Red color factor\&. Can be from 0 to 1\&. Default is 1\&. 
+.br
+\fIgreen_k\fP Green color factor\&. Can be from 0 to 1\&. Default is 1\&. 
+.br
+\fIblue_k\fP Blue color factor\&. Can be from 0 to 1\&. Default is 1\&. 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "double BayerFilterStream::getAllTime ()"
+Get all time consumed\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+Time consumed on all execution of stream\&. 
+.RE
+.PP
+
+.SS "void BayerFilterStream::processImage (cv::Mat &source, cv::Mat &dest)"
+Set source and destination image\&. Images are in cv::Mat format\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsource\fP Source image\&. 
+.br
+\fIdest\fP Destination image\&. Important, image must be allocated before for reasons of efficiency\&. 
+.RE
+.PP
+
+.SS "void BayerFilterStream::setFiles (std::stringin, std::stringout)"
+Set source and destination files and perform interpolation\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIin\fP Source file\&. 
+.br
+\fIout\fP Destination file\&. 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for BFIOCL from the source code\&.

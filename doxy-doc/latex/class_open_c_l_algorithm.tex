@@ -1,0 +1,90 @@
+\hypertarget{class_open_c_l_algorithm}{\section{Open\-C\-L\-Algorithm Class Reference}
+\label{class_open_c_l_algorithm}\index{Open\-C\-L\-Algorithm@{Open\-C\-L\-Algorithm}}
+}
+
+
+Iterface for Open\-C\-L algorithm.  
+
+
+
+
+{\ttfamily \#include $<$Open\-C\-L\-Algorithm.\-h$>$}
+
+Inheritance diagram for Open\-C\-L\-Algorithm\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.352657cm]{class_open_c_l_algorithm}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_open_c_l_algorithm_a221df13217e01a0026fbfe5b362705fb}{{\bfseries Open\-C\-L\-Algorithm} (const \hyperlink{class_open_c_l_device}{Open\-C\-L\-Device} \&dev)}\label{class_open_c_l_algorithm_a221df13217e01a0026fbfe5b362705fb}
+
+\item 
+\hypertarget{class_open_c_l_algorithm_a0152457460f54706f5dc69b7bda0ebd5}{virtual void {\bfseries set\-Device} (const \hyperlink{class_open_c_l_device}{Open\-C\-L\-Device} \&dev)}\label{class_open_c_l_algorithm_a0152457460f54706f5dc69b7bda0ebd5}
+
+\item 
+\hypertarget{class_open_c_l_algorithm_a300df71ec71c9ad7ad4da25138bfd416}{virtual void {\bfseries enqueue\-N\-D\-Range\-Kernel\-With\-Time\-Measurment} (cl\-\_\-uint work\-\_\-dim, size\-\_\-t $\ast$global\-\_\-work\-\_\-offset, const size\-\_\-t $\ast$global\-\_\-work\-\_\-size, const size\-\_\-t $\ast$local\-\_\-work\-\_\-size, cl\-\_\-uint num\-\_\-events\-\_\-in\-\_\-wait\-\_\-list)}\label{class_open_c_l_algorithm_a300df71ec71c9ad7ad4da25138bfd416}
+
+\item 
+\hypertarget{class_open_c_l_algorithm_ab027e55b4160800a9fad870ce0959f20}{double {\bfseries get\-Time\-Consumed} () const }\label{class_open_c_l_algorithm_ab027e55b4160800a9fad870ce0959f20}
+
+\item 
+\hypertarget{class_open_c_l_algorithm_af33499028c20209c2ec19c8b30ec1472}{virtual void {\bfseries prepare} (size\-\_\-t di\-\_\-size, size\-\_\-t do\-\_\-size)}\label{class_open_c_l_algorithm_af33499028c20209c2ec19c8b30ec1472}
+
+\item 
+\hypertarget{class_open_c_l_algorithm_a5bdf8445ab8de2d7270994f904d4ad18}{virtual void {\bfseries release\-Mem} ()=0}\label{class_open_c_l_algorithm_a5bdf8445ab8de2d7270994f904d4ad18}
+
+\item 
+\hypertarget{class_open_c_l_algorithm_a7c7abb00a46ef44d22bfbddba0c3dcfc}{virtual void {\bfseries set\-Params} (const \hyperlink{class_open_c_l_algorithm_params}{Open\-C\-L\-Algorithm\-Params} \&params)=0}\label{class_open_c_l_algorithm_a7c7abb00a46ef44d22bfbddba0c3dcfc}
+
+\item 
+\hypertarget{class_open_c_l_algorithm_a8b509fcddcd2e4573faa5a6577cbf440}{virtual void {\bfseries run} (const unsigned char $\ast$data\-\_\-input, size\-\_\-t di\-\_\-size, unsigned char $\ast$data\-\_\-output, size\-\_\-t do\-\_\-size)=0}\label{class_open_c_l_algorithm_a8b509fcddcd2e4573faa5a6577cbf440}
+
+\item 
+\hypertarget{class_open_c_l_algorithm_aaacc618bcb4834c93bdd9f625963c8d4}{virtual void {\bfseries set\-Kernel\-Args} (size\-\_\-t di\-\_\-size, size\-\_\-t do\-\_\-size)=0}\label{class_open_c_l_algorithm_aaacc618bcb4834c93bdd9f625963c8d4}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_open_c_l_algorithm_a02e11a776beff3a88024740b78c1c37c}{\hyperlink{class_open_c_l_device}{Open\-C\-L\-Device} {\bfseries device}}\label{class_open_c_l_algorithm_a02e11a776beff3a88024740b78c1c37c}
+
+\item 
+\hypertarget{class_open_c_l_algorithm_a1309dfe1dc2eb356927696ef89d7fb40}{cl\-\_\-kernel {\bfseries kernel}}\label{class_open_c_l_algorithm_a1309dfe1dc2eb356927696ef89d7fb40}
+
+\item 
+\hypertarget{class_open_c_l_algorithm_a7d171172a8d7acd7723fcec61ca3afae}{cl\-\_\-program {\bfseries program}}\label{class_open_c_l_algorithm_a7d171172a8d7acd7723fcec61ca3afae}
+
+\item 
+\hypertarget{class_open_c_l_algorithm_ac072722d54753670f9516639c69512de}{cl\-\_\-command\-\_\-queue {\bfseries command\-\_\-queue}}\label{class_open_c_l_algorithm_ac072722d54753670f9516639c69512de}
+
+\item 
+\hypertarget{class_open_c_l_algorithm_a8a08d923fd5a215abae8d8a42d693129}{cl\-\_\-context {\bfseries context}}\label{class_open_c_l_algorithm_a8a08d923fd5a215abae8d8a42d693129}
+
+\item 
+\hypertarget{class_open_c_l_algorithm_a720924d24f290317d17d7b4abc9140ef}{std\-::string {\bfseries kernel\-\_\-name}}\label{class_open_c_l_algorithm_a720924d24f290317d17d7b4abc9140ef}
+
+\item 
+\hypertarget{class_open_c_l_algorithm_aa74ffaaa747032096fdd75d85a5cac66}{std\-::string {\bfseries source\-\_\-file}}\label{class_open_c_l_algorithm_aa74ffaaa747032096fdd75d85a5cac66}
+
+\item 
+\hypertarget{class_open_c_l_algorithm_a45bb254721a3a12c5f0e6631ca8bd63a}{double {\bfseries total\-\_\-time}}\label{class_open_c_l_algorithm_a45bb254721a3a12c5f0e6631ca8bd63a}
+
+\item 
+\hypertarget{class_open_c_l_algorithm_a87cc9fa35d1b14d1ad1e7072c7308bf4}{cl\-\_\-mem {\bfseries input}}\label{class_open_c_l_algorithm_a87cc9fa35d1b14d1ad1e7072c7308bf4}
+
+\item 
+\hypertarget{class_open_c_l_algorithm_a08fad27b4f01a1346471e8e15c310b4f}{cl\-\_\-mem {\bfseries output}}\label{class_open_c_l_algorithm_a08fad27b4f01a1346471e8e15c310b4f}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Iterface for Open\-C\-L algorithm. 
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Bayer\-Filter/\-Open\-C\-L\-Interface/Open\-C\-L\-Algorithm.\-h\item 
+Bayer\-Filter/\-Open\-C\-L\-Interface/Open\-C\-L\-Algorithm.\-cpp\end{DoxyCompactItemize}
