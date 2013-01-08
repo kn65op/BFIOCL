@@ -5,6 +5,9 @@
 #include <OpenCLBayerFilter.h>
 #include <opencv2/core/core.hpp>
 
+/**
+ * Example class for usage first version of OpenCLInterface.
+ */
 class OpenCLImageFilter
 {
 public:

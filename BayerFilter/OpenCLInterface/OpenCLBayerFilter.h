@@ -43,9 +43,9 @@ public:
 };
 
 /**
- * @brief Bayer filter.
+ * @brief Abstract class for Bayer filter implementation .
  * 
- * It use float as parameter to OpenCL kernel.
+ * It has two derived class: one use cl_float and second use cl_image_2d
  */
 class OpenCLBayerFilter : virtual public OpenCLAlgorithm
 {
@@ -55,6 +55,13 @@ public:
   ~OpenCLBayerFilter();
   virtual void setParams(const OpenCLAlgorithmParams& params);
   void setParams(const OpenCLBayerFilterParams& params);
+  /**
+   * Run kernel.
+   * @param data_input Pointer to input data.
+   * @param di_size Size of input data.
+   * @param data_output Pointer to output data.
+   * @param do_size Size of output data.
+   */
   virtual void run(const unsigned char* data_input, size_t di_size, unsigned char* data_output, size_t do_size);
   
 protected:
@@ -62,8 +69,21 @@ protected:
   OpenCLBayerFilterParams params;
 
   //function that differ for methods, 
+  /**
+   * Get result.
+   * @param data_output Pointer where to store data output.
+   * @param do_size Size of data output.
+   */
   virtual void getResult(unsigned char* data_output, size_t do_size) = 0;
+  /**
+   * Release memory.
+   */
   virtual void releaseMem();
+  /**
+   * Copy data to GPU.
+   * @param data_input Pointer to data to copy.
+   * @param di_size Size of data to copy.
+   */
   virtual void copyDataToGPU(const unsigned char* data_input, size_t di_size) = 0;
 
   //for stream

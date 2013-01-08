@@ -16,7 +16,12 @@ public:
   Options(void);
   ~Options(void);
 
-  Mode & parseOptions(int argc, char * argv[]);
+  /**
+   * Parse options sent to applications.
+   * @param argc Number of argument.
+   * @param argv Argument values.
+   */
+  Mode & parseOptions(int argc, char * argv[]); //TODO: No return
 
 public:
   Mode mode;

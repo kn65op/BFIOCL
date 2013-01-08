@@ -5,6 +5,9 @@
 namespace JAI
 {
 
+/**
+ * Camera exception.
+ */
 class CameraException
 {
 public:

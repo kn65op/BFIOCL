@@ -10,23 +10,63 @@
 namespace JAI
 {
 
+/**
+ * @brief Class implement JAI Camera interface.
+ * 
+ * Example of usage:
+ * JAI::Camera *camera = JAI::Camera::getCameraList().front();
+ * camera.open(); //check return value
+ * camera.start(); //check return value
+ * //in loop, with try and catch blocks in case of getting new image, when camera haven't return it yet.
+ * cv::Mat image = camera.getNextFrame();
+ * //do stuff with image
+ * camera.stop(); 
+ * camera.close();
+ * @param index
+ */
 class Camera
 {
 public:
   Camera(int8_t* index);
   ~Camera(void);
 
-  //open/close
+  /**
+   * Open camera.
+   * @return true if opening was successful.
+   */
   bool open();
+  /**
+   * Close camera.
+   */
   void close();
 
+  /**
+   * Start capturing images.
+   * @return true if opening was successful.
+   */
   bool start();
+  /**
+   * Stop capturing images.
+   */
   void stop();
 
+  /**
+   * Get next captured image. 
+   * @return New image. If no new image have been captured throw NoNewFrameException.
+   */
   cv::Mat getNextFrame();
 
+  /**
+   * Get camera image size.
+   * @param x Width of image.
+   * @param y Height of image.
+   */
   void getImageSize(int & x, int & y);
 
+  /**
+   * Get list of all cameras.
+   * @return List of all cameras.
+   */
   static std::list<Camera*> getCameraList();
 
 private:

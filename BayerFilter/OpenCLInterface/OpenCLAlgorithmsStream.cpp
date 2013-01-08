@@ -23,7 +23,7 @@ void OpenCLAlgorithmsStream::pushAlgorithm(OpenCLImageAlgorithm * al)
   if (!algorithms.empty() &&
     algorithms.back()->output_format.image_channel_data_type == al->input_format.image_channel_data_type &&
     algorithms.back()->output_format.image_channel_order == al->input_format.image_channel_order) //not first algorithm - need to check if data types for output of last algorithm and input of al is same
-  {//TODO: more validations
+  {
     ASSERT_OPENCL_ERR(0, "Wrog data types");
   }
   algorithms.push_back(al);

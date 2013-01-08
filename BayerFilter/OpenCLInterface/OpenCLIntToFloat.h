@@ -2,6 +2,9 @@
 
 #include "OpenCLAlgorithm.h"
 
+/**
+ * Algorithm perfoming int to float conversion.
+ */
 class OpenCLIntToFloat : public OpenCLImageAlgorithm
 {
 public:

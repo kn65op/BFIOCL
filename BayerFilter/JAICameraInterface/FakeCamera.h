@@ -10,6 +10,10 @@
 namespace JAI
 {
 
+/**
+ * Fake camera that imitates real. It reads files and returns it like a camera.
+ * @param index
+ */
 class FakeCamera
 {
 public:
