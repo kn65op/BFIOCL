@@ -47,6 +47,8 @@ protected:
   std::string kernel_name;
   //source file - to release version change it to kernel code 
   std::string source_file;
+  //
+  std::string source;
 
   //time consumed by kernel in ms
   double total_time;

@@ -89,7 +89,7 @@ void OpenCLImageAlgorithm::prepareForStream(cl_command_queue cc, cl_context c)
   command_queue = cc;
   context = c;
 
-  program = device.createAndBuildProgramFromFile(source_file);
+  program = device.createAndBuildProgramFromSource(source);
  
   cl_int err;
   kernel = clCreateKernel(program, kernel_name.c_str(), &err);
