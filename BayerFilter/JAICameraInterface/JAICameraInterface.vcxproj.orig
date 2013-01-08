@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{C81A83E4-5FC2-48E9-A9CD-BF5835601892}</ProjectGuid>
-    <RootNamespace>OpenCLInterface</RootNamespace>
+    <ProjectGuid>{469B2197-6D1B-4123-9B90-B10D43C7CBF2}</ProjectGuid>
+    <RootNamespace>JAICameraInterface</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -33,26 +33,21 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\OpenCL.props" />
-    <Import Project="..\OpenCLD.props" />
+    <Import Project="..\..\..\PropertySheets\OpenCV.props" />
+    <Import Project="..\..\..\PropertySheets\OpenCVD.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\OpenCL.props" />
-    <Import Project="..\OpenCLR.props" />
+    <Import Project="..\..\..\PropertySheets\OpenCV.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <MultiProcessorCompilation>false</MultiProcessorCompilation>
-      <MinimalRebuild>true</MinimalRebuild>
-      <EnablePREfast>false</EnablePREfast>
+      <AdditionalIncludeDirectories>$(JAI_SDK_INCLUDE)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -72,26 +67,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="OpenCLAlgorithm.h" />
-    <ClInclude Include="OpenCLAlgorithmsStream.h" />
-    <ClInclude Include="OpenCLBayerFilter.h" />
-    <ClInclude Include="OpenCLDevice.h" />
-    <ClInclude Include="OpenCLException.h" />
-    <ClInclude Include="OpenCLFloatToInt.h" />
-    <ClInclude Include="OpenCLHelpers.h" />
-    <ClInclude Include="OpenCLIntToFloat.h" />
-    <ClInclude Include="OpenCLInvertImage.h" />
+    <ClInclude Include="Camera.h" />
+<<<<<<< HEAD
+    <ClInclude Include="FakeCamera.h" />
+=======
+>>>>>>> camera
+    <ClInclude Include="CameraException.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="OpenCLAlgorithm.cpp" />
-    <ClCompile Include="OpenCLAlgorithmsStream.cpp" />
-    <ClCompile Include="OpenCLBayerFilter.cpp" />
-    <ClCompile Include="OpenCLDevice.cpp" />
-    <ClCompile Include="OpenCLException.cpp" />
-    <ClCompile Include="OpenCLFloatToInt.cpp" />
-    <ClCompile Include="OpenCLHelpers.cpp" />
-    <ClCompile Include="OpenCLIntToFloat.cpp" />
-    <ClCompile Include="OpenCLInvertImage.cpp" />
+    <ClCompile Include="Camera.cpp" />
+<<<<<<< HEAD
+    <ClCompile Include="FakeCamera.cpp" />
+=======
+>>>>>>> camera
+    <ClCompile Include="CameraException.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

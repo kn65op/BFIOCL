@@ -78,7 +78,7 @@ void OpenCLAlgorithmsStream::prepare()
   for (auto al = algorithms.begin(); al != end; ++al, ++next)
   {
     cl_mem mem_tmp = clCreateImage2D(context, CL_MEM_READ_WRITE, &(*al)->output_format, width, height, 0, NULL, &err);
-    ASSERT_OPENCL_ERR(err, "Error while creating image2D for output");
+    ASSERT_OPENCL_ERR(err, "Error while creating image2D for input/output");
 
     //set kernel arg for this algorithm
     err = clSetKernelArg((*al)->kernel, 1, sizeof(cl_mem), (void*) &mem_tmp);
@@ -103,7 +103,7 @@ void OpenCLAlgorithmsStream::processImage(const void * data_input, void * data_o
 
   const size_t global_work_size[] = {width, height};
   
-  err = clEnqueueWriteImage(command_queue, input, CL_TRUE, origin, region, 0, 0, data_input, 0, NULL, NULL);
+  err = clEnqueueWriteImage(command_queue, input, CL_FALSE, origin, region, 0, 0, data_input, 0, NULL, NULL);
   ASSERT_OPENCL_ERR(err, "Cant set equeue write input image");
 
   std::for_each(algorithms.begin(), algorithms.end(), [&global_work_size, this](OpenCLImageAlgorithm *al)

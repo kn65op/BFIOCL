@@ -26,7 +26,7 @@ public:
   
   std::string getName();
   std::string getPlatformName();
-  inline cl_context getContext();
+  cl_context getContext();
   cl_command_queue getCommandQueue();
   cl_program createAndBuildProgramFromSource(std::string source);
   cl_program createAndBuildProgramFromFile(std::string filename);
