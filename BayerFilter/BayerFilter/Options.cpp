@@ -2,6 +2,7 @@
 
 Options::Options(void)
 {
+  opencv = false;
 }
 
 
@@ -9,7 +10,7 @@ Options::~Options(void)
 {
 }
 
-Mode & Options::parseOptions(int argc, char * argv[])
+void Options::parseOptions(int argc, char * argv[])
 {
   if (argc == 1)
   {
@@ -34,6 +35,10 @@ Mode & Options::parseOptions(int argc, char * argv[])
         dirname = argv[2];
         filename = argv[3];
       }
+      if (argc == 5 && (param = argv[4]) == "--openCV")
+      {
+        opencv = true;
+      }
     }
     else if(param == "-f")
     {
@@ -46,9 +51,13 @@ Mode & Options::parseOptions(int argc, char * argv[])
       {
         filename = argv[2];
       }
-      if (argc > 4) //TODO: dorobiæ sparwdzanie lepsze
+      if (argc > 4 && (param = argv[3]) == "-o")
       {
         filename_out = argv[4];
+      }
+      if (argc > 5 && (param = argv[5]) == "--openCV")
+      {
+        opencv = true;
       }
     }
     else
@@ -56,5 +65,4 @@ Mode & Options::parseOptions(int argc, char * argv[])
       mode = Mode::HELP;
     }
   }
-  return mode;
 }

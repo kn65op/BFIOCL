@@ -13,7 +13,7 @@ BayerFilterStream::BayerFilterStream(int w, int h, cl_uchar mode, float red_k, f
   stream.setDataSize(w,h);
   stream.setDevice(OpenCLDevice::getDevices().front());
 
-  OpenCLImageAlgorithm* bayer = new OpenCLBayerFilterImage();
+  OpenCLImageAlgorithm* bayer = new OpenCLBayerFilterImage(BayerFilterMask::CIRCLE);
   bayer->setParams(OpenCLBayerFilterParams(w, h, mode, BFIOCL_MODE_BGR, red_k, green_k, blue_k));
 
   stream.pushAlgorithm(new OpenCLIntToFloat());
@@ -52,5 +52,10 @@ void BayerFilterStream::processImage(cv::Mat & source, cv::Mat & dest)
   }
   stream.processImage(source.data, dest.data);
   all_time += stream.getTime();
-  std::cout << all_time << "\n";
+  //std::cout << all_time << "\n";
+}
+
+double BayerFilterStream::getAllTime()
+{
+  return all_time;
 }

@@ -37,6 +37,12 @@ public:
    * @param dest Destination image. Important, image must be allocated before for reasons of efficiency.
    */
   void processImage(cv::Mat & source, cv::Mat & dest);
+
+  /**
+   * Get all time consumed.
+   * @return Time consumed on all execution of stream.
+   */
+  double getAllTime();
 private:
   OpenCLAlgorithmsStream stream;
 

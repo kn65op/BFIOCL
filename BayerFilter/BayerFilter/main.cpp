@@ -23,15 +23,16 @@ void printHelp(std::string program_name)
   std::cout << "Usage: " << program_name << " [mode] [parameters] [options] \n" << 
     "Modes: \n" <<
     "\t-c - read from JAI camera. Default mode. No options.\n" << 
-    "\t-d DIR A- read files from dir. Files must have names Axxx.bmp, where A stand for common prefix and xxx for three positions number of image, wchich starts from 0. No options.\n" << 
+    "\t-d DIR A - read files from dir. Files must have names Axxx.bmp, where A stand for common prefix and xxx for three positions number of image, wchich starts from 0. No options.\n" << 
+    "\t\t--openCV - use OpenCV implementaion (optional) \n" <<
     "\t-f FILE - read and process one file. Options: \n" <<
     "\t\t-o - ouptup file (optional)\n" <<
+    "\t\t--openCV - use OpenCV implementaion (optional) \n" << //TODO: dorobiæ
     "\t-h - print this help\n";
 }
 
 using std::chrono::milliseconds;
 using std::chrono::duration_cast;
-milliseconds ms;
 
 std::atomic<cv::Mat*> image;
 std::atomic<bool> processing;
@@ -63,18 +64,20 @@ void showImage()
 int main (int argc, char * argv[])
 {
   Options options;
-  std::chrono::system_clock::time_point t0, tend;
+  std::chrono::system_clock::time_point t0, tend, ti, tiend;
+  milliseconds ms, mis;
   JAI::Camera * real_cam = nullptr;
   JAI::FakeCamera * fake_cam = nullptr;
   int x, y;
   x = 2456;
   y = 2058;
-  BayerFilterStream bfs(x, y, 3, 0.8f, 0.7f, 0.9f);
-  cv::Mat resize;
+  BayerFilterStream bfs(x, y, 3);//, 0.8f, 0.7f, 0.9f);
+  cv::Mat resize, in, out, for_time;
   //cv::Mat image_local(y, x, CV_8UC4);
   image = new cv::Mat(y, x, CV_8UC4);
+  options.parseOptions(argc, argv);
 
-  switch (options.parseOptions(argc, argv))
+  switch (options.mode)
   {
   case Mode::CAMERA:
     real_cam = JAI::Camera::getCameraList().front();
@@ -125,12 +128,30 @@ int main (int argc, char * argv[])
       try
       {
         cv::Mat resize;
+        if (options.opencv) //OpenCV implementation
+        {
+          while(1)
+          {
+            for_time = fake_cam->getNextFrame();
+            ti = std::chrono::high_resolution_clock::now();
+            cv::cvtColor(for_time, *image, cv::COLOR_BayerBG2BGR);
+            tiend  = std::chrono::high_resolution_clock::now();
+            mis += duration_cast<milliseconds>(tiend-ti);
+            //cv::resize(*image, resize, cv::Size(1920, 1080));
+            //imshow("s", resize);
+            //cv::waitKey(1);
+          }
+        }
         while(1)
         {
-          //bfs.processImage(fake_cam->getNextFrame(), image);
-          //cv::resize(image.load(), resize, cv::Size(1920, 1080));
-          imshow("s", resize);
-          cv::waitKey(1);
+          for_time = fake_cam->getNextFrame();
+          ti = std::chrono::high_resolution_clock::now();
+          bfs.processImage(for_time, *image);
+          tiend = std::chrono::high_resolution_clock::now();
+          mis += duration_cast<milliseconds>(tiend-ti);
+          //cv::resize(*image, resize, cv::Size(1920, 1080));
+          //imshow("s", resize);
+          //cv::waitKey(1);
         }
       }
       catch(JAI::NoNewFrameException & ex)
@@ -142,7 +163,7 @@ int main (int argc, char * argv[])
     fake_cam->close();
     tend = std::chrono::high_resolution_clock::now();
     ms = duration_cast<milliseconds>(tend-t0);
-    std::cout << ms.count() << "\n";
+    std::cout << ms.count() << "\n" << mis.count() << "\n" << bfs.getAllTime() << "\n";
     break; //read from dir;
 
   case Mode::FILE:
@@ -150,6 +171,13 @@ int main (int argc, char * argv[])
     {
       //uchar mode = (uchar) atoi (argc[1]);
       //BayerFilterStream bfs(2456, 2058, mode, 0.8f, 0.7f, 0.9f);
+      if (options.opencv)
+      {
+        in = cv::imread(options.filename, -1);
+        cv::cvtColor(in, out, cv::COLOR_BayerRG2BGR);
+        cv::imwrite(options.filename_out, out);
+        break;
+      }
 
       if (options.filename_out.empty())
       {

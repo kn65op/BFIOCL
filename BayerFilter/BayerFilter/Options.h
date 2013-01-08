@@ -21,12 +21,13 @@ public:
    * @param argc Number of argument.
    * @param argv Argument values.
    */
-  Mode & parseOptions(int argc, char * argv[]); //TODO: No return
+  void parseOptions(int argc, char * argv[]); //TODO: No return
 
 public:
   Mode mode;
   std::string dirname;
   std::string filename;
   std::string filename_out;
+  bool opencv;
 };
 
