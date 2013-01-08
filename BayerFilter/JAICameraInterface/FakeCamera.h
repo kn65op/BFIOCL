@@ -34,6 +34,9 @@ public:
 
   static std::list<FakeCamera*> getCameraList();
 
+  void setDir(std::string d);
+  void setPrefix(std::string prefix);
+
 private:
   std::string name_prefix;
   std::string name_postfix;

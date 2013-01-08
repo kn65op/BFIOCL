@@ -121,6 +121,8 @@ int main (int argc, char * argv[])
   case Mode::DIR:
     fake_cam = JAI::FakeCamera::getCameraList().front();
     fake_cam->getImageSize(x, y);
+    fake_cam->setDir(options.dirname);
+    fake_cam->setPrefix(options.filename);
     //BayerFilterStream bfs(x, y, 0, 0.8f, 0.7f, 0.9f);
     t0 = std::chrono::high_resolution_clock::now();
     if (fake_cam->open())

@@ -17,12 +17,12 @@ using namespace JAI;
 
 FakeCamera::FakeCamera(int8_t* index)
 {
-  name_prefix = "RecordedImage_BB-500GE_00-0C-DF-04-11-C3_";
+//  name_prefix = "RecordedImage_BB-500GE_00-0C-DF-04-11-C3_";
   name_postfix = ".bmp";
   d = 0;
   u = 0;
   h = 0;
-  dir = "../../data2/";
+  //dir = "../../data2/";
 }
 
 
@@ -84,4 +84,14 @@ cv::Mat FakeCamera::getImageSize(int & x, int & y)
   x = ret.size().width;
   y = ret.size().height;
   return ret;
+}
+
+void FakeCamera::setDir(std::string d)
+{
+  dir = d;
+}
+
+void FakeCamera::setPrefix(std::string prefix)
+{
+  name_prefix = prefix;
 }
