@@ -207,6 +207,7 @@ cv::Mat Camera::getNextFrame()
   cv::Mat * ret = queue.front();
   queue.pop();
   free_queue.push(ret);
+  std::cout << queue.size() << "Queue size\n";
   return *ret;
 }
 

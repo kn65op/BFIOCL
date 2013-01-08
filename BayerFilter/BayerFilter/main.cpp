@@ -1,5 +1,8 @@
 #include <iostream>
 #include <chrono>
+#include <thread>
+#include <atomic>
+#include <mutex>
 
 #include <OpenCLDevice.h>
 #include <OpenCLHelpers.h>
@@ -30,6 +33,33 @@ using std::chrono::milliseconds;
 using std::chrono::duration_cast;
 milliseconds ms;
 
+std::atomic<cv::Mat*> image;
+std::atomic<bool> processing;
+std::atomic<bool> new_image;
+std::mutex mut;
+
+void showImage()
+{
+  static cv::Mat source;
+  static cv::Mat resize;
+  while(processing)
+  {
+    if (new_image)
+    {
+      (*image).copyTo(source);
+      //mut.lock();
+      cv::resize(*image, resize, cv::Size(1800, 1000));
+      //mut.unlock();
+      new_image = false;
+      imshow("s", resize);
+      if (cv::waitKey(20) > 0)
+      {
+        processing = false;
+      }
+    }
+  }
+}
+
 int main (int argc, char * argv[])
 {
   Options options;
@@ -39,32 +69,44 @@ int main (int argc, char * argv[])
   int x, y;
   x = 2456;
   y = 2058;
-  BayerFilterStream bfs(x, y, 0, 0.8f, 0.7f, 0.9f);
+  BayerFilterStream bfs(x, y, 3, 0.8f, 0.7f, 0.9f);
   cv::Mat resize;
-  cv::Mat image(y, x, CV_8UC4);
+  //cv::Mat image_local(y, x, CV_8UC4);
+  image = new cv::Mat(y, x, CV_8UC4);
 
   switch (options.parseOptions(argc, argv))
   {
   case Mode::CAMERA:
     real_cam = JAI::Camera::getCameraList().front();
-    real_cam->getImageSize(x, y);
+    //real_cam->getImageSize(x, y);
     t0 = std::chrono::high_resolution_clock::now();
     if (real_cam->open() && real_cam->start())
     {
-      for (int i=0; i < 100; ++i)
+      processing = true;
+      std::thread show_image(&showImage);
+      while (processing)
       {
         try
         {
-          bfs.processImage(real_cam->getNextFrame(), image);
-          cv::resize(image, resize, cv::Size(800, 600));
-          imshow("s", resize);
-          cv::waitKey(1);
+          //mut.lock();
+          bfs.processImage(real_cam->getNextFrame(), *image);
+          //mut.unlock();
+          new_image = true;
+          //image.store(image_local);
+          //cv::resize(image, resize, cv::Size(1920, 1080));
+          //imshow("s", image);
+          //if (cv::waitKey(1) > 0)
+          //{
+            //break;
+          //}
         }
         catch(JAI::NoNewFrameException ex)
         {
-          --i;
+          //do nothuing, maybe sleep
         }
       }
+      processing = false;
+      show_image.join();
     }
     real_cam->stop();
     real_cam->close();
@@ -85,8 +127,8 @@ int main (int argc, char * argv[])
         cv::Mat resize;
         while(1)
         {
-          bfs.processImage(fake_cam->getNextFrame(), image);
-          cv::resize(image, resize, cv::Size(800, 600));
+          //bfs.processImage(fake_cam->getNextFrame(), image);
+          //cv::resize(image.load(), resize, cv::Size(1920, 1080));
           imshow("s", resize);
           cv::waitKey(1);
         }
