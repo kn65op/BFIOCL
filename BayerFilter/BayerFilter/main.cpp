@@ -4,6 +4,7 @@
 #include <atomic>
 #include <mutex>
 
+#include <tchar.h>
 #include <OpenCLDevice.h>
 #include <OpenCLHelpers.h>
 #include "OpenCLImageFilter.h"
@@ -61,7 +62,7 @@ void showImage()
   }
 }
 
-int main (int argc, char * argv[])
+int main(int argc, char* argv[])
 {
   try
   {
