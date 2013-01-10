@@ -79,7 +79,7 @@ cv::Mat FakeCamera::getNextFrame()
 cv::Mat FakeCamera::getImageSize(int & x, int & y)
 {
   std::stringstream filename;
-  filename << dir << name_prefix << d << u << name_postfix;
+  filename << dir << name_prefix << h << d << u << name_postfix;
   cv::Mat ret = cv::imread(filename.str(), -1);
   x = ret.size().width;
   y = ret.size().height;

@@ -38,7 +38,6 @@ using std::chrono::duration_cast;
 std::atomic<cv::Mat*> image;
 std::atomic<bool> processing;
 std::atomic<bool> new_image;
-std::mutex mut;
 
 void showImage()
 {
@@ -71,23 +70,61 @@ int main(int argc, char* argv[])
     milliseconds ms, mis;
     JAI::Camera * real_cam = nullptr;
     JAI::FakeCamera * fake_cam = nullptr;
-    int x, y;
-    x = 2456;
-    y = 2058;
+    std::list<JAI::Camera*> cameras;
+    int x = 0, y = 0;
 
-    BayerFilterStream bfs(x, y, 3);//, 0.8f, 0.7f, 0.9f);
+    BayerFilterStream *bfs = nullptr;
     cv::Mat resize, in, out, for_time;
-    //cv::Mat image_local(y, x, CV_8UC4);
-    image = new cv::Mat(y, x, CV_8UC4);
     options.parseOptions(argc, argv);
+    OpenCLDevice device;
+
+    //get devices
+    if (!options.opencv)
+    {
+      auto dev_list = OpenCLDevice::getDevices();
+      bool notok = true;
+      while (notok)
+      {
+        std::cout << "Choose your device - select proper number:\n";
+        int i = 1;
+        for (OpenCLDevice d : dev_list)
+        {
+          std::cout << i++ << ": " << d.getPlatformName() << " " << d.getName() << "\n";
+        }
+        std::string choosen_str;
+        std::cin >> choosen_str;
+        int choosen = atoi(choosen_str.c_str());
+        if (choosen > 0 &&  choosen < i)
+        {
+          auto it = dev_list.begin();
+          for (int i=1; i<choosen; ++i)
+          {
+            ++it;
+          }
+          device = *it;
+          notok = false;
+        }
+        else
+        {
+          std::cout << "Wrong number, select one more time\n";
+        }
+      }
+    }
 
     switch (options.mode)
     {
     case Mode::CAMERA:
-      real_cam = JAI::Camera::getCameraList().front();
-      //real_cam->getImageSize(x, y);
+      cameras = JAI::Camera::getCameraList();
+      real_cam = cameras.front();
+      if (!real_cam->open())
+      {
+        std::cout << "Unable to open camera\n";
+      }
+      real_cam->getImageSize(x, y);
+      image = new cv::Mat(y, x, CV_8UC4);
+      bfs = new BayerFilterStream(device, x, y, 0, 0.8f, 0.7f, 0.9f);
       t0 = std::chrono::high_resolution_clock::now();
-      if (real_cam->open() && real_cam->start())
+      if (real_cam->start())
       {
         processing = true;
         std::thread show_image(&showImage);
@@ -95,9 +132,7 @@ int main(int argc, char* argv[])
         {
           try
           {
-            //mut.lock();
-            bfs.processImage(real_cam->getNextFrame(), *image);
-            //mut.unlock();
+            bfs->processImage(real_cam->getNextFrame(), *image);
             new_image = true;
             //image.store(image_local);
             //cv::resize(image, resize, cv::Size(1920, 1080));
@@ -124,11 +159,10 @@ int main(int argc, char* argv[])
 
     case Mode::DIR:
       fake_cam = JAI::FakeCamera::getCameraList().front();
-      fake_cam->getImageSize(x, y);
       fake_cam->setDir(options.dirname);
       fake_cam->setPrefix(options.filename);
-      //BayerFilterStream bfs(x, y, 0, 0.8f, 0.7f, 0.9f);
-      t0 = std::chrono::high_resolution_clock::now();
+      fake_cam->getImageSize(x, y);
+      image = new cv::Mat(y, x, CV_8UC4);
       if (fake_cam->open())
       {
         try
@@ -136,6 +170,7 @@ int main(int argc, char* argv[])
           cv::Mat resize;
           if (options.opencv) //OpenCV implementation
           {
+            t0 = std::chrono::high_resolution_clock::now();
             while(1)
             {
               for_time = fake_cam->getNextFrame();
@@ -146,13 +181,15 @@ int main(int argc, char* argv[])
               //cv::resize(*image, resize, cv::Size(1920, 1080));
               //imshow("s", resize);
               //cv::waitKey(1);
-            }
+            }//stop by exception
           }
+          t0 = std::chrono::high_resolution_clock::now();
+          bfs = new BayerFilterStream(device, x, y, 0, 0.8f, 0.7f, 0.9f);
           while(1)
           {
             for_time = fake_cam->getNextFrame();
             ti = std::chrono::high_resolution_clock::now();
-            bfs.processImage(for_time, *image);
+            bfs->processImage(for_time, *image);
             tiend = std::chrono::high_resolution_clock::now();
             mis += duration_cast<milliseconds>(tiend-ti);
             //cv::resize(*image, resize, cv::Size(1920, 1080));
@@ -169,7 +206,7 @@ int main(int argc, char* argv[])
       fake_cam->close();
       tend = std::chrono::high_resolution_clock::now();
       ms = duration_cast<milliseconds>(tend-t0);
-      std::cout << ms.count() << "\n" << mis.count() << "\n" << bfs.getAllTime() << "\n";
+      std::cout << ms.count() << "\n" << mis.count() << "\n" << (bfs == nullptr ? 0 : bfs->getAllTime())<< "\n";
       break; //read from dir;
 
     case Mode::FILE:
@@ -184,7 +221,7 @@ int main(int argc, char* argv[])
           cv::imwrite(options.filename_out, out);
           break;
         }
-
+        bfs = new BayerFilterStream(device, x, y, 0, 0.8f, 0.7f, 0.9f);
         if (options.filename_out.empty())
         {
           std::cout << "Not implemented yet\n";
@@ -192,7 +229,7 @@ int main(int argc, char* argv[])
         }
         else
         {
-          bfs.setFiles(options.filename, options.filename_out); 
+          bfs->setFiles(options.filename, options.filename_out); 
         }
       }
       catch (OpenCLException e)
@@ -206,14 +243,14 @@ int main(int argc, char* argv[])
       printHelp(argv[0]);
       break; //print help
     }
+    if (bfs != nullptr) delete bfs;
 
   }
   catch(OpenCLException e)
   {
     std::cout << e.getFullMessage () << "\n";
-    return 0;
-  }
 
+  }
   return 0;
 #if 0
   /*************** Fake camera *****************************/

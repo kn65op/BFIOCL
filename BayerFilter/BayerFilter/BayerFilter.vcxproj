@@ -38,14 +38,12 @@
     <Import Project="..\BayerFilterTests.props" />
     <Import Project="..\..\..\PropertySheets\OpenCV.props" />
     <Import Project="..\..\..\PropertySheets\OpenCVD.props" />
-    <Import Project="WinXp.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\OpenCL.props" />
     <Import Project="..\OpenCLR.props" />
     <Import Project="..\..\..\PropertySheets\OpenCV.props" />
-    <Import Project="WinXp.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

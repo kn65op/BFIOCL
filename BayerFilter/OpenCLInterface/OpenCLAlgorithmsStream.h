@@ -21,6 +21,10 @@ public:
   OpenCLAlgorithmsStream(void);
   ~OpenCLAlgorithmsStream(void);
 
+private:
+  OpenCLAlgorithmsStream(const OpenCLAlgorithmsStream &);
+
+public:
   /**
    * Add algorithm to stream on last position. Throws OpenCLAlgorithmsStreamException if input is differ from output of last algorithm on list.
    * @param al Algorithm to add.
