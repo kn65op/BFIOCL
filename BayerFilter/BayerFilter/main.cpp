@@ -25,7 +25,7 @@ void printHelp(std::string program_name)
     "You can choose only one mode\n" <<
     "Modes: \n" <<
     "\t-c - read from JAI camera. Default mode. No options.\n" << 
-    "\t-d DIR A - read files from dir. Files must have names Axxx.bmp, where A stand for common prefix and xxx for three positions number of image, wchich starts from 0. No options.\n" << 
+    "\t-d DIR/ A - read files from dir. Files must have names Axxx.bmp, where A stand for common prefix and xxx for three positions number of image, wchich starts from 0. No options.\n" << 
     "\t\t--openCV - use OpenCV implementaion (optional) \n" <<
     "\t-f FILE - read and process one file. Options: \n" <<
     "\t\t-o - ouptup file (optional)\n" <<
