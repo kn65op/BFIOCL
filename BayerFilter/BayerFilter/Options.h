@@ -7,7 +7,8 @@ enum class Mode
   CAMERA,
   DIR,
   FILE,
-  HELP
+  HELP,
+  NONE
 };
 
 class Options
@@ -29,5 +30,8 @@ public:
   std::string filename;
   std::string filename_out;
   bool opencv;
+
+  float r, g, b;
+
 };
 

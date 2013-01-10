@@ -3,6 +3,7 @@
 Options::Options(void)
 {
   opencv = false;
+  r = b = g = 1.0f;
 }
 
 
@@ -12,57 +13,111 @@ Options::~Options(void)
 
 void Options::parseOptions(int argc, char * argv[])
 {
+  mode = Mode::NONE;
   if (argc == 1)
   {
     mode = Mode::CAMERA;
   }
-  else
+  int i = 1;
+  while (i < argc)
   {
-    std::string param = argv[1];
-    if (param == "-c")
+    std::string param = argv[i];
+    if (param == "-c") //mode camera
     {
-      mode = Mode::CAMERA;
+      if (mode == Mode::NONE)
+      {
+        mode = Mode::CAMERA;
+      }
+      else
+      {
+        mode = Mode::HELP;
+        return;
+      }
+      ++i;
     }
     else if(param == "-d")
     {
-      mode = Mode::DIR;
-      if (argc < 4)
+      if (mode == Mode::NONE)
       {
-        mode = Mode::HELP;
+        mode = Mode::DIR;
       }
       else
       {
-        dirname = argv[2];
-        filename = argv[3];
+        mode = Mode::HELP;
+        return;
       }
-      if (argc == 5 && (param = argv[4]) == "--openCV")
+      if (argc < i + 3)
       {
-        opencv = true;
+        mode = Mode::HELP;
+        return;
       }
+      else
+      {
+        dirname = argv[i + 1];
+        filename = argv[i + 2];
+      }
+      i += 3;
     }
     else if(param == "-f")
     {
-      mode = Mode::FILE;
-      if (argc < 3)
+      if (mode == Mode::NONE)
       {
-        mode = Mode::HELP;
+        mode = Mode::FILE;
       }
       else
       {
-        filename = argv[2];
+        mode = Mode::HELP;
+        return;
       }
-      if (argc > 4 && (param = argv[3]) == "-o")
+      if (argc < i + 2)
       {
-        filename_out = argv[4];
+        mode = Mode::HELP;
+        return;
       }
-      if (argc > 5 && (param = argv[5]) == "--openCV")
+      else
       {
-        opencv = true;
+        filename = argv[i + 1];
       }
+      i += 2;
+    }
+    else if (param == "-o")
+    {
+      if (argc < i + 2)
+      {
+        mode = Mode::HELP;
+        return;
+      }
+      else
+      {
+        filename_out = argv[i + 1];
+      }
+      i += 2;
+    }
+    else if (param == "--openCV")
+    {
+      opencv = true;
+      ++i;
+    }
+    else if (param == "--wb")
+    {
+      if (argc < i + 4)
+      {
+        mode = Mode::HELP;
+        return;
+      }
+      r = atof(argv[i + 1]);
+      g = atof(argv[i + 2]);
+      b = atof(argv[i + 3]);
+      i += 4;
     }
     else
     {
       mode = Mode::HELP;
+      return;
     }
+  }
+  if (mode == Mode::NONE)
+  {
+    mode = Mode::CAMERA;
   }
 }

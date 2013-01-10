@@ -22,6 +22,7 @@
 void printHelp(std::string program_name)
 {
   std::cout << "Usage: " << program_name << " [mode] [parameters] [options] \n" << 
+    "You can choose only one mode\n" <<
     "Modes: \n" <<
     "\t-c - read from JAI camera. Default mode. No options.\n" << 
     "\t-d DIR A - read files from dir. Files must have names Axxx.bmp, where A stand for common prefix and xxx for three positions number of image, wchich starts from 0. No options.\n" << 
@@ -29,7 +30,9 @@ void printHelp(std::string program_name)
     "\t-f FILE - read and process one file. Options: \n" <<
     "\t\t-o - ouptup file (optional)\n" <<
     "\t\t--openCV - use OpenCV implementaion (optional) \n" << //TODO: dorobiæ
-    "\t-h - print this help\n";
+    "\t-h - print this help\n" <<
+    "Options:\n" <<
+    "\tYou can choose white balance with --wb r g b, where r, g and b is float number from 0 to 1. This not works with --openCV option\n";
 }
 
 using std::chrono::milliseconds;
@@ -74,12 +77,13 @@ int main(int argc, char* argv[])
     int x = 0, y = 0;
 
     BayerFilterStream *bfs = nullptr;
+    cv::Size image_size ;
     cv::Mat resize, in, out, for_time;
     options.parseOptions(argc, argv);
     OpenCLDevice device;
 
     //get devices
-    if (!options.opencv)
+    if (!options.opencv && options.mode != Mode::HELP)
     {
       auto dev_list = OpenCLDevice::getDevices();
       bool notok = true;
@@ -122,7 +126,7 @@ int main(int argc, char* argv[])
       }
       real_cam->getImageSize(x, y);
       image = new cv::Mat(y, x, CV_8UC4);
-      bfs = new BayerFilterStream(device, x, y, 0, 0.8f, 0.7f, 0.9f);
+      bfs = new BayerFilterStream(device, x, y, 3, options.r, options.g, options.b);
       t0 = std::chrono::high_resolution_clock::now();
       if (real_cam->start())
       {
@@ -178,13 +182,13 @@ int main(int argc, char* argv[])
               cv::cvtColor(for_time, *image, cv::COLOR_BayerBG2BGR);
               tiend  = std::chrono::high_resolution_clock::now();
               mis += duration_cast<milliseconds>(tiend-ti);
-              //cv::resize(*image, resize, cv::Size(1920, 1080));
-              //imshow("s", resize);
-              //cv::waitKey(1);
+              cv::resize(*image, resize, cv::Size(1920, 1080));
+              imshow("s", resize);
+              cv::waitKey(1);
             }//stop by exception
           }
           t0 = std::chrono::high_resolution_clock::now();
-          bfs = new BayerFilterStream(device, x, y, 0, 0.8f, 0.7f, 0.9f);
+          bfs = new BayerFilterStream(device, x, y, 0, options.r, options.g, options.b);
           while(1)
           {
             for_time = fake_cam->getNextFrame();
@@ -192,9 +196,9 @@ int main(int argc, char* argv[])
             bfs->processImage(for_time, *image);
             tiend = std::chrono::high_resolution_clock::now();
             mis += duration_cast<milliseconds>(tiend-ti);
-            //cv::resize(*image, resize, cv::Size(1920, 1080));
-            //imshow("s", resize);
-            //cv::waitKey(1);
+            cv::resize(*image, resize, cv::Size(1920, 1080));
+            imshow("s", resize);
+            cv::waitKey(1);
           }
         }
         catch(JAI::NoNewFrameException & ex)
@@ -221,7 +225,8 @@ int main(int argc, char* argv[])
           cv::imwrite(options.filename_out, out);
           break;
         }
-        bfs = new BayerFilterStream(device, x, y, 0, 0.8f, 0.7f, 0.9f);
+        image_size = cv::imread(options.filename).size();
+        bfs = new BayerFilterStream(device, image_size.width, image_size.height, 0, options.r, options.g, options.b);
         if (options.filename_out.empty())
         {
           std::cout << "Not implemented yet\n";
