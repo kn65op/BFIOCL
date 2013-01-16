@@ -38,5 +38,6 @@ public:
 
   OpenCLIntToFloatMode input_mode;
   JAI::OutputMode camera_mode;
+  std::string platform_name;
 };
 
