@@ -1,6 +1,7 @@
 #pragma once
 
 #include <OpenCLIntToFloat.h>
+#include <Camera.h>
 
 #include <string>
 
@@ -36,5 +37,6 @@ public:
   float r, g, b;
 
   OpenCLIntToFloatMode input_mode;
+  JAI::OutputMode camera_mode;
 };
 

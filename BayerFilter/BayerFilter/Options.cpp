@@ -5,6 +5,7 @@
 Options::Options(void)
 {
   input_mode = OpenCLIntToFloatMode::UINT_8;
+  camera_mode = JAI::OutputMode::UNIT_8;
   opencv = false;
   r = b = g = 1.0f;
 }
@@ -124,15 +125,19 @@ void Options::parseOptions(int argc, char * argv[])
       {
         case 8 :
           input_mode = OpenCLIntToFloatMode::UINT_8;
+          camera_mode = JAI::OutputMode::UNIT_8;
           break;
         case 10 :
           input_mode = OpenCLIntToFloatMode::UINT_10;
+          camera_mode = JAI::OutputMode::UNIT_10;
           break;
         case 12 :
           input_mode = OpenCLIntToFloatMode::UINT_12;
+          camera_mode = JAI::OutputMode::UNIT_12;
           break;
         case 16 :
           input_mode = OpenCLIntToFloatMode::UINT_16;
+          camera_mode = JAI::OutputMode::UNIT_16;
           break;
       default:
         mode = Mode::HELP;

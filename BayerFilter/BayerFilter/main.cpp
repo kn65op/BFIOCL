@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
       image = new cv::Mat(y, x, CV_8UC4);
       bfs = new BayerFilterStream(device, x, y, 3, options.input_mode, options.r, options.g, options.b);
       t0 = std::chrono::high_resolution_clock::now();
-      if (real_cam->start())
+      if (real_cam->start(options.camera_mode))
       {
         processing = true;
         std::thread show_image(&showImage);
