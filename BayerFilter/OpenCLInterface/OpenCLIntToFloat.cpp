@@ -1,8 +1,31 @@
 #include "OpenCLIntToFloat.h"
 
 
-OpenCLIntToFloat::OpenCLIntToFloat(void)
+OpenCLIntToFloat::OpenCLIntToFloat(OpenCLIntToFloatMode mode)
 {
+  switch (mode)
+  {
+  case OpenCLIntToFloatMode::UINT_8:
+    input_format.image_channel_data_type = CL_UNSIGNED_INT8;
+    kernel_name = "intToFloat8bit";
+    break;
+  case OpenCLIntToFloatMode::UINT_10:
+    input_format.image_channel_data_type = CL_UNSIGNED_INT16;
+    kernel_name = "intToFloat10bit";
+    break;
+  case OpenCLIntToFloatMode::UINT_12:
+    input_format.image_channel_data_type = CL_UNSIGNED_INT16;
+    kernel_name = "intToFloat12bit";
+    break;
+  case OpenCLIntToFloatMode::UINT_16:
+    input_format.image_channel_data_type = CL_UNSIGNED_INT16;
+    kernel_name = "intToFloat16bit";
+    break;
+  default:
+    throw OpenCLAlgorithmException("Something went very wrong, because there is no other options");
+  }
+
+  //comon
   source_file = "conversions.cl";
   source = "const sampler_t sampler = CLK_NORMALIZED_COORDS_FALSE | CLK_ADDRESS_NONE | CLK_FILTER_NEAREST;\n"
 "\n"
@@ -22,9 +45,7 @@ OpenCLIntToFloat::OpenCLIntToFloat(void)
 "}\n"
 "\n";
   input = output = NULL;
-  kernel_name = "intToFloatOneChannel";
   input_format.image_channel_order = CL_LUMINANCE;
-  input_format.image_channel_data_type = CL_UNSIGNED_INT8;
   output_format.image_channel_order = CL_LUMINANCE;
   output_format.image_channel_data_type= CL_FLOAT;
 }

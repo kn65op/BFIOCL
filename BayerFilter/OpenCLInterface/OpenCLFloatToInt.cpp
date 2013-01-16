@@ -21,6 +21,7 @@ OpenCLFloatToInt::OpenCLFloatToInt(OpenCLFloatToIntMode mode)
       throw OpenCLAlgorithmException("Something went very wrong, because there is no other options");
   }
 
+  //common
   source_file = "conversions.cl";
   source = "const sampler_t sampler = CLK_NORMALIZED_COORDS_FALSE | CLK_ADDRESS_NONE | CLK_FILTER_NEAREST;\n"
     "__kernel void  floatToUInt8ThreeChannels(__read_only image2d_t input, __write_only image2d_t output) \n"

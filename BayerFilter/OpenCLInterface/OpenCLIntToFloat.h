@@ -3,12 +3,23 @@
 #include "OpenCLAlgorithm.h"
 
 /**
+ * Enum for selecting conversion.
+ */
+enum class OpenCLIntToFloatMode
+{
+  UINT_8,
+  UINT_10,
+  UINT_12,
+  UINT_16
+};
+
+/**
  * Algorithm perfoming int to float conversion.
  */
 class OpenCLIntToFloat : public OpenCLImageAlgorithm
 {
 public:
-  OpenCLIntToFloat(void);
+  OpenCLIntToFloat(OpenCLIntToFloatMode mode = OpenCLIntToFloatMode::UINT_8);
   ~OpenCLIntToFloat(void);
 private:
 //from OpenCLImageAlgorithm

@@ -32,7 +32,8 @@ void printHelp(std::string program_name)
     "\t\t--openCV - use OpenCV implementaion (optional) \n" << //TODO: dorobiæ
     "\t-h - print this help\n" <<
     "Options:\n" <<
-    "\tYou can choose white balance with --wb r g b, where r, g and b is float number from 0 to 1. This not works with --openCV option\n";
+    "\tYou can choose white balance with --wb r g b, where r, g and b is float number from 0 to 1. This not works with --openCV option\n" << 
+    "\tChange input format -i x - x is 8, 10, 12 or 16\n";
 }
 
 using std::chrono::milliseconds;
