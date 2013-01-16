@@ -73,29 +73,20 @@ void Options::parseOptions(int argc, char * argv[])
         mode = Mode::HELP;
         return;
       }
-      if (argc < i + 2)
+      if (argc < i + 3)
       {
         mode = Mode::HELP;
         return;
       }
       else
       {
+        filename_out = argv[i + 2];
         filename = argv[i + 1];
       }
-      i += 2;
+      i += 3;
     }
     else if (param == "-o")
     {
-      if (argc < i + 2)
-      {
-        mode = Mode::HELP;
-        return;
-      }
-      else
-      {
-        filename_out = argv[i + 1];
-      }
-      i += 2;
     }
     else if (param == "--openCV")
     {

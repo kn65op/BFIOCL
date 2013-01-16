@@ -27,8 +27,7 @@ void printHelp(std::string program_name)
     "\t-c - read from JAI camera. Default mode. No options.\n" << 
     "\t-d DIR/ A - read files from dir. Files must have names Axxx.bmp, where A stand for common prefix and xxx for three positions number of image, wchich starts from 0. No options.\n" << 
     "\t\t--openCV - use OpenCV implementaion (optional) \n" <<
-    "\t-f FILE - read and process one file. Options: \n" <<
-    "\t\t-o - ouptup file (optional)\n" <<
+    "\t-f FILE_IN FILE_OUT - read, process one file and store result in other file. Options: \n" <<
     "\t\t--openCV - use OpenCV implementaion (optional) \n" << //TODO: dorobiæ
     "\t-h - print this help\n" <<
     "Options:\n" <<
@@ -221,20 +220,16 @@ int main(int argc, char* argv[])
         //BayerFilterStream bfs(2456, 2058, mode, 0.8f, 0.7f, 0.9f);
         if (options.opencv)
         {
+          t0 = std::chrono::high_resolution_clock::now();
           in = cv::imread(options.filename, -1);
           cv::cvtColor(in, out, cv::COLOR_BayerRG2BGR);
           cv::imwrite(options.filename_out, out);
-          break;
-        }
-        image_size = cv::imread(options.filename).size();
-        bfs = new BayerFilterStream(device, image_size.width, image_size.height, 0, options.input_mode, options.r, options.g, options.b);
-        if (options.filename_out.empty())
-        {
-          std::cout << "Not implemented yet\n";
-          //bfs.setFiles(options.filename, ); 
         }
         else
         {
+          image_size = cv::imread(options.filename).size();
+          bfs = new BayerFilterStream(device, image_size.width, image_size.height, 0, options.input_mode, options.r, options.g, options.b);
+          t0 = std::chrono::high_resolution_clock::now();
           bfs->setFiles(options.filename, options.filename_out); 
         }
       }
@@ -242,7 +237,10 @@ int main(int argc, char* argv[])
       {
         std::cout << e.getFullMessage () << "\n";
       }
-
+      
+      tend = std::chrono::high_resolution_clock::now();
+      ms = duration_cast<milliseconds>(tend-t0);
+      std::cout << "All calculation time: " <<  ms.count() << "\nTime executing on GPU: " << (bfs == nullptr ? 0 : bfs->getAllTime())<< "\n";
       break; //read one file;
 
     case Mode::HELP:
