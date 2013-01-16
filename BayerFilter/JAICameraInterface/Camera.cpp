@@ -127,7 +127,7 @@ std::list<Camera*> Camera::getCameraList()
   return ret;
 }
 
-bool Camera::start()
+bool Camera::start(OutputMode mode)
 {
   J_STATUS_TYPE   retval;
   int64_t int64Val;
@@ -145,6 +145,23 @@ bool Camera::start()
   ViewSize.cy = (LONG)int64Val;     // Set window size cy
 
   //set
+  switch(mode)
+  {
+  case OutputMode::UNIT_8:
+    retval = J_Camera_SetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), J_GVSP_PIX_BAYBG8);
+    break;
+  case OutputMode::UNIT_10:
+    retval = J_Camera_SetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), J_GVSP_PIX_BAYBG10);
+    break;
+  case OutputMode::UNIT_12:
+    retval = J_Camera_SetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), J_GVSP_PIX_BAYBG12);
+    break;
+  case OutputMode::UNIT_16:
+    retval = J_Camera_SetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), J_GVSP_PIX_BAYBG16);
+    break;
+  default:
+    throw CameraException("Somothing went wrong");
+  }
   //J_GVSP_PIX_BAYBG8
   //J_GVSP_PIX_BAYRG10
   //J_GVSP_PIX_BAYRG12

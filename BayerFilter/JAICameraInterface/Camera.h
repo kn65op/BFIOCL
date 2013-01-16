@@ -11,6 +11,15 @@
 namespace JAI
 {
 
+enum class OutputMode
+{
+  UNIT_8,
+  UNIT_10,
+  UNIT_12,
+  UNIT_16
+};
+
+
 /**
  * @brief Class implement JAI Camera interface.
  * 
@@ -45,7 +54,7 @@ public:
    * Start capturing images.
    * @return true if opening was successful.
    */
-  bool start();
+  bool start(OutputMode mode = OutputMode::UNIT_8);
   /**
    * Stop capturing images.
    */
