@@ -127,7 +127,7 @@ int main(int argc, char* argv[])
       }
       real_cam->getImageSize(x, y);
       image = new cv::Mat(y, x, CV_8UC4);
-      bfs = new BayerFilterStream(device, x, y, 3, options.r, options.g, options.b);
+      bfs = new BayerFilterStream(device, x, y, 3, options.input_mode, options.r, options.g, options.b);
       t0 = std::chrono::high_resolution_clock::now();
       if (real_cam->start())
       {
@@ -189,7 +189,7 @@ int main(int argc, char* argv[])
             }//stop by exception
           }
           t0 = std::chrono::high_resolution_clock::now();
-          bfs = new BayerFilterStream(device, x, y, 0, options.r, options.g, options.b);
+          bfs = new BayerFilterStream(device, x, y, 0, options.input_mode, options.r, options.g, options.b);
           while(1)
           {
             for_time = fake_cam->getNextFrame();
@@ -227,7 +227,7 @@ int main(int argc, char* argv[])
           break;
         }
         image_size = cv::imread(options.filename).size();
-        bfs = new BayerFilterStream(device, image_size.width, image_size.height, 0, options.r, options.g, options.b);
+        bfs = new BayerFilterStream(device, image_size.width, image_size.height, 0, options.input_mode, options.r, options.g, options.b);
         if (options.filename_out.empty())
         {
           std::cout << "Not implemented yet\n";

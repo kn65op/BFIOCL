@@ -1,5 +1,7 @@
 #pragma once
 
+#include <OpenCLIntToFloat.h>
+
 #include <string>
 
 enum class Mode
@@ -33,5 +35,6 @@ public:
 
   float r, g, b;
 
+  OpenCLIntToFloatMode input_mode;
 };
 

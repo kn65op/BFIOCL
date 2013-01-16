@@ -1,7 +1,10 @@
 #include "Options.h"
 
+#include <iostream>
+
 Options::Options(void)
 {
+  input_mode = OpenCLIntToFloatMode::UINT_8;
   opencv = false;
   r = b = g = 1.0f;
 }
@@ -109,6 +112,33 @@ void Options::parseOptions(int argc, char * argv[])
       g = atof(argv[i + 2]);
       b = atof(argv[i + 3]);
       i += 4;
+    }
+    else if (param == "-i")
+    {
+      if (argc < i + 2)
+      {
+        mode = Mode::HELP;
+        return;
+      }
+      switch (atoi(argv[i + 1])) //mode can be 8, 10, 12, 16
+      {
+        case 8 :
+          input_mode = OpenCLIntToFloatMode::UINT_8;
+          break;
+        case 10 :
+          input_mode = OpenCLIntToFloatMode::UINT_10;
+          break;
+        case 12 :
+          input_mode = OpenCLIntToFloatMode::UINT_12;
+          break;
+        case 16 :
+          input_mode = OpenCLIntToFloatMode::UINT_16;
+          break;
+      default:
+        mode = Mode::HELP;
+        std::cout << "Invalid value for input mode: " << atoi(argv[i + 1]) << "\n";
+      }
+      i += 2;
     }
     else
     {
