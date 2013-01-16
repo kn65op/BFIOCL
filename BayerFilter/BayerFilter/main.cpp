@@ -210,7 +210,7 @@ int main(int argc, char* argv[])
       fake_cam->close();
       tend = std::chrono::high_resolution_clock::now();
       ms = duration_cast<milliseconds>(tend-t0);
-      std::cout << ms.count() << "\n" << mis.count() << "\n" << (bfs == nullptr ? 0 : bfs->getAllTime())<< "\n";
+      std::cout << "All calculation time: " <<  ms.count() << "\nExecuting function time" << mis.count() << "\nTime executing on GPU" << (bfs == nullptr ? 0 : bfs->getAllTime())<< "\n";
       break; //read from dir;
 
     case Mode::FILE:

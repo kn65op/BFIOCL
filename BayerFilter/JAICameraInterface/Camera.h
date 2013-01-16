@@ -1,7 +1,8 @@
 #pragma once
 
-#include<list>
-#include<queue>
+#include <list>
+#include <queue>
+#include <mutex>
 
 #include <opencv2/core/core.hpp>
 
@@ -80,10 +81,12 @@ private:
   CvMat           *m_pMapMatrix;  // OpenCV Matrix
 
   //max size of queue
-  static const unsigned int queue_size = 100;
+  static const unsigned int queue_size = 20;
 
   std::queue<cv::Mat*> queue;
   std::queue<cv::Mat*> free_queue;
+
+  std::mutex queue_mutex;
 
   void callback(J_tIMAGE_INFO * pAqImageInf);
 
