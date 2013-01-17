@@ -1,7 +1,8 @@
 #pragma once
 
-#include<list>
-#include<queue>
+#include <list>
+#include <queue>
+#include <mutex>
 
 #include <opencv2/core/core.hpp>
 
@@ -9,6 +10,15 @@
 
 namespace JAI
 {
+
+enum class OutputMode
+{
+  UNIT_8,
+  UNIT_10,
+  UNIT_12,
+  UNIT_16
+};
+
 
 /**
  * @brief Class implement JAI Camera interface.
@@ -44,7 +54,7 @@ public:
    * Start capturing images.
    * @return true if opening was successful.
    */
-  bool start();
+  bool start(OutputMode mode = OutputMode::UNIT_8);
   /**
    * Stop capturing images.
    */
@@ -80,10 +90,12 @@ private:
   CvMat           *m_pMapMatrix;  // OpenCV Matrix
 
   //max size of queue
-  static const unsigned int queue_size = 100;
+  static const unsigned int queue_size = 20;
 
   std::queue<cv::Mat*> queue;
   std::queue<cv::Mat*> free_queue;
+
+  std::mutex queue_mutex;
 
   void callback(J_tIMAGE_INFO * pAqImageInf);
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <OpenCLAlgorithmsStream.h>
+#include <OpenCLIntToFloat.h>
 
 #include <string>
 
@@ -21,7 +22,7 @@ public:
    * @param green_k Green color factor. Can be from 0 to 1. Default is 1.
    * @param blue_k Blue color factor. Can be from 0 to 1. Default is 1.
    */
-  BayerFilterStream(OpenCLDevice & device, int w, int h, cl_uchar mode, float red_k = 1.0, float green_k = 1.0, float blue_k = 1.0);
+  BayerFilterStream(OpenCLDevice & device, int w, int h, cl_uchar mode, OpenCLIntToFloatMode input_mode, float red_k = 1.0, float green_k = 1.0, float blue_k = 1.0);
   ~BayerFilterStream(void);
 
   /**

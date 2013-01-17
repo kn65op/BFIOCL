@@ -1,5 +1,8 @@
 #pragma once
 
+#include <OpenCLIntToFloat.h>
+#include <Camera.h>
+
 #include <string>
 
 enum class Mode
@@ -33,5 +36,8 @@ public:
 
   float r, g, b;
 
+  OpenCLIntToFloatMode input_mode;
+  JAI::OutputMode camera_mode;
+  std::string platform_name;
 };
 

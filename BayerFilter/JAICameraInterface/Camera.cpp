@@ -26,7 +26,18 @@ Camera::Camera(int8_t* index)
 
 Camera::~Camera(void)
 {
+  stop();
   close();
+  while (queue.size())
+  {
+    delete queue.front();
+    queue.pop();
+  }
+  while (free_queue.size())
+  {
+    delete free_queue.front();
+    free_queue.pop();
+  }
 }
 
 void Camera::close() //TODO: Add stop
@@ -72,7 +83,7 @@ std::list<Camera*> Camera::getCameraList()
   bool8_t         bHasChange;
   
   // Open factory
-  retval = J_Factory_Open("" , &m_hFactory);
+  retval = J_Factory_Open(reinterpret_cast<const int8_t*>("") , &m_hFactory);
   if (retval != J_ST_SUCCESS)
   {
     throw CameraException("Could not open factory!");
@@ -106,20 +117,17 @@ std::list<Camera*> Camera::getCameraList()
   {
     iSize = (uint32_t)sizeof(m_sCameraId);
     retval = J_Factory_GetCameraIDByIndex(m_hFactory, i, m_sCameraId, &iSize);
+    if (retval != J_ST_SUCCESS)
+    {
+      throw CameraException("Could not get the camera ID!");
+    }
     ret.push_back(new Camera(m_sCameraId));
-    //if (retval != J_ST_SUCCESS)
-    //{
-      //TODO: throw?
-      //AfxMessageBox(CString("Could not get the camera ID!"), MB_OK | MB_ICONEXCLAMATION);
-      //return ret;
-
-    //}
   }
   std::cout << "Camera ID: %s\n" << m_sCameraId << "\n";
   return ret;
 }
 
-bool Camera::start()
+bool Camera::start(OutputMode mode)
 {
   J_STATUS_TYPE   retval;
   int64_t int64Val;
@@ -129,15 +137,40 @@ bool Camera::start()
   POINT	TopLeft;
 
   // Get Width from the camera
-  retval = J_Camera_GetValueInt64(m_hCam, NODE_NAME_WIDTH, &int64Val);
+  retval = J_Camera_GetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_WIDTH), &int64Val);
   ViewSize.cx = (LONG)int64Val;     // Set window size cx
 
   // Get Height from the camera
-  retval = J_Camera_GetValueInt64(m_hCam, NODE_NAME_HEIGHT, &int64Val);
+  retval = J_Camera_GetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_HEIGHT), &int64Val);
   ViewSize.cy = (LONG)int64Val;     // Set window size cy
 
+  //set
+  switch(mode)
+  {
+  case OutputMode::UNIT_8:
+    retval = J_Camera_SetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), J_GVSP_PIX_BAYBG8);
+    break;
+  case OutputMode::UNIT_10:
+    retval = J_Camera_SetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), J_GVSP_PIX_BAYBG10);
+    break;
+  case OutputMode::UNIT_12:
+    retval = J_Camera_SetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), J_GVSP_PIX_BAYBG12);
+    break;
+  case OutputMode::UNIT_16:
+    retval = J_Camera_SetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), J_GVSP_PIX_BAYBG16);
+    break;
+  default:
+    throw CameraException("Somothing went wrong");
+  }
+  //J_GVSP_PIX_BAYBG8
+  //J_GVSP_PIX_BAYRG10
+  //J_GVSP_PIX_BAYRG12
+  //J_GVSP_PIX_BAYGR16
+
+
+
   // Get pixelformat from the camera
-  retval = J_Camera_GetValueInt64(m_hCam, NODE_NAME_PIXELFORMAT, &int64Val);
+  retval = J_Camera_GetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), &int64Val);
   pixelFormat = int64Val;
 
   // Calculate number of bits (not bytes) per pixel using macro
@@ -155,7 +188,7 @@ bool Camera::start()
   std::cout << "Opening stream succeeded\n";
 
   // Start Acquision
-  retval = J_Camera_ExecuteCommand(m_hCam, NODE_NAME_ACQSTART);
+  retval = J_Camera_ExecuteCommand(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_ACQSTART));
 
   return true;
 }
@@ -166,7 +199,7 @@ void Camera::stop()
 
   // Stop Acquision
   if (m_hCam) {
-    retval = J_Camera_ExecuteCommand(m_hCam, NODE_NAME_ACQSTOP);
+    retval = J_Camera_ExecuteCommand(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_ACQSTOP));
   }
 
   if(m_hThread)
@@ -182,7 +215,11 @@ void Camera::callback(J_tIMAGE_INFO * pAqImageInfo)
 {
   if (queue.size() == queue_size) //max limit for queue 
   {
-    return;
+    queue_mutex.lock();
+    free_queue.push(queue.front());
+    queue.pop();
+    queue_mutex.unlock();
+    std::cout << "Warning: Oldest frame was dropeed\n";
   }
   cv::Mat * tmp;
   if (free_queue.empty()) //get new image
@@ -195,7 +232,9 @@ void Camera::callback(J_tIMAGE_INFO * pAqImageInfo)
     free_queue.pop();
   }
   memcpy(tmp->data, pAqImageInfo->pImageBuffer, tmp->total() * tmp->elemSize());
+  queue_mutex.lock();
   queue.push(tmp);
+  queue_mutex.unlock();
 }
 
 cv::Mat Camera::getNextFrame()
@@ -204,10 +243,12 @@ cv::Mat Camera::getNextFrame()
   {
     throw NoNewFrameException();
   }
+  queue_mutex.lock();
   cv::Mat * ret = queue.front();
   queue.pop();
+  queue_mutex.unlock();
   free_queue.push(ret);
-  std::cout << queue.size() << "Queue size\n";
+  //std::cout << queue.size() << "Queue size\n";
   return *ret;
 }
 
@@ -219,10 +260,10 @@ void Camera::getImageSize(int & x, int & y)
   }
   J_STATUS_TYPE   retval;
   int64_t int64Val;
-  retval = J_Camera_GetValueInt64(m_hCam, NODE_NAME_WIDTH, &int64Val);
+  retval = J_Camera_GetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_WIDTH), &int64Val);
   x = (int)int64Val;     // Set window size cx
 
   // Get Height from the camera
-  retval = J_Camera_GetValueInt64(m_hCam, NODE_NAME_HEIGHT, &int64Val);
+  retval = J_Camera_GetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_HEIGHT), &int64Val);
   y = (int)int64Val;     // Set window size cy
 }

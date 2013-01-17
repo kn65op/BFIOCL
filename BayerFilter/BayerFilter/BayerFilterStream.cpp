@@ -1,14 +1,13 @@
 #include "BayerFilterStream.h"
 #include <OpenCLBayerFilter.h>
 #include <OpenCLDevice.h>
-#include <OpenCLIntToFloat.h>
 #include <OpenCLFloatToInt.h>
 
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
 
-BayerFilterStream::BayerFilterStream(OpenCLDevice & device, int w, int h, cl_uchar mode, float red_k, float green_k, float blue_k) 
+BayerFilterStream::BayerFilterStream(OpenCLDevice & device, int w, int h, cl_uchar mode, OpenCLIntToFloatMode input_mode, float red_k, float green_k, float blue_k) 
 {
   stream.setDataSize(w,h);
   stream.setDevice(device);
@@ -16,7 +15,7 @@ BayerFilterStream::BayerFilterStream(OpenCLDevice & device, int w, int h, cl_uch
   OpenCLImageAlgorithm* bayer = new OpenCLBayerFilterImage(BayerFilterMask::CIRCLE);
   bayer->setParams(OpenCLBayerFilterParams(w, h, mode, BFIOCL_MODE_BGR, red_k, green_k, blue_k));
 
-  stream.pushAlgorithm(new OpenCLIntToFloat());
+  stream.pushAlgorithm(new OpenCLIntToFloat(input_mode));
   stream.pushAlgorithm(bayer);
   stream.pushAlgorithm(new OpenCLFloatToInt(OpenCLFloatToIntMode::UINT8));
   stream.prepare();
@@ -41,7 +40,7 @@ void BayerFilterStream::setFiles(std::string in, std::string out)
   cv::Mat output_image_raw(input_image_raw.size(), CV_8UC4);
   stream.processImage(input_image_raw.data, output_image_raw.data);
   cv::imwrite(out, output_image_raw);
-  std::cout << stream.getTime() << "\n";
+  all_time += stream.getTime();
 }
 
 void BayerFilterStream::processImage(cv::Mat & source, cv::Mat & dest)

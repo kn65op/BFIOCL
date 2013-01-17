@@ -27,12 +27,15 @@ void printHelp(std::string program_name)
     "\t-c - read from JAI camera. Default mode. No options.\n" << 
     "\t-d DIR/ A - read files from dir. Files must have names Axxx.bmp, where A stand for common prefix and xxx for three positions number of image, wchich starts from 0. No options.\n" << 
     "\t\t--openCV - use OpenCV implementaion (optional) \n" <<
-    "\t-f FILE - read and process one file. Options: \n" <<
-    "\t\t-o - ouptup file (optional)\n" <<
+    "\t-f FILE_IN FILE_OUT - read, process one file and store result in other file. Options: \n" <<
     "\t\t--openCV - use OpenCV implementaion (optional) \n" << //TODO: dorobiæ
     "\t-h - print this help\n" <<
     "Options:\n" <<
-    "\tYou can choose white balance with --wb r g b, where r, g and b is float number from 0 to 1. This not works with --openCV option\n";
+    "\tYou can choose white balance with --wb r g b, where r, g and b is float number from 0 to 1. This not works with --openCV option\n" << 
+    "\tChange input format -i x - x is 8, 10, 12 or 16\n" <<
+    "\t--device X - select first device from platform. Can be\n" <<
+    "\t\tnvidia - for nVidia devices\n" <<
+    "\t\tintel - for Intel devices\n";
 }
 
 using std::chrono::milliseconds;
@@ -86,31 +89,50 @@ int main(int argc, char* argv[])
     if (!options.opencv && options.mode != Mode::HELP)
     {
       auto dev_list = OpenCLDevice::getDevices();
-      bool notok = true;
-      while (notok)
+      if (options.platform_name != "") //specified platform name - selecting first
       {
-        std::cout << "Choose your device - select proper number:\n";
-        int i = 1;
-        for (OpenCLDevice d : dev_list)
+        for (OpenCLDevice d: dev_list)
         {
-          std::cout << i++ << ": " << d.getPlatformName() << " " << d.getName() << "\n";
-        }
-        std::string choosen_str;
-        std::cin >> choosen_str;
-        int choosen = atoi(choosen_str.c_str());
-        if (choosen > 0 &&  choosen < i)
-        {
-          auto it = dev_list.begin();
-          for (int i=1; i<choosen; ++i)
+          if (d.getPlatformName() == options.platform_name)
           {
-            ++it;
+            device = d;
+            break;
           }
-          device = *it;
-          notok = false;
         }
-        else
+        if (!device.isValid())
         {
-          std::cout << "Wrong number, select one more time\n";
+          std::cout << "Not found device\n";
+          return 0;
+        }
+      }
+      else
+      {
+        bool notok = true;
+        while (notok)
+        {
+          std::cout << "Choose your device - select proper number:\n";
+          int i = 1;
+          for (OpenCLDevice d : dev_list)
+          {
+            std::cout << i++ << ": " << d.getPlatformName() << " " << d.getName() << "\n";
+          }
+          std::string choosen_str;
+          std::cin >> choosen_str;
+          int choosen = atoi(choosen_str.c_str());
+          if (choosen > 0 &&  choosen < i)
+          {
+            auto it = dev_list.begin();
+            for (int i=1; i<choosen; ++i)
+            {
+              ++it;
+            }
+            device = *it;
+            notok = false;
+          }
+          else
+          {
+            std::cout << "Wrong number, select one more time\n";
+          }
         }
       }
     }
@@ -126,9 +148,9 @@ int main(int argc, char* argv[])
       }
       real_cam->getImageSize(x, y);
       image = new cv::Mat(y, x, CV_8UC4);
-      bfs = new BayerFilterStream(device, x, y, 3, options.r, options.g, options.b);
+      bfs = new BayerFilterStream(device, x, y, 3, options.input_mode, options.r, options.g, options.b);
       t0 = std::chrono::high_resolution_clock::now();
-      if (real_cam->start())
+      if (real_cam->start(options.camera_mode))
       {
         processing = true;
         std::thread show_image(&showImage);
@@ -158,7 +180,7 @@ int main(int argc, char* argv[])
       real_cam->close();
       tend = std::chrono::high_resolution_clock::now();
       ms = duration_cast<milliseconds>(tend-t0);
-      std::cout << ms.count() << "\n";
+      //std::cout << ms.count() << "\n";
       break;//read from camera;
 
     case Mode::DIR:
@@ -188,7 +210,7 @@ int main(int argc, char* argv[])
             }//stop by exception
           }
           t0 = std::chrono::high_resolution_clock::now();
-          bfs = new BayerFilterStream(device, x, y, 0, options.r, options.g, options.b);
+          bfs = new BayerFilterStream(device, x, y, 0, options.input_mode, options.r, options.g, options.b);
           while(1)
           {
             for_time = fake_cam->getNextFrame();
@@ -210,7 +232,7 @@ int main(int argc, char* argv[])
       fake_cam->close();
       tend = std::chrono::high_resolution_clock::now();
       ms = duration_cast<milliseconds>(tend-t0);
-      std::cout << ms.count() << "\n" << mis.count() << "\n" << (bfs == nullptr ? 0 : bfs->getAllTime())<< "\n";
+      std::cout << "All calculation time: " <<  ms.count() << "\nExecuting function time: " << mis.count() << "\nTime executing on GPU: " << (bfs == nullptr ? 0 : bfs->getAllTime())<< "\n";
       break; //read from dir;
 
     case Mode::FILE:
@@ -220,20 +242,16 @@ int main(int argc, char* argv[])
         //BayerFilterStream bfs(2456, 2058, mode, 0.8f, 0.7f, 0.9f);
         if (options.opencv)
         {
+          t0 = std::chrono::high_resolution_clock::now();
           in = cv::imread(options.filename, -1);
           cv::cvtColor(in, out, cv::COLOR_BayerRG2BGR);
           cv::imwrite(options.filename_out, out);
-          break;
-        }
-        image_size = cv::imread(options.filename).size();
-        bfs = new BayerFilterStream(device, image_size.width, image_size.height, 0, options.r, options.g, options.b);
-        if (options.filename_out.empty())
-        {
-          std::cout << "Not implemented yet\n";
-          //bfs.setFiles(options.filename, ); 
         }
         else
         {
+          image_size = cv::imread(options.filename).size();
+          bfs = new BayerFilterStream(device, image_size.width, image_size.height, 0, options.input_mode, options.r, options.g, options.b);
+          t0 = std::chrono::high_resolution_clock::now();
           bfs->setFiles(options.filename, options.filename_out); 
         }
       }
@@ -241,7 +259,10 @@ int main(int argc, char* argv[])
       {
         std::cout << e.getFullMessage () << "\n";
       }
-
+      
+      tend = std::chrono::high_resolution_clock::now();
+      ms = duration_cast<milliseconds>(tend-t0);
+      std::cout << "All calculation time: " <<  ms.count() << "\nTime executing on GPU: " << (bfs == nullptr ? 0 : bfs->getAllTime())<< "\n";
       break; //read one file;
 
     case Mode::HELP:
