@@ -47,7 +47,8 @@ Katedra Automatyki i Inżynierii Biomedycznej
   	\item Cele projektu
 	  \item Wstęp teoretyczny
   	\item Programowanie w OpenCL
-  	%TODO: @Tomek, dopisz swoje
+  	\item Framework
+	\item Testowanie
   	\item Podsumowanie
 	\end{itemize}
 
@@ -170,7 +171,7 @@ Schemat jego struktury jest przedstawiony na rys. \ref{fig:class_diagram} na nas
   \frametitle{Diagram klas}
 \begin{figure}
   \centering
-  \includegraphics[width=0.6\linewidth]{class_diagram}
+  \includegraphics[width=0.8\linewidth]{class_diagram}
   \caption{Diagram klas stworzonego frameworku.}
   \label{fig:class_diagram}
 \end{figure}
@@ -196,7 +197,7 @@ W celu określenia poprawności algorytmu porównano obraz wynikowy z istniejąc
 
 \begin{frame}
   \frametitle{Testowanie - sprzęt}
-  Testy algorytmu zostały zrealizowane z użyciem dwóch kart graficznych o~parametrach:
+  Testy szybkości algorytmu zostały zrealizowane z użyciem dwóch kart graficznych o~parametrach:
 \begin{center}
 \begin{table}
    \begin{tabular}{ |l | l | l | }
@@ -225,7 +226,6 @@ Jako czas referencyjny został użyty czas wykonania obliczeń implementacji alg
 
 \begin{frame}
   \frametitle{Testowanie - wyniki}
-
 \begin{center}
 \begin{table}
    \begin{tabular}{ |p{1.5cm} | c | c | c | c | c | c | c | }
@@ -274,6 +274,13 @@ Porównując implementację referencyjną, używającą maski a) można zaobserw
 \begin{frame}
   \frametitle{Podsumowanie}
   Udało się zrealizować wyznaczone cele. Implementacja algorytmu interpolacji barwnej została zrealizowana z~użyciem OpenCL. W~porównaniu do innych, już sprawdzonych, implementacji osiągnięte wyniki są zadowalające w~aspekcie poprawności oraz czasu obliczeń.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Koniec}
+\begin{center}
+Dziękujemy za uwagę.
+\end{center}
 \end{frame}
 
 \end{document}
