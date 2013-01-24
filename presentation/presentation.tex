@@ -63,6 +63,23 @@ Schemat jego struktury jest przedstawiony na rys. \ref{fig:class_diagram} na nas
 \end{frame}
 
 \begin{frame}
+  \frametitle{Testowanie poprawności działania algorytmu}
+
+W celu określenia poprawności algorytmu porównano obraz wynikowy z istniejącą implementacją zrealizowaną na procesorze. Do sprawdzenia wybrano implentację zrealizowaną w OpenCV. Wyniki porównań przedstawiono na rysunku na następnym slajdzie.
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Testowanie poprawności działania algorytmu}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.55\linewidth]{result_diff}
+  \caption{Fragment wynikowego obrazu z~implementacji w~OpenCL (a), implementacji w~OpenCV (b) oraz różnicy obrazów (c). Obraz (d) przedstawia różnice koloru czerwonego, (e) zielonego, a~(f) niebieskiego.}
+  \label{fig:result_diff}
+\end{figure}
+\end{frame}
+
+\begin{frame}
   \frametitle{Testowanie - sprzęt}
   Testy algorytmu zostały zrealizowane z użyciem dwóch kart graficznych o~parametrach:
 \begin{center}
@@ -82,6 +99,7 @@ Schemat jego struktury jest przedstawiony na rys. \ref{fig:class_diagram} na nas
 \end{center}
 Do obliczeń referencyjnych użyto procesora Intel Core i7-2670QM 2,2GHz.
 \end{frame}
+
 \begin{frame}
   \frametitle{Testowanie - procedura}
   Algorytmy testowano na 79 obrazach o wymiarach 2546x2058 pikseli. Do każdego testu użyto tych samych obrazów, które były zapisane na dysku. Czas odczytywania obrazów z plików nie był doliczany do czasu obliczeń. Liczono czas wykonania wszystkich operacji koniecznych do wykonania algorytmu (np. kopiowanie do pamięci karty graficznej) oraz osobno czas wykonania kerneli.
@@ -141,7 +159,7 @@ Porównując implementację referencyjną, używającą maski a) można zaobserw
 
 \begin{frame}
   \frametitle{Podsumowanie}
-  
+  Udało się zrealizować wyznaczone cele. Implementacja algorytmu interpolacji barwnej została zrealizowana z~użyciem OpenCL. W~porównaniu do innych, już sprawdzonych, implementacji osiągnięte wyniki są zadowalające w~aspekcie poprawności oraz czasu obliczeń.
 \end{frame}
 
 \end{document}
