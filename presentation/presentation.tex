@@ -8,7 +8,7 @@
 
 \usetheme{AGH}
 
-\title[Interpolacja obrazu barwnego]{Równoległa interpolacja obrazu barwnego
+\title[Interpolacja barwna obrazu]{Równoległa interpolacja obrazu barwnego
   z~kamery cyfrowej}
 
 \author[B. Bułat, T. Drzewiecki]{Bartłomiej Bułat, Tomasz Drzewiecki}
@@ -41,8 +41,123 @@ Katedra Automatyki i Inżynierii Biomedycznej
 %\end{figure}
 
 \begin{frame}
-\frametitle{Wstęp}
+\frametitle{Plan prezentacji}
+	
+  \begin{itemize}
+  	\item Cele projektu
+	  \item Wstęp teoretyczny
+  	\item Programowanie w OpenCL
+  	%TODO: @Tomek, dopisz swoje
+  	\item Podsumowanie
+	\end{itemize}
 
+\end{frame}
+
+\begin{frame}
+	\frametitle{Cele projektu}
+	
+  Celem projektu była implementacja algorytmu interpolacji barwnej obrazu z kamery
+  z użyciem zrównoleglania obliczeń na karcie graficznej (OpenCL). 
+  
+  Wynikiem prac miała być
+  biblioteka realizująca wymieniony algorytm, biblioteka obsługująca kamerę wysokiej rozdzielczości
+  oraz aplikacja integrująca obie biblioteki pozwalająca na przetwarzanie obrazu z kamery w czasie 
+  rzeczywistym.  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Matryca Bayer-a}
+  
+  \begin{columns}
+  \begin{column}{5cm}
+  Kamery używają pewnej topologii filtrów kolorowych na matrycy. Matryca Bayer-a to topologia odzwiercielająca
+  sposób postrzegania kolorów przez ludzkie oko. Na rysynku obok pokazano powiekszony układ
+  filtów na tej matrycy.
+  \end{column}
+  \begin{column}{5cm}
+    \begin{center}
+    \begin{figure}
+
+	  \includegraphics[width=\textwidth]{bayer_pattern_sensor}
+	  \caption{Układ filtrów kolorowych na matrycy Bayer-a}
+	  \label{fig:pattern}
+    \end{figure}
+    \end{center}
+	\end{column}
+	\end{columns}
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Interpolacja barwna}
+	
+	\begin{columns}
+	\begin{column}{4cm}
+    \begin{center}
+    \begin{figure}
+
+	  \includegraphics[width=\textwidth]{raw_image}
+	  \caption{Surowy obraz z matrycy Bayer-a}
+	  \label{fig:raw_image}
+    \end{figure}
+    \end{center}
+  \end{column}
+  \begin{column}{6cm}
+	Na rysunku obok przedstawiony jest powiekszony fragment obrazu surowego, odczytanego prosto z matrycy.
+	Aby przekształcić taki obraz w obraz kolorowy, należy dla każdego piksela interpolować wartość kolorów:
+	{\color{red}czerwonego}, {\color{green}zielonego} oraz {\color{blue}niebieskiego}.
+	
+	Interpolacja wykonywana jest z wykorzystaniem wartości pikseli sąsiednich.
+  \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Kontekst sąsiedztwa}
+	
+	W algorytmie interpolacji wykorzystalismy 3 konteksty sąsiedztwa, znajdujące się na obrazku poniżej. Im mniejsze sąsiedztwo tym szybsze obliczenia, lecz bardziej poszarpane krawędzie na obrazie. Im większe sąsiedztwo, tym bardziej wygładzony obraz lecz wolniejsze obliczenia.
+	
+  \begin{figure}
+  \includegraphics[width=0.5\textwidth]{masks}
+  \caption{Wykorzystane konteksty sąsiedztwa. a) sąsiedztwo 3x3, b)~sąsiedztwo~,,koło'',
+  c)~sąsiedztwo ,,krzyż''}
+  \label{fig:masks}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Algorytm interpolacji}
+  \emph{Na przykładzie maski 3x3:}
+  
+  \begin{enumerate}
+    \item Określenie konfiguracji kolorów na podstawie aktualnego przesunięcia piksela i określonej
+      początkowej konfiguracji matrycy,
+    \item Wyliczenie średniej wartości dla każdego koloru należącego do kontekstu,
+    \item Przypisanie obliczonych wartości średnich do odpowiednich kolorów.
+  \end{enumerate}
+  
+  \begin{figure}
+  \includegraphics[width=0.5\textwidth]{mask3conf}
+  \caption{Możliwe konfiguracje pikseli w kontekście sąsiedztwa 3x3.}
+  \label{fig:masks}
+  \end{figure}
+  
+\end{frame}
+
+\begin{frame}
+	\frametitle{Programownie w OpenCL}
+	
+	\emph{\textbf{OpenCL} - otwarty standard dla wieloplatformowego, równoległego programowania współczesnych procesorów w komputerach osobistych\footnote{Za stroną www.khronos.org/opencl/}.}
+	
+	\vspace{1em}
+	
+	Założenia programowania w OpenCL:
+	
+	\begin{itemize}
+	\item Programowanie \emph{kerneli}, wykonywanych dla każdego elementu obrazu (tablicy danych),
+	\item Wykonanie następuje możliwe równolegle (zależnie od dostępnej architektury),
+	\item Używana jest dzielona pamięć danych.
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -154,7 +269,6 @@ Czas wykonania kerneli na jeden obraz    & &
 Można zauważyć, że jest duża różnica w czasie oblczeń pomiędzy kartami graficznymi. Jest to spowodowane parametrami kart. Dodatkowo trzeba wziąć pod uwagę, że karta 555M jest kartą wyprodukowaną znacznie później niż karta 9800GT. Karty są ciągle ulepszane, nawet jeśli nie widać znaczących zmiana w parametrach danej karty.
 
 Porównując implementację referencyjną, używającą maski a) można zaobserwować przyśpieszenie przetwarzania. Również obliczenia dla maski c) zajęły mniej czasu.
-  
 \end{frame}
 
 \begin{frame}
