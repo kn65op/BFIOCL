@@ -199,7 +199,9 @@ W celu określenia poprawności algorytmu porównano obraz wynikowy z istniejąc
   Testy algorytmu zostały zrealizowane z użyciem dwóch kart graficznych o~parametrach:
 \begin{center}
 \begin{table}
-   \begin{tabular}{ |l | l | l | }
+  \caption{Porówanie kart graficznych użytych do testów.}
+  \label{tab:gpus}
+     \begin{tabular}{ |l | r | r | }
      \hline
        & GT 555M & GT9800 \\ \hline
      Liczba rdzeni & 144 & 128 \\ \hline
@@ -208,8 +210,7 @@ W celu określenia poprawności algorytmu porównano obraz wynikowy z istniejąc
      Magistrala pamięci & 128bit & 256bit \\ \hline
 
    \end{tabular}
-  \caption{Porówanie kart graficznych użytych do testów.}
-  \label{tab:gpus}
+
 \end{table}
 \end{center}
 Do obliczeń referencyjnych użyto procesora Intel Core i7-2670QM 2,2GHz.
@@ -228,19 +229,22 @@ Jako czas referencyjny został użyty czas wykonania obliczeń implementacji alg
 
 \begin{center}
 \begin{table}
-   \begin{tabular}{ |p{1.5cm} | c | c | c | c | c | c | c | }
+  \caption{Wyniki testów. A) czas obliczeń, B) czas na jeden obraz, C) czas wykonania kerneli oraz
+    D) czas wykonania kerneli na jeden obraz.}
+  \label{tab:test_Result}
+   \begin{tabular}{ | c | c | c | c | c | c | c | c | }
      \hline
  & OpenCV & \multicolumn{3}{ |c|}{GeForce 555M} & \multicolumn{3}{ |c|}{GeForce 9800GT} \\ \cline{3-8}
-Maska       &  & a) & b) & c) & a) & b) & c)  \\ \hline
-Czas obliczeń    		& 2,548s & 2,139s & 3,107&2,309 &4,914 & 6,162&8,947 \\ \hline
-Czas na jeden obraz    	& 0,032s &
+       &  & a) & b) & c) & a) & b) & c)  \\ \hline
+A    		& 2,548s & 2,139s & 3,107&2,309 &4,914 & 6,162&8,947 \\ \hline
+B    	& 0,032s &
 0,027s &
 0,039s &
 0,029s &
 0,062s &
 0,078s &
 0,113s \\ \hline
-Czas wykonania kerneli    	& & 
+C    	& & 
 1,467s &
 2,462s &
 1,571s &
@@ -248,7 +252,7 @@ Czas wykonania kerneli    	& &
 4,499s &
 7,837s
  \\ \hline
-Czas wykonania kerneli na jeden obraz    & & 
+D    & & 
 0,018s &
 0,031s &
 0,020s &
@@ -257,8 +261,6 @@ Czas wykonania kerneli na jeden obraz    & &
 0,099s
 \\ \hline
    \end{tabular}
-  \caption{Wyniki testów.}
-  \label{tab:test_Result}
 \end{table}
 \end{center}
 \end{frame}
