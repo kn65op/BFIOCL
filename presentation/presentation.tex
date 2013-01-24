@@ -219,7 +219,11 @@ Do obliczeń referencyjnych użyto procesora Intel Core i7-2670QM 2,2GHz.
 
 \begin{frame}
   \frametitle{Testowanie - procedura}
-  Algorytmy testowano na 79 obrazach o wymiarach 2546x2058 pikseli. Do każdego testu użyto tych samych obrazów, które były zapisane na dysku. Czas odczytywania obrazów z plików nie był doliczany do czasu obliczeń. Liczono czas wykonania wszystkich operacji koniecznych do wykonania algorytmu (np. kopiowanie do pamięci karty graficznej) oraz osobno czas wykonania kerneli.
+\begin{itemize}
+  \item Algorytmy testowano na 79 obrazach o wymiarach 2546x2058 pikseli.
+  \item Do każdego testu użyto tych samych obrazów, które były zapisane na dysku. Czas odczytywania obrazów z plików nie był doliczany do czasu obliczeń.
+  \item Liczono czas wykonania wszystkich operacji koniecznych do wykonania algorytmu (np. kopiowanie do pamięci karty graficznej) oraz osobno czas wykonania kerneli.
+\edn{itemize}
 
 Jako czas referencyjny został użyty czas wykonania obliczeń implementacji algorytmu w bibliotece OpenCV wykonanej na procesorze.
 \end{frame}
