@@ -71,9 +71,9 @@ Katedra Automatyki i~Inżynierii Biomedycznej
   
   \begin{columns}
   \begin{column}{5cm}
-  Kamery używają pewnej topologii filtrów kolorowych na~matrycy. Matryca Bayer-a to topologia odzwiercielająca
-  sposób postrzegania kolorów przez ludzkie oko. Na rysynku obok pokazano powiekszony układ
-  filtów na~tej matrycy.
+  Kamery używają pewnej topologii filtrów kolorowych na~matrycy. Matryca Bayer-a to topologia odzwierciedlająca
+  sposób postrzegania kolorów przez ludzkie oko. Na rysunku obok pokazano powiększony układ
+  filtrów na~tej matrycy.
   \end{column}
   \begin{column}{5cm}
     \begin{center}
@@ -104,7 +104,7 @@ Katedra Automatyki i~Inżynierii Biomedycznej
     \end{center}
   \end{column}
   \begin{column}{6cm}
-	Na rysunku obok przedstawiony jest powiekszony fragment obrazu surowego, odczytanego prosto z~matrycy.
+	Na rysunku obok przedstawiony jest powiększony fragment obrazu surowego, odczytanego prosto z~matrycy.
 	Aby przekształcić taki obraz w~obraz kolorowy, należy dla każdego piksela interpolować wartość kolorów:
 	{\color{red}czerwonego}, {\color{green}zielonego} oraz {\color{blue}niebieskiego}.
 	
@@ -116,7 +116,7 @@ Katedra Automatyki i~Inżynierii Biomedycznej
 \begin{frame}
 	\frametitle{Kontekst sąsiedztwa}
 	
-	W algorytmie interpolacji wykorzystalismy 3 konteksty sąsiedztwa, znajdujące się na~obrazku poniżej. Im mniejsze sąsiedztwo tym szybsze obliczenia, lecz bardziej poszarpane krawędzie na~obrazie. Im większe sąsiedztwo, tym bardziej wygładzony obraz lecz wolniejsze obliczenia.
+	W algorytmie interpolacji wykorzystaliśmy 3 konteksty sąsiedztwa, znajdujące się na~obrazku poniżej. Im mniejsze sąsiedztwo tym szybsze obliczenia, lecz bardziej poszarpane krawędzie na~obrazie. Im większe sąsiedztwo, tym bardziej wygładzony obraz lecz wolniejsze obliczenia.
 	
   \begin{figure}
   \includegraphics[width=0.5\textwidth]{masks}
@@ -146,7 +146,7 @@ Katedra Automatyki i~Inżynierii Biomedycznej
 \end{frame}
 
 \begin{frame}
-	\frametitle{Programownie w~OpenCL}
+	\frametitle{Programowanie w~OpenCL}
 	
 	\emph{\textbf{OpenCL} - otwarty standard dla wieloplatformowego, równoległego programowania współczesnych procesorów w~komputerach osobistych\footnote{Za stroną www.khronos.org/opencl/}.}
 	
@@ -162,8 +162,8 @@ Katedra Automatyki i~Inżynierii Biomedycznej
 \end{frame}
 
 \begin{frame}
-  \frametitle{Implementacja kontrollera po stronie CPU}
-  W~celu łatwiejszej, szybszej oraz generującej mniej błędów implementacji stworzono maly framework klas realizujących obsługę OpenCL od strony procesora.
+  \frametitle{Implementacja kontrolera po stronie CPU}
+  W~celu łatwiejszej, szybszej oraz generującej mniej błędów implementacji stworzono mały framework klas realizujących obsługę OpenCL od strony procesora.
 Schemat jego struktury jest przedstawiony na~rys. \ref{fig:class_diagram} na~następnym slajdzie.
 \end{frame}
 
@@ -181,7 +181,7 @@ Schemat jego struktury jest przedstawiony na~rys. \ref{fig:class_diagram} na~nas
 \begin{frame}
   \frametitle{Testowanie poprawności działania algorytmu}
 
-W celu określenia poprawności algorytmu porównano obraz wynikowy z~istniejącą implementacją zrealizowaną na~procesorze. Do sprawdzenia wybrano implentację zrealizowaną w~OpenCV. Wyniki porównań przedstawiono na~rysunku na~następnym slajdzie.
+W celu określenia poprawności algorytmu porównano obraz wynikowy z~istniejącą implementacją zrealizowaną na~procesorze. Do sprawdzenia wybrano implementację zrealizowaną w~OpenCV. Wyniki porównań przedstawiono na~rysunku na~następnym slajdzie.
 
 \end{frame}
 
@@ -200,7 +200,7 @@ W celu określenia poprawności algorytmu porównano obraz wynikowy z~istniejąc
   Testy szybkości algorytmu zostały zrealizowane z~użyciem dwóch kart graficznych o~parametrach:
 \begin{center}
 \begin{table}
-  \caption{Porówanie kart graficznych użytych do~testów.}
+  \caption{Porównanie kart graficznych użytych do~testów.}
   \label{tab:gpus}
      \begin{tabular}{ |l | r | r | }
      \hline
