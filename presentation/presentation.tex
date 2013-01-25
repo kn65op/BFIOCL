@@ -17,7 +17,7 @@
 
 \institute[AGH]
 {Wydział EAIiIB\\ 
-Katedra Automatyki i Inżynierii Biomedycznej
+Katedra Automatyki i~Inżynierii Biomedycznej
 }
 
 \setbeamertemplate{itemize item}{$\maltese$}
@@ -46,7 +46,7 @@ Katedra Automatyki i Inżynierii Biomedycznej
   \begin{itemize}
   	\item Cele projektu
 	  \item Wstęp teoretyczny
-  	\item Programowanie w OpenCL
+  	\item Programowanie w~OpenCL
   	\item Framework
 	\item Testowanie
   	\item Podsumowanie
@@ -57,12 +57,12 @@ Katedra Automatyki i Inżynierii Biomedycznej
 \begin{frame}
 	\frametitle{Cele projektu}
 	
-  Celem projektu była implementacja algorytmu interpolacji barwnej obrazu z kamery
-  z użyciem zrównoleglania obliczeń na karcie graficznej (OpenCL). 
+  Celem projektu była implementacja algorytmu interpolacji barwnej obrazu z~kamery
+  z~użyciem zrównoleglania obliczeń na~karcie graficznej (OpenCL). 
   
   Wynikiem prac miała być
   biblioteka realizująca wymieniony algorytm, biblioteka obsługująca kamerę wysokiej rozdzielczości
-  oraz aplikacja integrująca obie biblioteki pozwalająca na przetwarzanie obrazu z kamery w czasie 
+  oraz aplikacja integrująca obie biblioteki pozwalająca na~przetwarzanie obrazu z~kamery w~czasie 
   rzeczywistym.  
 \end{frame}
 
@@ -71,16 +71,16 @@ Katedra Automatyki i Inżynierii Biomedycznej
   
   \begin{columns}
   \begin{column}{5cm}
-  Kamery używają pewnej topologii filtrów kolorowych na matrycy. Matryca Bayer-a to topologia odzwiercielająca
+  Kamery używają pewnej topologii filtrów kolorowych na~matrycy. Matryca Bayer-a to topologia odzwiercielająca
   sposób postrzegania kolorów przez ludzkie oko. Na rysynku obok pokazano powiekszony układ
-  filtów na tej matrycy.
+  filtów na~tej matrycy.
   \end{column}
   \begin{column}{5cm}
     \begin{center}
     \begin{figure}
 
 	  \includegraphics[width=\textwidth]{bayer_pattern_sensor}
-	  \caption{Układ filtrów kolorowych na matrycy Bayer-a}
+	  \caption{Układ filtrów kolorowych na~matrycy Bayer-a}
 	  \label{fig:pattern}
     \end{figure}
     \end{center}
@@ -98,17 +98,17 @@ Katedra Automatyki i Inżynierii Biomedycznej
     \begin{figure}
 
 	  \includegraphics[width=\textwidth]{raw_image}
-	  \caption{Surowy obraz z matrycy Bayer-a}
+	  \caption{Surowy obraz z~matrycy Bayer-a}
 	  \label{fig:raw_image}
     \end{figure}
     \end{center}
   \end{column}
   \begin{column}{6cm}
-	Na rysunku obok przedstawiony jest powiekszony fragment obrazu surowego, odczytanego prosto z matrycy.
-	Aby przekształcić taki obraz w obraz kolorowy, należy dla każdego piksela interpolować wartość kolorów:
+	Na rysunku obok przedstawiony jest powiekszony fragment obrazu surowego, odczytanego prosto z~matrycy.
+	Aby przekształcić taki obraz w~obraz kolorowy, należy dla każdego piksela interpolować wartość kolorów:
 	{\color{red}czerwonego}, {\color{green}zielonego} oraz {\color{blue}niebieskiego}.
 	
-	Interpolacja wykonywana jest z wykorzystaniem wartości pikseli sąsiednich.
+	Interpolacja wykonywana jest z~wykorzystaniem wartości pikseli sąsiednich.
   \end{column}
   \end{columns}
 \end{frame}
@@ -116,7 +116,7 @@ Katedra Automatyki i Inżynierii Biomedycznej
 \begin{frame}
 	\frametitle{Kontekst sąsiedztwa}
 	
-	W algorytmie interpolacji wykorzystalismy 3 konteksty sąsiedztwa, znajdujące się na obrazku poniżej. Im mniejsze sąsiedztwo tym szybsze obliczenia, lecz bardziej poszarpane krawędzie na obrazie. Im większe sąsiedztwo, tym bardziej wygładzony obraz lecz wolniejsze obliczenia.
+	W algorytmie interpolacji wykorzystalismy 3 konteksty sąsiedztwa, znajdujące się na~obrazku poniżej. Im mniejsze sąsiedztwo tym szybsze obliczenia, lecz bardziej poszarpane krawędzie na~obrazie. Im większe sąsiedztwo, tym bardziej wygładzony obraz lecz wolniejsze obliczenia.
 	
   \begin{figure}
   \includegraphics[width=0.5\textwidth]{masks}
@@ -131,28 +131,28 @@ Katedra Automatyki i Inżynierii Biomedycznej
   \emph{Na przykładzie maski 3x3:}
   
   \begin{enumerate}
-    \item Określenie konfiguracji kolorów na podstawie aktualnego przesunięcia piksela i określonej
+    \item Określenie konfiguracji kolorów na~podstawie aktualnego przesunięcia piksela i~określonej
       początkowej konfiguracji matrycy,
-    \item Wyliczenie średniej wartości dla każdego koloru należącego do kontekstu,
-    \item Przypisanie obliczonych wartości średnich do odpowiednich kolorów.
+    \item Wyliczenie średniej wartości dla każdego koloru należącego do~kontekstu,
+    \item Przypisanie obliczonych wartości średnich do~odpowiednich kolorów.
   \end{enumerate}
   
   \begin{figure}
   \includegraphics[width=0.5\textwidth]{mask3conf}
-  \caption{Możliwe konfiguracje pikseli w kontekście sąsiedztwa 3x3.}
+  \caption{Możliwe konfiguracje pikseli w~kontekście sąsiedztwa 3x3.}
   \label{fig:masks}
   \end{figure}
   
 \end{frame}
 
 \begin{frame}
-	\frametitle{Programownie w OpenCL}
+	\frametitle{Programownie w~OpenCL}
 	
-	\emph{\textbf{OpenCL} - otwarty standard dla wieloplatformowego, równoległego programowania współczesnych procesorów w komputerach osobistych\footnote{Za stroną www.khronos.org/opencl/}.}
+	\emph{\textbf{OpenCL} - otwarty standard dla wieloplatformowego, równoległego programowania współczesnych procesorów w~komputerach osobistych\footnote{Za stroną www.khronos.org/opencl/}.}
 	
 	\vspace{1em}
 	
-	Założenia programowania w OpenCL:
+	Założenia programowania w~OpenCL:
 	
 	\begin{itemize}
 	\item Programowanie \emph{kerneli}, wykonywanych dla każdego elementu obrazu (tablicy danych),
@@ -164,7 +164,7 @@ Katedra Automatyki i Inżynierii Biomedycznej
 \begin{frame}
   \frametitle{Implementacja kontrollera po stronie CPU}
   W~celu łatwiejszej, szybszej oraz generującej mniej błędów implementacji stworzono maly framework klas realizujących obsługę OpenCL od strony procesora.
-Schemat jego struktury jest przedstawiony na rys. \ref{fig:class_diagram} na następnym slajdzie.
+Schemat jego struktury jest przedstawiony na~rys. \ref{fig:class_diagram} na~następnym slajdzie.
 \end{frame}
 
 \begin{frame}
@@ -181,7 +181,7 @@ Schemat jego struktury jest przedstawiony na rys. \ref{fig:class_diagram} na nas
 \begin{frame}
   \frametitle{Testowanie poprawności działania algorytmu}
 
-W celu określenia poprawności algorytmu porównano obraz wynikowy z istniejącą implementacją zrealizowaną na procesorze. Do sprawdzenia wybrano implentację zrealizowaną w OpenCV. Wyniki porównań przedstawiono na rysunku na następnym slajdzie.
+W celu określenia poprawności algorytmu porównano obraz wynikowy z~istniejącą implementacją zrealizowaną na~procesorze. Do sprawdzenia wybrano implentację zrealizowaną w~OpenCV. Wyniki porównań przedstawiono na~rysunku na~następnym slajdzie.
 
 \end{frame}
 
@@ -197,10 +197,10 @@ W celu określenia poprawności algorytmu porównano obraz wynikowy z istniejąc
 
 \begin{frame}
   \frametitle{Testowanie - sprzęt}
-  Testy szybkości algorytmu zostały zrealizowane z użyciem dwóch kart graficznych o~parametrach:
+  Testy szybkości algorytmu zostały zrealizowane z~użyciem dwóch kart graficznych o~parametrach:
 \begin{center}
 \begin{table}
-  \caption{Porówanie kart graficznych użytych do testów.}
+  \caption{Porówanie kart graficznych użytych do~testów.}
   \label{tab:gpus}
      \begin{tabular}{ |l | r | r | }
      \hline
@@ -220,12 +220,14 @@ Do obliczeń referencyjnych użyto procesora Intel Core i7-2670QM 2,2GHz.
 \begin{frame}
   \frametitle{Testowanie - procedura}
 \begin{itemize}
-  \item Algorytmy testowano na 79 obrazach o wymiarach 2546x2058 pikseli.
-  \item Do każdego testu użyto tych samych obrazów, które były zapisane na dysku. Czas odczytywania obrazów z plików nie był doliczany do czasu obliczeń.
-  \item Liczono czas wykonania wszystkich operacji koniecznych do wykonania algorytmu (np. kopiowanie do pamięci karty graficznej) oraz osobno czas wykonania kerneli.
-\edn{itemize}
+  \item Algorytmy testowano na~79 obrazach o~wymiarach 2546x2058 pikseli.
+  \item Do każdego testu użyto tych samych obrazów, które były zapisane na~dysku. Czas odczytywania obrazów z~plików nie był doliczany do~czasu obliczeń.
+  \item Liczono czas wykonania wszystkich operacji koniecznych do~wykonania algorytmu (np. kopiowanie do~pamięci karty graficznej) oraz osobno czas wykonania kerneli.
+  \item Jako czas referencyjny został użyty czas wykonania obliczeń implementacji algorytmu w~bibliotece OpenCV wykonanej na~procesorze.
 
-Jako czas referencyjny został użyty czas wykonania obliczeń implementacji algorytmu w bibliotece OpenCV wykonanej na procesorze.
+\end{itemize}
+
+
 \end{frame}
 
 
@@ -233,8 +235,8 @@ Jako czas referencyjny został użyty czas wykonania obliczeń implementacji alg
   \frametitle{Testowanie - wyniki}
 \begin{center}
 \begin{table}
-  \caption{Wyniki testów. A) czas obliczeń, B) czas na jeden obraz, C) czas wykonania kerneli oraz
-    D) czas wykonania kerneli na jeden obraz.}
+  \caption{Wyniki testów. A) czas obliczeń, B) czas na~jeden obraz, C) czas wykonania kerneli oraz
+    D) czas wykonania kerneli na~jeden obraz.}
   \label{tab:test_Result}
    \begin{tabular}{ | c | c | c | c | c | c | c | c | }
      \hline
@@ -272,14 +274,17 @@ D    & &
 
 \begin{frame}
   \frametitle{Analiza wyników}
-Można zauważyć, że jest duża różnica w czasie oblczeń pomiędzy kartami graficznymi. Jest to spowodowane parametrami kart. Dodatkowo trzeba wziąć pod uwagę, że karta 555M jest kartą wyprodukowaną znacznie później niż karta 9800GT. Karty są ciągle ulepszane, nawet jeśli nie widać znaczących zmiana w parametrach danej karty.
+\begin{itemize}
+	\item Można zauważyć, że jest duża różnica w~czasie obliczeń pomiędzy kartami graficznymi. Jest to spowodowane parametrami kart.
+	\item Dodatkowo trzeba wziąć pod uwagę, że karta 555M jest kartą wyprodukowaną znacznie później niż karta 9800GT. Karty są ciągle ulepszane, technologie się rozwijają, więc nawet jeśli nie widać znaczących zmian w~parametrach danej karty.
 
-Porównując implementację referencyjną, używającą maski a) można zaobserwować przyśpieszenie przetwarzania. Również obliczenia dla maski c) zajęły mniej czasu.
+	\item Porównując implementację referencyjną, używającą maski a) można zaobserwować przyśpieszenie przetwarzania. Również obliczenia dla maski c) zajęły mniej czasu.
+\end{itemize}
 \end{frame}
 
 \begin{frame}
   \frametitle{Podsumowanie}
-  Udało się zrealizować wyznaczone cele. Implementacja algorytmu interpolacji barwnej została zrealizowana z~użyciem OpenCL. W~porównaniu do innych, już sprawdzonych, implementacji osiągnięte wyniki są zadowalające w~aspekcie poprawności oraz czasu obliczeń.
+  Udało się zrealizować wyznaczone cele. Implementacja algorytmu interpolacji barwnej została zrealizowana z~użyciem OpenCL. W~porównaniu do~innych, już sprawdzonych, implementacji osiągnięte wyniki są zadowalające w~aspekcie poprawności oraz czasu obliczeń.
 \end{frame}
 
 \begin{frame}
