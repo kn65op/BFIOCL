@@ -12,7 +12,7 @@ BayerFilterStream::BayerFilterStream(OpenCLDevice & device, int w, int h, cl_uch
   stream.setDataSize(w,h);
   stream.setDevice(device);
 
-  OpenCLImageAlgorithm* bayer = new OpenCLBayerFilterImage(BayerFilterMask::CIRCLE);
+  OpenCLImageAlgorithm* bayer = new OpenCLBayerFilterImage(BayerFilterMask::CROSS);
   bayer->setParams(OpenCLBayerFilterParams(w, h, mode, BFIOCL_MODE_BGR, red_k, green_k, blue_k));
 
   stream.pushAlgorithm(new OpenCLIntToFloat(input_mode));
