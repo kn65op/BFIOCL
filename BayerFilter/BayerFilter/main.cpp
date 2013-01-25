@@ -32,14 +32,15 @@ void printHelp(std::string program_name)
     "\t-h - print this help\n" <<
     "Options:\n" <<
     "\tYou can choose white balance with --wb r g b, where r, g and b is float number from 0 to 1. This not works with --openCV option\n" << 
-    "\tChange input format -i x - x is 8, 10, 12 or 16\n" <<
+    "\tChange input format -i x - x is 8, 10, 12\n" <<
     "\t--device X - select first device from platform. Can be\n" <<
-    "\t\tnvidia - for nVidia devices\n" <<
-    "\t\tintel - for Intel devices\n";
+    "\t\tnvidia - for nVidia devices\n";
 }
 
 using std::chrono::milliseconds;
 using std::chrono::duration_cast;
+
+std::mutex image_mutex;
 
 std::atomic<cv::Mat*> image;
 std::atomic<bool> processing;
@@ -53,7 +54,9 @@ void showImage()
   {
     if (new_image)
     {
+      image_mutex.lock();
       (*image).copyTo(source);
+      image_mutex.unlock();
       //mut.lock();
       cv::resize(*image, resize, cv::Size(1800, 1000));
       //mut.unlock();
@@ -148,7 +151,7 @@ int main(int argc, char* argv[])
       }
       real_cam->getImageSize(x, y);
       image = new cv::Mat(y, x, CV_8UC4);
-      bfs = new BayerFilterStream(device, x, y, 3, options.input_mode, options.r, options.g, options.b);
+      bfs = new BayerFilterStream(device, x, y, 2, options.input_mode, options.r, options.g, options.b);
       t0 = std::chrono::high_resolution_clock::now();
       if (real_cam->start(options.camera_mode))
       {
@@ -158,15 +161,18 @@ int main(int argc, char* argv[])
         {
           try
           {
+            //image_mutex.lock();
             bfs->processImage(real_cam->getNextFrame(), *image);
-            new_image = true;
+            //image_mutex.unlock();
+
+            //new_image = true;
             //image.store(image_local);
-            //cv::resize(image, resize, cv::Size(1920, 1080));
-            //imshow("s", image);
-            //if (cv::waitKey(1) > 0)
-            //{
-            //break;
-            //}
+            cv::resize(*image, resize, cv::Size(1920, 1080));
+            imshow("s", *image);
+            if (cv::waitKey(20) > 0)
+            {
+            break;
+            }
           }
           catch(JAI::NoNewFrameException ex)
           {
@@ -275,7 +281,10 @@ int main(int argc, char* argv[])
   catch(OpenCLException e)
   {
     std::cout << e.getFullMessage () << "\n";
-
+  }
+  catch(JAI::CameraException e)
+  {
+    std::cout << (std::string)(e) << "\n";
   }
   return 0;
 #if 0

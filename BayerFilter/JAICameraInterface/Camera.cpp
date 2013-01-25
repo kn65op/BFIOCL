@@ -57,7 +57,7 @@ void Camera::close() //TODO: Add stop
     }
 }
 
-bool Camera::open()
+bool Camera::open(OutputMode mode)
 {
   J_STATUS_TYPE   retval;
 
@@ -70,6 +70,28 @@ bool Camera::open()
     return FALSE;
   }
   std::cout << "Opening camera succeeded\n";
+  //set
+  mode_set = mode;
+  switch(mode)
+  {
+  case OutputMode::UNIT_8:
+    retval = J_Camera_SetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), J_GVSP_PIX_BAYGB8);
+    break;
+  case OutputMode::UNIT_10:
+    retval = J_Camera_SetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), J_GVSP_PIX_BAYGB10);
+    break;
+  case OutputMode::UNIT_12:
+    retval = J_Camera_SetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), J_GVSP_PIX_BAYGB12);
+    break;
+  case OutputMode::UNIT_16:
+    retval = J_Camera_SetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), J_GVSP_PIX_BAYGB16);
+    break;
+  default:
+    throw CameraException("Somothing went wrong");
+  }
+  tGenICamErrorInfo info;
+  J_Factory_GetGenICamErrorInfo(&info);
+std::cout << info.sDescription << "\n"<< info.sDescription << "\n";
 
   return TRUE;
 }
@@ -145,19 +167,20 @@ bool Camera::start(OutputMode mode)
   ViewSize.cy = (LONG)int64Val;     // Set window size cy
 
   //set
+  mode_set = mode;
   switch(mode)
   {
   case OutputMode::UNIT_8:
-    retval = J_Camera_SetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), J_GVSP_PIX_BAYBG8);
+    retval = J_Camera_SetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), J_GVSP_PIX_BAYGB8);
     break;
   case OutputMode::UNIT_10:
-    retval = J_Camera_SetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), J_GVSP_PIX_BAYBG10);
+    retval = J_Camera_SetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), J_GVSP_PIX_BAYGB10);
     break;
   case OutputMode::UNIT_12:
-    retval = J_Camera_SetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), J_GVSP_PIX_BAYBG12);
+    retval = J_Camera_SetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), J_GVSP_PIX_BAYGB12);
     break;
   case OutputMode::UNIT_16:
-    retval = J_Camera_SetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), J_GVSP_PIX_BAYBG16);
+    retval = J_Camera_SetValueInt64(m_hCam, reinterpret_cast<int8_t*>(NODE_NAME_PIXELFORMAT), J_GVSP_PIX_BAYGB16);
     break;
   default:
     throw CameraException("Somothing went wrong");
@@ -224,7 +247,14 @@ void Camera::callback(J_tIMAGE_INFO * pAqImageInfo)
   cv::Mat * tmp;
   if (free_queue.empty()) //get new image
   {
-    tmp = new cv::Mat(pAqImageInfo->iSizeY, pAqImageInfo->iSizeX, CV_8UC1);
+    if (mode_set == OutputMode::UNIT_8)
+    {
+      tmp = new cv::Mat(pAqImageInfo->iSizeY, pAqImageInfo->iSizeX, CV_8UC1);
+    }
+    else
+    {
+      tmp = new cv::Mat(pAqImageInfo->iSizeY, pAqImageInfo->iSizeX, CV_16UC1);
+    }
   }
   else //get image from free_queue
   {

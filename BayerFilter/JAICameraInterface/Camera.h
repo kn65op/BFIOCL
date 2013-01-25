@@ -44,7 +44,7 @@ public:
    * Open camera.
    * @return true if opening was successful.
    */
-  bool open();
+  bool open(OutputMode mode = OutputMode::UNIT_8);
   /**
    * Close camera.
    */
@@ -98,6 +98,8 @@ private:
   std::mutex queue_mutex;
 
   void callback(J_tIMAGE_INFO * pAqImageInf);
+
+  OutputMode mode_set;
 
 
 };
