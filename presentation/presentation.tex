@@ -68,21 +68,32 @@ Katedra Automatyki i~Inżynierii Biomedycznej
 \end{frame}
 
 \begin{frame}
-  \frametitle{Matryca Bayer-a}
+  \frametitle{Matryca Bayer-a - Interpolacja barwna}
   
   \begin{columns}
-  \begin{column}{5cm}
-  Kamery używają pewnej topologii filtrów kolorowych na~matrycy. Matryca Bayer-a to topologia odzwierciedlająca
-  sposób postrzegania kolorów przez ludzkie oko. Na rysunku obok pokazano powiększony układ
-  filtrów na~tej matrycy.
+  \begin{column}{7cm}
+    \begin{itemize}
+      \item Czujniki wizyjne - topologia filtrów matrycy
+      \item jak widzi człowiek? - Matryca Bayer-a
+      \item Uzyskanie obrazu {\color{red}R}{\color{green}G}{\color{blue}B} -
+        interpolacja barwna
+      \item kontekst sąsiedztwa - obszar uśredniania wartości
+    \end{itemize}
   \end{column}
-  \begin{column}{5cm}
+  \begin{column}{4cm}
     \begin{center}
     \begin{figure}
 
-	  \includegraphics[width=\textwidth]{bayer_pattern_sensor}
-	  \caption{Układ filtrów kolorowych na~matrycy Bayer-a}
+	  \includegraphics[width=0.7\textwidth]{bayer_pattern_sensor}
+	  \caption{Matryca Bayer-a}
 	  \label{fig:pattern}
+    \end{figure}
+
+    \begin{figure}
+
+	  \includegraphics[width=0.5\textwidth]{raw_image}
+	  \caption{Surowy obraz}
+	  \label{fig:raw_image}
     \end{figure}
     \end{center}
 	\end{column}
@@ -91,34 +102,13 @@ Katedra Automatyki i~Inżynierii Biomedycznej
 \end{frame}
 
 \begin{frame}
-	\frametitle{Interpolacja barwna}
-	
-	\begin{columns}
-	\begin{column}{4cm}
-    \begin{center}
-    \begin{figure}
-
-	  \includegraphics[width=\textwidth]{raw_image}
-	  \caption{Surowy obraz z~matrycy Bayer-a}
-	  \label{fig:raw_image}
-    \end{figure}
-    \end{center}
-  \end{column}
-  \begin{column}{6cm}
-	Na rysunku obok przedstawiony jest powiększony fragment obrazu surowego, odczytanego prosto z~matrycy.
-	Aby przekształcić taki obraz w~obraz kolorowy, należy dla każdego piksela interpolować wartość kolorów:
-	{\color{red}czerwonego}, {\color{green}zielonego} oraz {\color{blue}niebieskiego}.
-	
-	Interpolacja wykonywana jest z~wykorzystaniem wartości pikseli sąsiednich.
-  \end{column}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
 	\frametitle{Kontekst sąsiedztwa}
-	
-	W algorytmie interpolacji wykorzystaliśmy 3 konteksty sąsiedztwa, znajdujące się na~obrazku poniżej. Im mniejsze sąsiedztwo tym szybsze obliczenia, lecz bardziej poszarpane krawędzie na~obrazie. Im większe sąsiedztwo, tym bardziej wygładzony obraz lecz wolniejsze obliczenia.
-	
+
+  Wykorzystane trzy konteksty sąsiedztwa:
+  \begin{itemize}
+    \item im mniejsze  - szybsze obliczenia - mniejsza dokładność
+    \item im większe - wygładzony, lepszy obraz - wolniejsze obliczenia
+  \end{itemize}
   \begin{figure}
   \includegraphics[width=0.5\textwidth]{masks}
   \caption{Wykorzystane konteksty sąsiedztwa. a) sąsiedztwo 3x3, b)~sąsiedztwo~,,koło'',
@@ -162,9 +152,10 @@ Katedra Automatyki i~Inżynierii Biomedycznej
   \end{itemize}
 \end{frame}
 
-\begin{frame}
-\frametitle{Przykładowy kod kernela}
+\begin{frame}[allowframebreaks]
+\frametitle{Kod kernela algorytmu z maską 3x3}
 
+\lstinputlisting[language=C,basicstyle=\tiny,breaklines=true,linenumbers=left]{kernel.cl} 
 \end{frame}
 
 %\begin{frame}
